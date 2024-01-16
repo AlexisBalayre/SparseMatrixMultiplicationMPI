@@ -1,0 +1,499 @@
+\documentclass[12pt,oneside]{book} % for one-sided printing
+
+\usepackage{blindtext}% Just used so we can generate some example text
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage[export]{adjustbox}
+\usepackage{lipsum}
+\usepackage{booktabs}  % For better quality tables
+\usepackage{tabularx}  % for the X column type
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{xfrac}
+\usepackage{indentfirst}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+% Place style file after other packages.
+\usepackage{cranfieldthesis}
+\usepackage{lscape} % for landscape pages
+\usepackage{float}
+\usepackage[toc,title,page]{appendix}
+
+% Couleurs personnalisées
+\definecolor{backcolour}{rgb}{0.96, 0.96, 0.96} % Fond très clair
+\definecolor{codegray}{rgb}{0.47, 0.47, 0.47}   % Commentaires et numéros de ligne
+\definecolor{codegreen}{rgb}{0.25, 0.50, 0.35}  % Commentaires
+\definecolor{codeblue}{rgb}{0.26, 0.44, 0.58}   % Mots-clés
+\definecolor{codepurple}{rgb}{0.50, 0, 0.50}    % Identificateurs
+\definecolor{codeteal}{rgb}{0, 0.5, 0.5}        % Chaînes de caractères
+\definecolor{terminalback}{rgb}{0.05, 0.05, 0.05} % Fond très sombre pour le terminal
+\definecolor{terminaltext}{rgb}{0.7, 0.7, 0.7}    % Texte clair pour le terminal
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{terminalbgcolor}{HTML}{330033}
+\definecolor{terminalrulecolor}{HTML}{000099}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeblue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codeteal},
+    identifierstyle=\color{codepurple},
+    basicstyle=\ttfamily\scriptsize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+    frame=single,
+    rulecolor=\color{codegray},
+    framexleftmargin=15pt,
+    framextopmargin=5pt,
+    framexbottommargin=5pt,
+    framexrightmargin=15pt,
+}
+
+\lstdefinestyle{bashstyle}{
+    language=bash,
+    backgroundcolor=\color{backcolour},
+    basicstyle=\ttfamily\scriptsize,
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    identifierstyle=\color{codepurple},
+    commentstyle=\color{codegreen},
+    morecomment=[l]{\#},   % Define comment style
+    frame=single,          % adds a frame around the code
+    rulecolor=\color{gray},% if not set, the frame-color may be changed on line-breaks
+    breakatwhitespace=false,
+    breaklines=true,       % sets automatic line breaking
+    captionpos=b,          % sets the caption-position to bottom
+    keepspaces=true,       % keeps spaces in text
+    showspaces=false,      % show spaces everywhere adding particular underscores
+    showstringspaces=false % underline spaces within strings only
+}
+
+\lstdefinestyle{ymlstyle}{
+    language=Python,
+    backgroundcolor=\color{backcolour},
+    basicstyle=\ttfamily\scriptsize,
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    identifierstyle=\color{codepurple},
+    commentstyle=\color{codegreen},
+    morecomment=[l]{\#},   % Define comment style
+    frame=single,          % adds a frame around the code
+    rulecolor=\color{gray},% if not set, the frame-color may be changed on line-breaks
+    breakatwhitespace=false,
+    breaklines=true,       % sets automatic line breaking
+    captionpos=b,          % sets the caption-position to bottom
+    keepspaces=true,       % keeps spaces in text
+    showspaces=false,      % show spaces everywhere adding particular underscores
+    showstringspaces=false, % underline spaces within strings only
+    literate=% Special handling for dot notations
+        {http.response_time.p99}{{\textcolor{blue}{http.response\_time.p99}}}{18}
+        {http.response_time.p95}{{\textcolor{blue}{http.response\_time.p95}}}{18}
+        {metrics-by-endpoint}{{\textcolor{blue}{metrics-by-endpoint}}}{16},
+    morekeywords={config, flow, target, phases, plugins, scenarios, loop, get, url, count, ensure, apdex, threshold, thresholds, duration, arrivalRate, name, pause, metrics -by-endpoint}, % Additional YAML-specific keywords
+}
+
+\lstdefinestyle{servicestyle}{
+backgroundcolor=\color{backcolour},      % choose the background color
+basicstyle=\ttfamily\scriptsize, % print whole listing white
+keywordstyle=\color{blue},          % attributes in blue
+stringstyle=\color{red},            % values in red
+identifierstyle=\color{codepurple},
+breakatwhitespace=false,
+breaklines=true,                    % sets automatic line breaking
+captionpos=b,                       % sets the caption-position to bottom
+keepspaces=true,                    % keeps spaces in text
+showspaces=false,                   % show spaces everywhere adding particular underscores
+showstringspaces=false,             % underline spaces within strings only
+frame=single,                       % adds a frame around the code
+rulecolor=\color{gray},             % if not set, the frame-color may be changed on line-breaks
+morecomment=[l]{\#},                % Define comment style
+moredelim=[s][\color{codegreen}]{[}{]}, % color everything between [ and ] in green
+morekeywords={Description,Wants,After,ExecStart,WantedBy,EnvironmentFile,User,Group,Type,Restart,Documentation,WorkingDirectory,RuntimeDirectory,RuntimeDirectoryMode,LimitNOFILE,TimeoutStopSec,CapabilityBoundingSet,DeviceAllow,LockPersonality,MemoryDenyWriteExecute,NoNewPrivileges,PrivateDevices,PrivateTmp,ProtectClock,ProtectControlGroups,ProtectHome,ProtectHostname,ProtectKernelLogs,ProtectKernelModules,ProtectKernelTunables,ProtectProc,ProtectSystem,RemoveIPC,RestrictAddressFamilies,RestrictNamespaces,RestrictRealtime,RestrictSUIDSGID,SystemCallArchitectures,UMask} % add your attributes here
+}
+
+% Title Page Set Up
+\title{High Performance Technical Computing Assignment}
+\author{Alexis Balayre}
+\date{5\textsuperscript{th} February 2024}
+\school{\SATM}
+\degree{MSc}
+\course{Computational Software of Techniques Engineering}
+\academicyear{2023 - 2024}
+
+% Supervisors
+\supervisor{Dr Irene Moulitsas}
+
+% Copyright
+\copyrightyear{2024}
+
+% References
+\usepackage[numbers]{natbib} % for nice referencing
+\makeatletter % Reference list option change to number and period
+\renewcommand\@biblabel[1]{#1.} % from [1] to 1
+\makeatother %
+\setcitestyle{round} % use round citations
+
+\begin{document}
+
+\frontmatter
+
+% Form Title Pages
+\maketitle
+
+% Abstract and Keywords
+\begin{abstract}
+    Replace with your abstract text of not more than 300 words.
+\end{abstract}
+
+% Acknowledgements
+\chapter{Acknowledgements}
+The author would like to thank \dots
+
+% Use single spacing for Table of Contents, List of Figures, etc
+{
+    \clearpage
+    \singlespacing
+    % Table of Contents
+    {
+        \tableofcontents
+    }
+    \clearpage
+
+    % List of Figures
+    \listoffigures
+
+    % List of Tables
+    \listoftables
+}
+
+%% Main Matter
+\mainmatter
+\pagestyle{fancy}
+\fancyhead[L]{\nouppercase{\leftmark}}
+\fancyhead[R]{\nouppercase{\rightmark}}
+
+\chapter{Introduction}
+
+\chapter{Methodology}
+\section{Sequential Algorithm}
+
+The algorithm for multiplying a sparse matrix by a dense vector can be
+efficiently implemented using the Compressed Sparse Row (CSR) format. The CSR
+format represents a sparse matrix using three arrays: \texttt{values},
+\texttt{col\_indices}, and \texttt{row\_pointers}. Given a sparse matrix \( M
+\) in CSR format and a dense vector \( v \), the product \( M \times v \) is
+computed as follows:
+
+\begin{algorithm}[H]
+    \caption{Sequential algorithm}
+    \begin{algorithmic}[1]
+        \Procedure{SparseMatrixVectorMult}{$M$, $v$}
+        \State Initialise a result vector $r$ of appropriate size
+        \For{each row $i$ of $M$}
+        \State Determine the start and end of row $i$ in $M$
+        \For{each non-zero element $M_{ij}$ in row $i$}
+        \State Find the corresponding column index $j$ in $M$
+        \State Compute the product of $M_{ij}$ and $v_j$
+        \State Add the product to the $i$-th element of $r$
+        \EndFor
+        \EndFor
+        \State \textbf{return} $r$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{Complexity Analysis}
+
+The complexity analysis of the algorithm for multiplying a sparse matrix by a
+dense vector focuses on two main aspects: temporal complexity and spatial
+complexity.
+
+\subsubsection{Temporal Complexity}
+
+The temporal complexity of the algorithm depends on how the sparse matrix is
+stored and the number of non-zero elements in the matrix.
+
+\begin{itemize}
+    \item \textbf{Traversing Rows:} The algorithm traverses each row of the matrix. If the matrix has \( m \) rows, this step has a complexity of \( O(m) \).
+    \item \textbf{Traversing Non-Zero Elements:} Inside each row, the algorithm traverses the non-zero elements. If the total number of non-zero elements in the matrix is \( n_{nz} \), the traversal of all these elements has a complexity of \( O(n_{nz}) \).
+\end{itemize}
+
+The total temporal complexity is therefore \( O(m + n_{nz}) \). However, in
+practice, this complexity is often considered as \( O(n_{nz}) \), as the number
+of non-zero elements is usually the dominating factor, especially in very
+sparse matrices.
+
+\subsubsection{Spatial Complexity}
+
+The spatial complexity is related to the amount of memory required by the
+algorithm.
+
+\begin{itemize}
+    \item \textbf{Storing the Sparse Matrix:} The way the sparse matrix is stored affects the spatial complexity. Generally, storage formats like CSR or COO allow storing a sparse matrix with a complexity of \( O(n_{nz}) \), where \( n_{nz} \) is the number of non-zero elements.
+    \item \textbf{Dense Vector:} The dense vector has a spatial complexity of \( O(n) \), where \( n \) is the size of the vector.
+    \item \textbf{Result Vector:} The result vector also has a size of \( O(m) \), where \( m \) is the number of rows in the matrix.
+\end{itemize}
+
+The total spatial complexity is therefore \( O(n_{nz} + m + n) \), but in
+practice, the focus is mainly on the \( O(n_{nz}) \) term as it is generally
+the most significant.
+
+\subsection{Example}
+
+Dans le format CSR, la matrice est représentée par trois vecteurs :
+\texttt{values}, \texttt{rows}, et \texttt{cols}. Pour notre exemple, ces
+vecteurs sont définis comme suit:
+\begin{itemize}
+    \item \texttt{values} = \{1, 2, 3, 4\}
+    \item \texttt{rows} = \{0, 2, 3, 3, 4\}
+    \item \texttt{cols} = \{0, 2, 1, 3\}
+\end{itemize}
+
+La matrice creuse correspondante peut être visualisée comme:
+\[
+    \begin{bmatrix}
+        1 & 0 & 2 & 0 \\
+        0 & 0 & 3 & 0 \\
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 4 \\
+    \end{bmatrix}
+\]
+
+Le vecteur dense est simplementq:
+\[
+    \begin{bmatrix}
+        1 \\
+        2 \\
+        3 \\
+        4 \\
+    \end{bmatrix}
+\]
+
+La multiplication de la matrice creuse par le vecteur dense est effectuée ligne
+par ligne. Le résultat peut être visualisé comme :
+
+\[
+    \begin{bmatrix}
+        1 & 0 & 2 & 0 \\
+        0 & 0 & 3 & 0 \\
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 4 \\
+    \end{bmatrix}
+    \times
+    \begin{bmatrix}
+        1 \\
+        2 \\
+        3 \\
+        4 \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        1 \times 1 + 0 \times 2 + 2 \times 3 + 0 \times 4 \\
+        0 \times 1 + 0 \times 2 + 3 \times 3 + 0 \times 4 \\
+        0 \times 1 + 0 \times 2 + 0 \times 3 + 0 \times 4 \\
+        0 \times 1 + 0 \times 2 + 0 \times 3 + 4 \times 4 \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        7  \\
+        9  \\
+        0  \\
+        16 \\
+    \end{bmatrix}
+\]
+
+\section{Line-Based Parallelism}
+This algorithm divides the sparse matrix into chunks of rows, distributing
+these chunks across multiple threads or processes.
+
+\begin{algorithm}[H]
+    \caption{Line-based parallel sparse matrix-vector multiplication}
+    \begin{algorithmic}[1]
+        \Procedure{ParallelLineBasedMult}{$M$, $v$, $numThreads$}
+        \State Divide $M$ into $numThreads$ row chunks
+        \State Initialise a result vector $r$ of appropriate size
+        \For{each thread $t$}
+        \State Assign a row chunk to thread $t$
+        \State Thread $t$ computes multiplication for its chunk
+        \State Accumulate results in $r$
+        \EndFor
+        \State \textbf{return} $r$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{Complexity Analysis}
+\subsubsection{Temporal Complexity}
+\begin{itemize}
+    \item \textbf{Dividing the Matrix into Chunks:} The complexity of dividing the matrix \(M\) into \texttt{numThreads} chunks is \(O(m)\), where \(m\) is the number of rows in the matrix. This step involves assigning row ranges to each thread and is relatively lightweight in terms of computation.
+    
+    \item \textbf{Multiplication within Each Thread:} Each thread processes its assigned chunk of the matrix. Assuming \(n_{nz}\) is the total number of non-zero elements in the matrix and the elements are evenly distributed, the complexity for this part is approximately \(O\left(\frac{n_{nz}}{\texttt{numThreads}}\right)\) in an ideal parallel environment.
+    
+    \item \textbf{Accumulation of Results:} The final step of accumulating the results in the vector \(r\) can be executed in parallel and does not significantly add to the complexity, assuming ideal conditions.
+\end{itemize}
+
+\subsubsection{Spatial Complexity}
+The spatial complexity is influenced by the storage requirements for the sparse matrix and the result vector.
+\begin{itemize}
+    \item \textbf{Sparse Matrix Storage:} Storing the sparse matrix in CSR (Compressed Sparse Row) format requires \(O(n_{nz} + m + n)\) space, where \(n_{nz}\) is the number of non-zero elements, \(m\) is the number of rows, and \(n\) is the number of columns.
+    
+    \item \textbf{Result Vector Storage:} The result vector \(r\) of size \(m\) has a spatial complexity of \(O(m)\).
+    
+    \item \textbf{Temporary Storage in Threads:} Additional temporary storage for computations within each thread does not significantly affect the overall spatial complexity.
+\end{itemize}
+
+\subsubsection{Overall Complexity}
+\begin{itemize}
+    \item \textbf{Temporal Complexity:} The overall temporal complexity of the algorithm is \(O(m + \frac{n_{nz}}{\texttt{numThreads}})\), under the assumption of an ideal parallel environment.
+    
+    \item \textbf{Spatial Complexity:} The overall spatial complexity is \(O(n_{nz} + m + n)\), dominated by the storage requirements for the sparse matrix and the result vector.
+\end{itemize}
+
+
+\subsection*{2. Non-Zero Element-Based Parallelism}
+
+This approach distributes the computation based on the non-zero elements of the
+sparse matrix.
+
+\begin{algorithm}[H]
+    \caption{Element-based parallel sparse matrix-vector multiplication}
+    \begin{algorithmic}[1]
+        \Procedure{ParallelElementBasedMult}{$M$, $v$, $numThreads$}
+        \State Divide non-zero elements of $M$ into $numThreads$ parts
+        \State Initialise a result vector $r$ of appropriate size
+        \For{each thread $t$}
+        \State Assign a subset of non-zero elements to thread $t$
+        \State Thread $t$ computes contributions to $r$
+        \State Perform atomic addition to accumulate in $r$
+        \EndFor
+        \State \textbf{return} $r$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection*{3. Hybrid Parallelism (Lines and Non-Zero Elements)}
+
+This method combines the first two approaches: it divides the matrix into row
+chunks and further parallelizes by distributing the non-zero elements of each
+chunk.
+
+\begin{algorithm}[H]
+    \caption{Hybrid parallel sparse matrix-vector multiplication}
+    \begin{algorithmic}[1]
+        \Procedure{HybridParallelMult}{$M
+            $, $v$, $numThreads$}
+        \State Divide $M$ into row chunks
+        \State Initialise a result vector $r$ of appropriate size
+        \For{each row chunk}
+        \State Further divide non-zero elements among threads
+        \For{each thread $t$}
+        \State Assign a subset of non-zero elements to thread $t$
+        \State Thread $t$ computes contributions to $r$
+        \State Perform atomic addition to accumulate in $r$
+        \EndFor
+        \EndFor
+        \State \textbf{return} $r$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection*{Complexity and Considerations}
+
+Each of these parallel algorithms aims to exploit different aspects of
+parallelism, with the primary goal of reducing the overall computation time.
+The actual performance gain depends on the characteristics of the sparse
+matrix, the number of available processing units, and the specific
+implementation details. Moreover, care must be taken to manage concurrency
+issues, such as race conditions and proper synchronization, to ensure correct
+and efficient execution.
+
+\newpage
+\chapter{Conclusion}
+
+\bibliographystyle{CranfieldNumbered}
+\bibliography{CUCitations}
+
+\appendix
+\chapter{Documentation}
+
+\begin{subappendices}
+    \section{Project tree}
+    \begin{lstlisting}[breaklines=true, basicstyle=\small]
+    lib/
+        collecting.py
+        processing.py
+        storing.py
+    scripts/
+        get_iam_credentials.sh
+        start_spark_job.sh
+    services/
+        get_iam_credentials.service
+        spark_python_job.service
+    test/
+        artillery_load_test.yml
+        monitoring.py
+        metrics.csv
+        results.json
+        visualisation_load_test.ipynb
+    main.py
+    README.md
+    requirements.txt
+    \end{lstlisting}
+
+    \section{Getting Started}
+    To run the program, follow these steps:
+    \begin{enumerate}
+        \itemindent=17.87pt
+        \item Create a virtual environment using \texttt{python3 -m venv venv}.
+        \item Activate the virtual environment using \texttt{source venv/bin/activate}.
+        \item Install the required dependencies using \texttt{pip3 install -r
+                  requirements.txt}.
+        \item Run the program using \texttt{python3 main.py}.
+        \item Visualise the results using \texttt{visualisation.ipynb} (Jupyter Notebook).
+    \end{enumerate}
+
+    \section{Detailed Features of Functions}
+    \begin{description}
+        \item \texttt{collecting.py}
+              \begin{itemize}
+                  \item \texttt{fetch\_sensors\_data(sparkSession)}: Function to ingest the latest data from the sensors and returns it as a Spark DataFrame.
+              \end{itemize}
+
+        \item \texttt{processing.py}
+              \begin{itemize}
+                  \item \texttt{get\_aqi\_value\_p25(value)}: Function for calculating the AQI value for PM2.5.
+                  \item \texttt{get\_aqi\_value\_p10(value)}: Function for calculating the AQI value for PM10.
+                  \item \texttt{computeAQI(df)}: Function for calculating the AQI value for each particulate matter sensor and returning the DataFrame with the AQI column.
+              \end{itemize}
+
+        \item \texttt{storing.py}
+              \begin{itemize}
+                  \item \texttt{keepOnlyUpdatedRows(database\_name, table\_name, df)}: Function for keeping only the rows that have been updated in the DataFrame.
+                  \item \texttt{\_print\_rejected\_records\_exceptions(err)}: Internal function for printing the rejected records exceptions.
+                  \item \texttt{write\_records(database\_name, table\_name, client, records)}: Internal function for writing a batch of records to the Timestream database.
+                  \item \texttt{writeToTimestream(database\_name, table\_name, partionned\_df)}: Function for writing the DataFrame to the Timestream database.
+              \end{itemize}
+    \end{description}
+\end{subappendices}
+
+\end{document}
+
