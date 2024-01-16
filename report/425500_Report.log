@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.14)  16 JAN 2024 10:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.14)  16 JAN 2024 12:28
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -769,24 +769,24 @@ No file 425500_Report.bbl.
 ]
 Appendix A.
 
-Overfull \hbox (7.74756pt too wide) in paragraph at lines 468--470
+Overfull \hbox (7.74756pt too wide) in paragraph at lines 475--477
 []\OT1/ptm/m/n/12 Install the re-quired de-pen-den-cies us-ing \OT1/cmtt/m/n/12 pip3 install -r requirements.txt\OT1/ptm/m/n/12 . 
  []
 
 [8
 
 ]
-Overfull \hbox (13.77136pt too wide) in paragraph at lines 483--484
+Overfull \hbox (13.77136pt too wide) in paragraph at lines 490--491
 []\OT1/cmtt/m/n/12 get[]aqi[]value[]p25(value)\OT1/ptm/m/n/12 : Func-tion for cal-cu-lat-ing the AQI value for PM2.5. 
  []
 
 
-Overfull \hbox (10.77136pt too wide) in paragraph at lines 484--485
+Overfull \hbox (10.77136pt too wide) in paragraph at lines 491--492
 []\OT1/cmtt/m/n/12 get[]aqi[]value[]p10(value)\OT1/ptm/m/n/12 : Func-tion for cal-cu-lat-ing the AQI value for PM10. 
  []
 
 
-Overfull \hbox (22.26286pt too wide) in paragraph at lines 493--494
+Overfull \hbox (22.26286pt too wide) in paragraph at lines 500--501
 []\OT1/cmtt/m/n/12 writeToTimestream(database[]name, table[]name, partionned[]df)\OT1/ptm/m/n/12 : Func-
  []
 
@@ -796,17 +796,17 @@ Package rerunfilecheck Info: File `425500_Report.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  18479 strings out of 476025
- 307454 string characters out of 5790016
+ 307466 string characters out of 5790016
  1889388 words of memory out of 5000000
  38524 multiletter control sequences out of 15000+600000
  551973 words of font info for 113 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  90i,12n,117p,663b,1162s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on 425500_Report.pdf (15 pages, 143496 bytes).
+Output written on 425500_Report.pdf (15 pages, 143201 bytes).
 PDF statistics:
- 235 PDF objects out of 1000 (max. 8388607)
- 198 compressed objects within 2 object streams
+ 237 PDF objects out of 1000 (max. 8388607)
+ 200 compressed objects within 2 object streams
  70 named destinations out of 1000 (max. 500000)
  78 words of extra memory for PDF output out of 10000 (max. 10000000)
 

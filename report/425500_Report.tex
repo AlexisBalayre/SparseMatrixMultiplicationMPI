@@ -328,14 +328,19 @@ these chunks across multiple threads or processes.
 \begin{algorithm}[H]
     \caption{Line-based parallel sparse matrix-vector multiplication}
     \begin{algorithmic}[1]
-        \Procedure{ParallelLineBasedMult}{$M$, $v$, $numThreads$}
-        \State Divide $M$ into $numThreads$ row chunks
-        \State Initialise a result vector $r$ of appropriate size
-        \For{each thread $t$}
-        \State Assign a row chunk to thread $t$
-        \State Thread $t$ computes multiplication for its chunk
-        \State Accumulate results in $r$
+        \Procedure{MPILineBasedMult}{$M$, $v$}
+        \State Initialize MPI and determine rank and size
+        \State Calculate number of rows per process
+        \State Each process calculates start and end indices for its rows
+        \State Scatter rows of $M$ and vector $v$ to each process
+        \State Each process initializes a local result vector $r_{local}$
+        \For{each assigned row $i$}
+        \For{each non-zero element $M_{ij}$ in row $i$}
+        \State Compute the product of $M_{ij}$ and $v_j$
+        \State Add the product to the $i$-th element of $r_{local}$
         \EndFor
+        \EndFor
+        \State Gather all $r_{local}$ into the final result vector $r$
         \State \textbf{return} $r$
         \EndProcedure
     \end{algorithmic}
@@ -345,72 +350,74 @@ these chunks across multiple threads or processes.
 \subsubsection{Temporal Complexity}
 \begin{itemize}
     \item \textbf{Dividing the Matrix into Chunks:} The complexity of dividing the matrix \(M\) into \texttt{numThreads} chunks is \(O(m)\), where \(m\) is the number of rows in the matrix. This step involves assigning row ranges to each thread and is relatively lightweight in terms of computation.
-    
+
     \item \textbf{Multiplication within Each Thread:} Each thread processes its assigned chunk of the matrix. Assuming \(n_{nz}\) is the total number of non-zero elements in the matrix and the elements are evenly distributed, the complexity for this part is approximately \(O\left(\frac{n_{nz}}{\texttt{numThreads}}\right)\) in an ideal parallel environment.
-    
+
     \item \textbf{Accumulation of Results:} The final step of accumulating the results in the vector \(r\) can be executed in parallel and does not significantly add to the complexity, assuming ideal conditions.
 \end{itemize}
 
 \subsubsection{Spatial Complexity}
-The spatial complexity is influenced by the storage requirements for the sparse matrix and the result vector.
+The spatial complexity is influenced by the storage requirements for the sparse
+matrix and the result vector.
 \begin{itemize}
     \item \textbf{Sparse Matrix Storage:} Storing the sparse matrix in CSR (Compressed Sparse Row) format requires \(O(n_{nz} + m + n)\) space, where \(n_{nz}\) is the number of non-zero elements, \(m\) is the number of rows, and \(n\) is the number of columns.
-    
+
     \item \textbf{Result Vector Storage:} The result vector \(r\) of size \(m\) has a spatial complexity of \(O(m)\).
-    
+
     \item \textbf{Temporary Storage in Threads:} Additional temporary storage for computations within each thread does not significantly affect the overall spatial complexity.
 \end{itemize}
 
 \subsubsection{Overall Complexity}
 \begin{itemize}
     \item \textbf{Temporal Complexity:} The overall temporal complexity of the algorithm is \(O(m + \frac{n_{nz}}{\texttt{numThreads}})\), under the assumption of an ideal parallel environment.
-    
+
     \item \textbf{Spatial Complexity:} The overall spatial complexity is \(O(n_{nz} + m + n)\), dominated by the storage requirements for the sparse matrix and the result vector.
 \end{itemize}
 
-
-\subsection*{2. Non-Zero Element-Based Parallelism}
+\subsection{Non-Zero Element-Based Parallelism}
 
 This approach distributes the computation based on the non-zero elements of the
 sparse matrix.
 
 \begin{algorithm}[H]
-    \caption{Element-based parallel sparse matrix-vector multiplication}
+    \caption{MPI Element-based parallel sparse matrix-vector multiplication}
     \begin{algorithmic}[1]
-        \Procedure{ParallelElementBasedMult}{$M$, $v$, $numThreads$}
-        \State Divide non-zero elements of $M$ into $numThreads$ parts
-        \State Initialise a result vector $r$ of appropriate size
-        \For{each thread $t$}
-        \State Assign a subset of non-zero elements to thread $t$
-        \State Thread $t$ computes contributions to $r$
-        \State Perform atomic addition to accumulate in $r$
+        \Procedure{MPIElementBasedMult}{$M$, $v$}
+        \State Initialize MPI and determine rank and size
+        \State Distribute non-zero elements of $M$ among processes
+        \State Scatter vector $v$ to all processes
+        \State Each process initializes a local result vector $r_{local}$
+        \For{each assigned non-zero element $M_{ij}$}
+        \State Compute the product of $M_{ij}$ and $v_j$
+        \State Use MPI atomic operations to add to $r_{local}$
         \EndFor
+        \State Reduce all $r_{local}$ to form final result vector $r$
         \State \textbf{return} $r$
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
 
-\subsection*{3. Hybrid Parallelism (Lines and Non-Zero Elements)}
+\subsection{Hybrid Parallelism (Lines and Non-Zero Elements)}
 
 This method combines the first two approaches: it divides the matrix into row
 chunks and further parallelizes by distributing the non-zero elements of each
 chunk.
 
 \begin{algorithm}[H]
-    \caption{Hybrid parallel sparse matrix-vector multiplication}
+    \caption{MPI Hybrid parallel sparse matrix-vector multiplication}
     \begin{algorithmic}[1]
-        \Procedure{HybridParallelMult}{$M
-            $, $v$, $numThreads$}
-        \State Divide $M$ into row chunks
-        \State Initialise a result vector $r$ of appropriate size
+        \Procedure{MPIHybridParallelMult}{$M$, $v$}
+        \State Initialize MPI and determine rank and size
+        \State Scatter chunks of rows of $M$ to each process
+        \State Scatter vector $v$ to all processes
+        \State Each process initializes a local result vector $r_{local}$
         \For{each row chunk}
-        \State Further divide non-zero elements among threads
-        \For{each thread $t$}
-        \State Assign a subset of non-zero elements to thread $t$
-        \State Thread $t$ computes contributions to $r$
-        \State Perform atomic addition to accumulate in $r$
+            \For{each non-zero element $M_{ij}$ in the chunk}
+                \State Compute the product of $M_{ij}$ and $v_j$
+                \State Add to $r_{local}$
+            \EndFor
         \EndFor
-        \EndFor
+        \State Gather all $r_{local}$ into the final result vector $r$
         \State \textbf{return} $r$
         \EndProcedure
     \end{algorithmic}
