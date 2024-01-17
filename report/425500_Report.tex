@@ -257,6 +257,7 @@ The total spatial complexity is therefore \( O(n_{nz} + m + n) \), but in
 practice, the focus is mainly on the \( O(n_{nz}) \) term as it is generally
 the most significant.
 
+\newpage
 \subsection{Example}
 
 Dans le format CSR, la matrice est représentée par trois vecteurs :
@@ -321,9 +322,11 @@ par ligne. Le résultat peut être visualisé comme :
     \end{bmatrix}
 \]
 
+\newpage
 \section{Line-Based Parallelism}
-This algorithm divides the sparse matrix into chunks of rows, distributing
-these chunks across multiple threads or processes.
+This algorithm partitions a sparse matrix into row chunks and distributes these
+chunks across multiple processes for parallel computation in a line-based
+manner.
 
 \begin{algorithm}[H]
     \caption{Line-based parallel sparse matrix-vector multiplication}
@@ -349,35 +352,26 @@ these chunks across multiple threads or processes.
 \subsection{Complexity Analysis}
 \subsubsection{Temporal Complexity}
 \begin{itemize}
-    \item \textbf{Dividing the Matrix into Chunks:} The complexity of dividing the matrix \(M\) into \texttt{numThreads} chunks is \(O(m)\), where \(m\) is the number of rows in the matrix. This step involves assigning row ranges to each thread and is relatively lightweight in terms of computation.
-
-    \item \textbf{Multiplication within Each Thread:} Each thread processes its assigned chunk of the matrix. Assuming \(n_{nz}\) is the total number of non-zero elements in the matrix and the elements are evenly distributed, the complexity for this part is approximately \(O\left(\frac{n_{nz}}{\texttt{numThreads}}\right)\) in an ideal parallel environment.
-
-    \item \textbf{Accumulation of Results:} The final step of accumulating the results in the vector \(r\) can be executed in parallel and does not significantly add to the complexity, assuming ideal conditions.
+    \item \textbf{MPI Initialisation and Rank and Size Determination:} This step is generally fast, with a complexity close to \( O(1) \), as it mainly involves setup operations.
+    \item \textbf{Calculation of the Number of Rows per Process:} This operation also has a complexity of \( O(1) \) as it requires only simple arithmetic based on the total size of the matrix and the number of processes.
+    \item \textbf{Calculation of Start and End Indices for Each Process:} Again, this step has a complexity of \( O(1) \) as it involves simple arithmetic calculations.
+    \item \textbf{Scatter of Rows of \( M \) and Vector \( v \):} The complexity of this step depends on the MPI implementation and data distribution. In general, it can be considered as \( O(\frac{n_{nz}}{p}) \), where \( n_{nz} \) is the total number of non-zero elements in the matrix and \( p \) is the number of processes.
+    \item \textbf{Local Computation in Each Process:} Each process performs the matrix-vector product computation for its assigned portion of the matrix. The complexity of this step is \( O(\frac{n_{nz}}{p}) \) in the ideal case where the non-zero elements are evenly distributed among the processes.
+    \item \textbf{Gather of Local Results \( r_{local} \):} The gather operation can vary in complexity, but generally, it is proportional to the total number of elements to be gathered and depends on the efficiency of communication between processes.
 \end{itemize}
 
 \subsubsection{Spatial Complexity}
-The spatial complexity is influenced by the storage requirements for the sparse
-matrix and the result vector.
+
 \begin{itemize}
-    \item \textbf{Sparse Matrix Storage:} Storing the sparse matrix in CSR (Compressed Sparse Row) format requires \(O(n_{nz} + m + n)\) space, where \(n_{nz}\) is the number of non-zero elements, \(m\) is the number of rows, and \(n\) is the number of columns.
-
-    \item \textbf{Result Vector Storage:} The result vector \(r\) of size \(m\) has a spatial complexity of \(O(m)\).
-
-    \item \textbf{Temporary Storage in Threads:} Additional temporary storage for computations within each thread does not significantly affect the overall spatial complexity.
+    \item \textbf{Storage of Sparse Matrix and Dense Vector:} The storage of the matrix and vector remains \( O(n_{nz} + m + n) \), where \( m \) and \( n \) are the dimensions of the matrix.
+    \item \textbf{Local Result Vectors \( r_{local} \):} Each process stores a local result vector of a size proportional to the portion of the matrix it processes, approximately \( O(\frac{m}{p}) \).
 \end{itemize}
 
-\subsubsection{Overall Complexity}
-\begin{itemize}
-    \item \textbf{Temporal Complexity:} The overall temporal complexity of the algorithm is \(O(m + \frac{n_{nz}}{\texttt{numThreads}})\), under the assumption of an ideal parallel environment.
-
-    \item \textbf{Spatial Complexity:} The overall spatial complexity is \(O(n_{nz} + m + n)\), dominated by the storage requirements for the sparse matrix and the result vector.
-\end{itemize}
-
-\subsection{Non-Zero Element-Based Parallelism}
-
-This approach distributes the computation based on the non-zero elements of the
-sparse matrix.
+\newpage
+\section{Non-Zero Element-Based Parallelism}
+This algorithm distributes the non-zero elements of a sparse matrix among
+different processes, enabling parallel computation focused on each non-zero
+element.
 
 \begin{algorithm}[H]
     \caption{MPI Element-based parallel sparse matrix-vector multiplication}
@@ -397,11 +391,33 @@ sparse matrix.
     \end{algorithmic}
 \end{algorithm}
 
-\subsection{Hybrid Parallelism (Lines and Non-Zero Elements)}
+\subsection{Complexity Analysis}
+\subsubsection{Temporal Complexity}
+\begin{itemize}
+    \item \textbf{MPI Initialisation and Rank and Size Determination:} Similar to the line-based approach, this step has a complexity of approximately \( O(1) \), involving basic setup operations.
 
-This method combines the first two approaches: it divides the matrix into row
-chunks and further parallelizes by distributing the non-zero elements of each
-chunk.
+    \item \textbf{Distribution of Non-Zero Elements of \( M \):} This step involves distributing the non-zero elements among the processes. The complexity depends on the distribution mechanism but is generally proportional to the number of non-zero elements, \( n_{nz} \), and the efficiency of the distribution algorithm used.
+
+    \item \textbf{Scatter of Vector \( v \) to All Processes:} Scattering the vector \( v \) to all processes can be done efficiently in MPI and typically has a complexity proportional to the size of the vector, \( O(n) \).
+
+    \item \textbf{Computation of Products for Assigned Non-Zero Elements:} Each process computes the products for its assigned non-zero elements. Assuming an even distribution, the complexity for each process would be \( O(\frac{n_{nz}}{p}) \), where \( p \) is the number of processes.
+
+    \item \textbf{MPI Atomic Operations and Reduction:} The use of atomic operations and reduction to form the final result vector can introduce additional complexity, depending on the implementation and efficiency of these operations in MPI.
+\end{itemize}
+
+\subsubsection{Spatial Complexity}
+
+\begin{itemize}
+    \item \textbf{Storage of Sparse Matrix and Dense Vector:} The storage requirements remain the same as in the line-based approach, \( O(n_{nz} + m + n) \).
+
+    \item \textbf{Local Result Vectors \( r_{local} \):} Each process maintains a local result vector, but since the computation is based on non-zero elements, the storage requirement for each \( r_{local} \) might be smaller, depending on the distribution of non-zero elements.
+\end{itemize}
+
+\newpage
+\section{Hybrid Parallelism (Lines and Non-Zero Elements)}
+This algorithm combines line-based and non-zero element-based approaches by
+distributing chunks of rows to each process and then performing parallel
+computations on the non-zero elements within those chunks.
 
 \begin{algorithm}[H]
     \caption{MPI Hybrid parallel sparse matrix-vector multiplication}
@@ -412,16 +428,39 @@ chunk.
         \State Scatter vector $v$ to all processes
         \State Each process initializes a local result vector $r_{local}$
         \For{each row chunk}
-            \For{each non-zero element $M_{ij}$ in the chunk}
-                \State Compute the product of $M_{ij}$ and $v_j$
-                \State Add to $r_{local}$
-            \EndFor
+        \For{each non-zero element $M_{ij}$ in the chunk}
+        \State Compute the product of $M_{ij}$ and $v_j$
+        \State Add to $r_{local}$
+        \EndFor
         \EndFor
         \State Gather all $r_{local}$ into the final result vector $r$
         \State \textbf{return} $r$
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
+
+\subsection{Complexity Analysis}
+\subsubsection{Temporal Complexity}
+
+\begin{itemize}
+    \item \textbf{MPI Initialisation and Rank and Size Determination:} As with other MPI-based algorithms, this step has a complexity of approximately \( O(1) \).
+
+    \item \textbf{Scattering Chunks of Rows of \( M \) to Each Process:} This step distributes parts of the matrix to different processes. Its complexity depends on the number of rows and the distribution method, typically around \( O(\frac{m}{p}) \), where \( m \) is the number of rows and \( p \) is the number of processes.
+
+    \item \textbf{Scatter of Vector \( v \) to All Processes:} This operation generally has a complexity of \( O(n) \), where \( n \) is the size of the vector.
+
+    \item \textbf{Local Computations for Non-Zero Elements:} Each process computes the products for the non-zero elements in its assigned rows. Assuming an even distribution of non-zero elements, the complexity for each process is approximately \( O(\frac{n_{nz}}{p}) \).
+
+    \item \textbf{Gather of Local Results \( r_{local} \) into Final Result Vector \( r \):} This step combines the partial results from all processes and typically has a complexity proportional to the total number of elements in \( r \).
+\end{itemize}
+
+\subsubsection{Spatial Complexity}
+
+\begin{itemize}
+    \item \textbf{Storage of Sparse Matrix and Dense Vector:} The overall storage requirements remain \( O(n_{nz} + m + n) \), as in other sparse matrix-vector multiplication methods.
+
+    \item \textbf{Local Result Vectors \( r_{local} \):} Each process stores a local result vector for its chunk of rows, with the size depending on the distribution of rows and non-zero elements.
+\end{itemize}
 
 \subsection*{Complexity and Considerations}
 
