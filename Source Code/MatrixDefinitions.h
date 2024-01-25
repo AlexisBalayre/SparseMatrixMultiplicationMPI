@@ -3,13 +3,22 @@
 
 #include <vector>
 
-struct SparseMatrix {
-    std::vector<double> values;       // Non-zero values
-    std::vector<int> colIndices;      // Column indices of non-zero values
-    std::vector<int> rowPtr;          // Row pointers
+//
+/**
+ * @brief Struct to represent a sparse matrix
+ *
+ * @param values  Non-zero values
+ * @param colIndices  Column indices of non-zero values
+ * @param rowPtr  Row pointers
+ */
+struct SparseMatrix
+{
+    std::vector<double> values;
+    std::vector<int> colIndices;
+    std::vector<int> rowPtr;
 };
 
-
-typedef std::vector<std::vector<double>> DenseMatrix;
+// Type definition for a dense vector
+typedef std::vector<std::vector<double>> DenseVector;
 
 #endif

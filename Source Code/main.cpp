@@ -49,9 +49,9 @@ SparseMatrix generateLargeSparseMatrix(int m, int n, double nonZeroPercentage)
 }
 
 // Function to generate a large dense vector
-DenseMatrix generateLargeDenseVector(int m, int n)
+DenseVector generateLargeDenseVector(int m, int n)
 {
-    DenseMatrix matrix(m, std::vector<double>(n));
+    DenseVector matrix(m, std::vector<double>(n));
 
     // Fill the matrix with random values
     for (int i = 0; i < m; ++i)
@@ -80,10 +80,10 @@ int main(int argc, char *argv[])
     // Seul le processus principal génère la matrice et le vecteur
     srand(time(0)); // Seed pour la génération aléatoire
     SparseMatrix M = generateLargeSparseMatrix(m, n, nonZeroPercentage);
-    DenseMatrix v = generateLargeDenseVector(n, k);
+    DenseVector v = generateLargeDenseVector(n, k);
 
     // Serial multiplication (only in the main process)
-    DenseMatrix resultSerial;
+    DenseVector resultSerial;
     if (worldRank == 0)
     {
         auto startSerial = std::chrono::high_resolution_clock::now();
@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
 
     // Parallel multiplication (row-wise)
     auto startParallel = std::chrono::high_resolution_clock::now();
-    DenseMatrix resultParallelRowWise = sparseMatrixDenseVectorMultiplyRowWise(M, v, m, n, k);
+    DenseVector resultParallelRowWise = sparseMatrixDenseVectorMultiplyRowWise(M, v, m, n, k);
     auto stopParallel = std::chrono::high_resolution_clock::now();
     auto durationParallel = std::chrono::duration_cast<std::chrono::milliseconds>(stopParallel - startParallel);
 
@@ -141,7 +141,7 @@ int main(int argc, char *argv[])
 
     // Parallel multiplication (column-wise)
     auto startParallelColumnWise = std::chrono::high_resolution_clock::now();
-    DenseMatrix resultParallelColumnWise = sparseMatrixDenseVectorMultiplyColumnWise(M, v, m, n, k);
+    DenseVector resultParallelColumnWise = sparseMatrixDenseVectorMultiplyColumnWise(M, v, m, n, k);
     auto stopParallelColumnWise = std::chrono::high_resolution_clock::now();
     auto durationParallelColumnWise = std::chrono::duration_cast<std::chrono::milliseconds>(stopParallelColumnWise - startParallelColumnWise);
 
@@ -176,7 +176,7 @@ int main(int argc, char *argv[])
 
     // Parallel multiplication (non-zero element)
     auto startParallelNonZeroElement = std::chrono::high_resolution_clock::now();
-    DenseMatrix resultParallelNonZeroElement = sparseMatrixDenseVectorMultiplyNonZeroElement(M, v);
+    DenseVector resultParallelNonZeroElement = sparseMatrixDenseVectorMultiplyNonZeroElement(M, v);
     auto stopParallelNonZeroElement = std::chrono::high_resolution_clock::now();
     auto durationParallelNonZeroElement = std::chrono::duration_cast<std::chrono::milliseconds>(stopParallelNonZeroElement - startParallelNonZeroElement);
 

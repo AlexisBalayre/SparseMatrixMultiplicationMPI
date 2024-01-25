@@ -14,14 +14,14 @@
 \contentsline {subsection}{\numberline {2.2.1}Complexity Analysis}{5}{subsection.2.2.1}%
 \contentsline {subsubsection}{\numberline {2.2.1.1}Temporal Complexity}{5}{subsubsection.2.2.1.1}%
 \contentsline {subsubsection}{\numberline {2.2.1.2}Spatial Complexity}{6}{subsubsection.2.2.1.2}%
-\contentsline {section}{\numberline {2.3}Non-Zero Element-Based Parallelism}{7}{section.2.3}%
+\contentsline {section}{\numberline {2.3}Column-Wise Parallelism}{7}{section.2.3}%
 \contentsline {subsection}{\numberline {2.3.1}Complexity Analysis}{7}{subsection.2.3.1}%
 \contentsline {subsubsection}{\numberline {2.3.1.1}Temporal Complexity}{7}{subsubsection.2.3.1.1}%
 \contentsline {subsubsection}{\numberline {2.3.1.2}Spatial Complexity}{8}{subsubsection.2.3.1.2}%
-\contentsline {section}{\numberline {2.4}Hybrid Parallelism (Lines and Non-Zero Elements)}{9}{section.2.4}%
+\contentsline {section}{\numberline {2.4}Non-Zero Element Parallelism}{9}{section.2.4}%
 \contentsline {subsection}{\numberline {2.4.1}Complexity Analysis}{9}{subsection.2.4.1}%
 \contentsline {subsubsection}{\numberline {2.4.1.1}Temporal Complexity}{9}{subsubsection.2.4.1.1}%
-\contentsline {subsubsection}{\numberline {2.4.1.2}Spatial Complexity}{9}{subsubsection.2.4.1.2}%
+\contentsline {subsubsection}{\numberline {2.4.1.2}Spatial Complexity}{10}{subsubsection.2.4.1.2}%
 \contentsline {chapter}{\numberline {3}Conclusion}{11}{chapter.3}%
 \contentsline {chapter}{\numberline {A}Documentation}{12}{appendix.A}%
 \contentsline {section}{\numberline {A.A}Project tree}{12}{section.1.A.A}%

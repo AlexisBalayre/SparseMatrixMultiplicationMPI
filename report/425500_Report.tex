@@ -205,19 +205,19 @@ computed as follows:
 
 \begin{algorithm}[H]
     \caption{Sequential algorithm}
-    \begin{algorithmic}[1]
-        \Procedure{SparseMatrixVectorMult}{$M$, $v$}
-        \State Initialise a result vector $r$ of appropriate size
-        \For{each row $i$ of $M$}
-        \State Determine the start and end of row $i$ in $M$
-        \For{each non-zero element $M_{ij}$ in row $i$}
-        \State Find the corresponding column index $j$ in $M$
-        \State Compute the product of $M_{ij}$ and $v_j$
-        \State Add the product to the $i$-th element of $r$
+    \begin{algorithmic}
+        \Require $M$ is an $m \times n$ sparse matrix
+        \Require $v$ is an $n \times k$ dense vector
+        \Ensure  $Result$ is an $m \times k$ matrix
+        \State $Result \gets$ zero matrix of size $m \times k$
+        \For{$i \gets 0$ \textbf{to} $m-1$}
+        \For{each non-zero element $(j, \text{value})$ in row $i$ of $M$}
+        \For{$l \gets 0$ \textbf{to} $k-1$}
+        \State $Result[i][l] \gets Result[i][l] + (\text{value} \times v[j][l])$
         \EndFor
         \EndFor
-        \State \textbf{return} $r$
-        \EndProcedure
+        \EndFor
+        \State \Return $Result$
     \end{algorithmic}
 \end{algorithm}
 
@@ -330,22 +330,38 @@ manner.
 
 \begin{algorithm}[H]
     \caption{Line-based parallel sparse matrix-vector multiplication}
-    \begin{algorithmic}[1]
-        \Procedure{MPILineBasedMult}{$M$, $v$}
-        \State Initialize MPI and determine rank and size
-        \State Calculate number of rows per process
-        \State Each process calculates start and end indices for its rows
-        \State Scatter rows of $M$ and vector $v$ to each process
-        \State Each process initializes a local result vector $r_{local}$
-        \For{each assigned row $i$}
-        \For{each non-zero element $M_{ij}$ in row $i$}
-        \State Compute the product of $M_{ij}$ and $v_j$
-        \State Add the product to the $i$-th element of $r_{local}$
+    \begin{algorithmic}
+        \Require $M$ is an $m \times n$ sparse matrix
+        \Require $v$ is an $n \times k$ vector
+        \Require $numProcs$ is the number of processes
+        \Require $rank$ is the rank of the current process
+        \Ensure  $Result$ is a part of the $m \times k$ matrix computed by this process
+
+        \State $rowsPerProc \gets m / numProcs$
+        \State $startRow \gets rank \times rowsPerProc$
+        \State $endRow \gets startRow + rowsPerProc$
+        \State $Result \gets$ zero matrix of size $rowsPerProc \times k$
+
+        \For{$i \gets startRow$ \textbf{to} $endRow-1$}
+        \For{each non-zero element $(j, \text{value})$ in row $i$ of $M$}
+        \For{$l \gets 0$ \textbf{to} $k-1$}
+        \State $Result[i - startRow][l] \gets Result[i - startRow][l] + (\text{value} \times v[j][l])$
         \EndFor
         \EndFor
-        \State Gather all $r_{local}$ into the final result vector $r$
-        \State \textbf{return} $r$
-        \EndProcedure
+        \EndFor
+
+        \If{$rank \neq 0$}
+        \State Send $Result$ to process $0$
+        \Else
+        \State $FinalResult \gets$ zero matrix of size $m \times k$
+        \State Copy $Result$ into $FinalResult$
+        \For{$p \gets 1$ \textbf{to} $numProcs-1$}
+        \State Receive partial $Result$ from process $p$
+        \State Copy received $Result$ into appropriate position in $FinalResult$
+        \EndFor
+        \EndIf
+
+        \State \textbf{if} $rank = 0$ \textbf{then} \Return $FinalResult$
     \end{algorithmic}
 \end{algorithm}
 
@@ -368,26 +384,45 @@ manner.
 \end{itemize}
 
 \newpage
-\section{Non-Zero Element-Based Parallelism}
+\section{Column-Wise Parallelism}
 This algorithm distributes the non-zero elements of a sparse matrix among
 different processes, enabling parallel computation focused on each non-zero
 element.
 
-\begin{algorithm}[H]
-    \caption{MPI Element-based parallel sparse matrix-vector multiplication}
-    \begin{algorithmic}[1]
-        \Procedure{MPIElementBasedMult}{$M$, $v$}
-        \State Initialize MPI and determine rank and size
-        \State Distribute non-zero elements of $M$ among processes
-        \State Scatter vector $v$ to all processes
-        \State Each process initializes a local result vector $r_{local}$
-        \For{each assigned non-zero element $M_{ij}$}
-        \State Compute the product of $M_{ij}$ and $v_j$
-        \State Use MPI atomic operations to add to $r_{local}$
+\begin{algorithm}
+    \caption{Column-wise Parallelization using MPI for Sparse Matrix-Fat Vector Multiplication}
+    \begin{algorithmic}
+        \Require $M$ is an $m \times n$ sparse matrix
+        \Require $v$ is an $n \times k$ vector
+        \Require $numProcs$ is the number of processes
+        \Require $rank$ is the rank of the current process
+        \Ensure  $PartialResult$ is a part of the $m \times k$ matrix computed by this process
+
+        \State $colsPerProc \gets k / numProcs$
+        \State $startCol \gets rank \times colsPerProc$
+        \State $endCol \gets startCol + colsPerProc$
+        \State $PartialResult \gets$ zero matrix of size $m \times colsPerProc$
+
+        \For{$i \gets 0$ \textbf{to} $m-1$}
+        \For{each non-zero element $(j, \text{value})$ in row $i$ of $M$}
+        \For{$l \gets startCol$ \textbf{to} $endCol-1$}
+        \State $PartialResult[i][l - startCol] \gets PartialResult[i][l - startCol] + (\text{value} \times v[j][l])$
         \EndFor
-        \State Reduce all $r_{local}$ to form final result vector $r$
-        \State \textbf{return} $r$
-        \EndProcedure
+        \EndFor
+        \EndFor
+
+        \If{$rank \neq 0$}
+        \State Send $PartialResult$ to process $0$
+        \Else
+        \State $FinalResult \gets$ zero matrix of size $m \times k$
+        \State Copy $PartialResult$ into appropriate position in $FinalResult$
+        \For{$p \gets 1$ \textbf{to} $numProcs-1$}
+        \State Receive partial $PartialResult$ from process $p$
+        \State Copy received $PartialResult$ into appropriate position in $FinalResult$
+        \EndFor
+        \EndIf
+
+        \State \textbf{if} $rank = 0$ \textbf{then} \Return $FinalResult$
     \end{algorithmic}
 \end{algorithm}
 
@@ -414,30 +449,48 @@ element.
 \end{itemize}
 
 \newpage
-\section{Hybrid Parallelism (Lines and Non-Zero Elements)}
+\section{Non-Zero Element Parallelism}
 This algorithm combines line-based and non-zero element-based approaches by
 distributing chunks of rows to each process and then performing parallel
 computations on the non-zero elements within those chunks.
 
-\begin{algorithm}[H]
-    \caption{MPI Hybrid parallel sparse matrix-vector multiplication}
-    \begin{algorithmic}[1]
-        \Procedure{MPIHybridParallelMult}{$M$, $v$}
-        \State Initialize MPI and determine rank and size
-        \State Scatter chunks of rows of $M$ to each process
-        \State Scatter vector $v$ to all processes
-        \State Each process initializes a local result vector $r_{local}$
-        \For{each row chunk}
-        \For{each non-zero element $M_{ij}$ in the chunk}
-        \State Compute the product of $M_{ij}$ and $v_j$
-        \State Add to $r_{local}$
+\begin{algorithm}
+    \caption{Non-Zero Element Parallelization using MPI for Sparse Matrix-Fat Vector Multiplication}
+    \begin{algorithmic}
+        \Require $M$ is an $m \times n$ sparse matrix stored in a format that allows iterating over non-zero elements (e.g., COO, CSR)
+        \Require $v$ is an $n \times k$ vector
+        \Require $numProcs$ is the number of processes
+        \Require $rank$ is the rank of the current process
+        \Ensure  $PartialResult$ is a part of the $m \times k$ matrix computed by this process
+
+        \State $numNonZeroElements \gets$ total number of non-zero elements in $M$
+        \State $elementsPerProc \gets numNonZeroElements / numProcs$
+        \State $startIndex \gets rank \times elementsPerProc$
+        \State $endIndex \gets startIndex + elementsPerProc$
+        \State $PartialResult \gets$ zero matrix of size $m \times k$
+
+        \State $NonZeroElements \gets$ list of non-zero elements in $M$ from $startIndex$ to $endIndex - 1$
+        \For{each $(i, j, \text{value})$ in $NonZeroElements$}
+            \For{$l \gets 0$ \textbf{to} $k-1$}
+                \State $PartialResult[i][l] \gets PartialResult[i][l] + (\text{value} \times v[j][l])$
+            \EndFor
         \EndFor
-        \EndFor
-        \State Gather all $r_{local}$ into the final result vector $r$
-        \State \textbf{return} $r$
-        \EndProcedure
+
+        \If{$rank \neq 0$}
+            \State Send $PartialResult$ to process $0$
+        \Else
+            \State $FinalResult \gets$ zero matrix of size $m \times k$
+            \State Copy $PartialResult$ into $FinalResult$
+            \For{$p \gets 1$ \textbf{to} $numProcs-1$}
+                \State Receive partial $PartialResult$ from process $p$
+                \State Add received $PartialResult$ into $FinalResult$
+            \EndFor
+        \EndIf
+
+        \State \textbf{if} $rank = 0$ \textbf{then} \Return $FinalResult$
     \end{algorithmic}
 \end{algorithm}
+
 
 \subsection{Complexity Analysis}
 \subsubsection{Temporal Complexity}
