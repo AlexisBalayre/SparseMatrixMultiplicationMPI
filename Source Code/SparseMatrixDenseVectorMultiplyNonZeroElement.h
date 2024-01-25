@@ -13,6 +13,6 @@
  * @param vecCols  Number of columns in the dense vector
  * @return DenseVector  Result of the multiplication
  */
-DenseVector sparseMatrixDenseVectorMultiplyNonZeroElement(const SparseMatrix &sparseMatrix, const DenseVector &denseVector);
+DenseVector sparseMatrixDenseVectorMultiplyNonZeroElement(const SparseMatrix &sparseMatrix, const DenseVector &denseVector, int numRows, int numCols, int vecCols);
 
 #endif

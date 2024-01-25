@@ -176,7 +176,7 @@ int main(int argc, char *argv[])
 
     // Parallel multiplication (non-zero element)
     auto startParallelNonZeroElement = std::chrono::high_resolution_clock::now();
-    DenseVector resultParallelNonZeroElement = sparseMatrixDenseVectorMultiplyNonZeroElement(M, v);
+    DenseVector resultParallelNonZeroElement = sparseMatrixDenseVectorMultiplyNonZeroElement(M, v, m, n, k);
     auto stopParallelNonZeroElement = std::chrono::high_resolution_clock::now();
     auto durationParallelNonZeroElement = std::chrono::duration_cast<std::chrono::milliseconds>(stopParallelNonZeroElement - startParallelNonZeroElement);
 
