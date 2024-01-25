@@ -46,29 +46,24 @@ DenseVector sparseMatrixDenseVectorMultiplyColumnWise(const SparseMatrix &sparse
     }
 
     // Gather operation preparation:
-    std::vector<int> localResultSizes(worldSize), displacements(worldSize);
+    std::vector<int> recvCounts(worldSize), displacements(worldSize);
     int localSize = numRows * (endCol - startCol);
-    MPI_Allgather(&localSize, 1, MPI_INT, localResultSizes.data(), 1, MPI_INT, MPI_COMM_WORLD);
- 
+    MPI_Allgather(&localSize, 1, MPI_INT, recvCounts.data(), 1, MPI_INT, MPI_COMM_WORLD);
+
     // Calculate displacements for each process's data in the gathered array
     int displacement = 0;
     for (int i = 0; i < worldSize; ++i)
     {
         displacements[i] = displacement;
-        displacement += localResultSizes[i];
+        displacement += recvCounts[i];
     }
 
     // Gather all local results into the root process
-    std::vector<double> gatheredResults;
-    if (worldRank == 0)
-    {
-        gatheredResults.resize(displacement);
-    }
+    std::vector<double> gatheredResults(displacement);
     MPI_Gatherv(localResult.data(), localSize, MPI_DOUBLE,
-                gatheredResults.data(), localResultSizes.data(),
+                gatheredResults.data(), recvCounts.data(),
                 displacements.data(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-    // Remodeler le résultat global en DenseVector
     // Reconstruct the final result matrix in the root process
     DenseVector finalResult(numRows, std::vector<double>(vecCols, 0.0));
     if (worldRank == 0)
