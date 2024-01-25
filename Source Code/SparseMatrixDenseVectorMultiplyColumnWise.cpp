@@ -25,7 +25,7 @@ DenseVector sparseMatrixDenseVectorMultiplyColumnWise(const SparseMatrix &sparse
     int endCol = startCol + colsPerProcess + (worldRank < extraCols ? 1 : 0);
 
     // Efficient Memory Allocation for Local Result
-    DenseVector localResult(numRows, std::vector<double>(endCol - startCol, 0.0));
+    std::vector<double> localResult(numRows * (endCol - startCol), 0.0);
 
     // Optimized Local Computation
     for (int col = startCol; col < endCol; ++col)
@@ -41,7 +41,7 @@ DenseVector sparseMatrixDenseVectorMultiplyColumnWise(const SparseMatrix &sparse
                     sum += sparseMatrix.values[j] * denseVector[sparseCol][col];
                 }
             }
-            localResult[i][col - startCol] = sum;
+            localResult[i * (endCol - startCol) + (col - startCol)] = sum;
         }
     }
 
@@ -49,15 +49,7 @@ DenseVector sparseMatrixDenseVectorMultiplyColumnWise(const SparseMatrix &sparse
     std::vector<int> localResultSizes(worldSize), displacements(worldSize);
     int localSize = numRows * (endCol - startCol);
     MPI_Allgather(&localSize, 1, MPI_INT, localResultSizes.data(), 1, MPI_INT, MPI_COMM_WORLD);
-
-    // Flatten the localResult matrix for MPI_Gatherv
-    std::vector<double> flatLocalResult(localSize); // flatLocalResult stores the flattened local resul
-    // Copy the local result to the flatLocalResult using std::copy
-    for (int i = 0; i < numRows; ++i)
-    {
-        std::copy(localResult[i].begin(), localResult[i].end(), flatLocalResult.begin() + i * (endCol - startCol));
-    }
-
+ 
     // Calculate displacements for each process's data in the gathered array
     int displacement = 0;
     for (int i = 0; i < worldSize; ++i)
@@ -72,15 +64,15 @@ DenseVector sparseMatrixDenseVectorMultiplyColumnWise(const SparseMatrix &sparse
     {
         gatheredResults.resize(displacement);
     }
-    MPI_Gatherv(flatLocalResult.data(), localSize, MPI_DOUBLE,
+    MPI_Gatherv(localResult.data(), localSize, MPI_DOUBLE,
                 gatheredResults.data(), localResultSizes.data(),
                 displacements.data(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
+    // Remodeler le résultat global en DenseVector
     // Reconstruct the final result matrix in the root process
-    DenseVector finalResult;
+    DenseVector finalResult(numRows, std::vector<double>(vecCols, 0.0));
     if (worldRank == 0)
     {
-        finalResult.resize(numRows, std::vector<double>(vecCols, 0.0));
         int resultIndex = 0;
         for (int rank = 0; rank < worldSize; ++rank)
         {
