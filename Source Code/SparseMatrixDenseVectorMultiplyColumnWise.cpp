@@ -21,11 +21,13 @@ DenseVector sparseMatrixDenseVectorMultiplyColumnWise(const SparseMatrix &sparse
     // Improved Workload Distribution
     int colsPerProcess = vecCols / worldSize;
     int extraCols = vecCols % worldSize;
-    int startCol = worldRank * (colsPerProcess + (worldRank < extraCols ? 1 : 0));
-    int endCol = startCol + colsPerProcess + (worldRank < extraCols ? 1 : 0);
+
+    int startCol = worldRank * colsPerProcess;
+    int endCol = (worldRank != worldSize - 1) ? startCol + colsPerProcess : startCol + colsPerProcess + extraCols;
 
     // Efficient Memory Allocation for Local Result
-    std::vector<double> localResult(numRows * (endCol - startCol), 0.0);
+    int localSize = numRows * (endCol - startCol);
+    std::vector<double> localResult(localSize, 0.0);
 
     // Optimized Local Computation
     for (int col = startCol; col < endCol; ++col)
@@ -36,10 +38,7 @@ DenseVector sparseMatrixDenseVectorMultiplyColumnWise(const SparseMatrix &sparse
             for (int j = sparseMatrix.rowPtr[i]; j < sparseMatrix.rowPtr[i + 1]; ++j)
             {
                 int sparseCol = sparseMatrix.colIndices[j];
-                if (sparseCol < numCols)
-                {
-                    sum += sparseMatrix.values[j] * denseVector[sparseCol][col];
-                }
+                sum += sparseMatrix.values[j] * denseVector[sparseCol][col];
             }
             localResult[i * (endCol - startCol) + (col - startCol)] = sum;
         }
@@ -47,7 +46,6 @@ DenseVector sparseMatrixDenseVectorMultiplyColumnWise(const SparseMatrix &sparse
 
     // Gather operation preparation:
     std::vector<int> recvCounts(worldSize), displacements(worldSize);
-    int localSize = numRows * (endCol - startCol);
     MPI_Allgather(&localSize, 1, MPI_INT, recvCounts.data(), 1, MPI_INT, MPI_COMM_WORLD);
 
     // Calculate displacements for each process's data in the gathered array
@@ -71,8 +69,8 @@ DenseVector sparseMatrixDenseVectorMultiplyColumnWise(const SparseMatrix &sparse
         int resultIndex = 0;
         for (int rank = 0; rank < worldSize; ++rank)
         {
-            int numColsThisRank = (rank < extraCols) ? (colsPerProcess + 1) : colsPerProcess;
-            int startColThisRank = rank * colsPerProcess + std::min(rank, extraCols);
+            int numColsThisRank = (rank != worldSize - 1) ? colsPerProcess : colsPerProcess + extraCols;
+            int startColThisRank = rank * colsPerProcess;
 
             for (int row = 0; row < numRows; ++row)
             {
@@ -84,5 +82,7 @@ DenseVector sparseMatrixDenseVectorMultiplyColumnWise(const SparseMatrix &sparse
         }
     }
 
-    return (worldRank == 0) ? finalResult : DenseVector{};
+    return (worldRank == 0)
+               ? finalResult
+               : DenseVector{};
 }

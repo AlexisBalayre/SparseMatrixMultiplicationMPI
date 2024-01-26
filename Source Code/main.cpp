@@ -91,16 +91,15 @@ int main(int argc, char *argv[])
         auto stopSerial = std::chrono::high_resolution_clock::now();
         auto durationSerial = std::chrono::duration_cast<std::chrono::milliseconds>(stopSerial - startSerial);
         std::cout << "Serial Execution time: " << durationSerial.count() << " milliseconds" << std::endl;
-        /*  std::cout << "Result: " << std::endl;
-         for (int i = 0; i < m; ++i)
-         {
-             for (int j = 0; j < k; ++j)
-             {
-                 std::cout << resultSerial[i][j] << " ";
-             }
-             std::cout << std::endl;
-         }
-          */
+        /* std::cout << "Result: " << std::endl;
+        for (int i = 0; i < m; ++i)
+        {
+            for (int j = 0; j < k; ++j)
+            {
+                std::cout << resultSerial[i][j] << " ";
+            }
+            std::cout << std::endl;
+        } */
     }
 
     // Parallel multiplication (row-wise)
@@ -118,7 +117,7 @@ int main(int argc, char *argv[])
         {
             for (int j = 0; j < k; ++j)
             {
-                std::cout << resultParallel[i][j] << " ";
+                std::cout << resultParallelRowWise[i][j] << " ";
             }
             std::cout << std::endl;
         } */
@@ -156,7 +155,8 @@ int main(int argc, char *argv[])
             {
                 std::cout << resultParallelColumnWise[i][j] << " ";
             }
-            std::cout << std::endl; */
+            std::cout << std::endl;
+        } */
 
         // Verify that the results are the same: Model: Serial
         bool sameResult = true;
