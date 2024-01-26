@@ -1,5 +1,7 @@
 #include <mpi.h>
 #include "SparseMatrixDenseVectorMultiplyColumnWise.h"
+#include <numeric>  // Pour std::accumulate
+
 
 /**
  * @brief Function to execute the sparse matrix-dense vector multiplication using column-wise parallel algorithm
@@ -44,28 +46,36 @@ DenseVector sparseMatrixDenseVectorMultiplyColumnWise(const SparseMatrix &sparse
         }
     }
 
-    // Gather operation preparation:
+    // Preparation for Gather operation:
     std::vector<int> recvCounts(worldSize), displacements(worldSize);
-    MPI_Allgather(&localSize, 1, MPI_INT, recvCounts.data(), 1, MPI_INT, MPI_COMM_WORLD);
-
-    // Calculate displacements for each process's data in the gathered array
-    int displacement = 0;
-    for (int i = 0; i < worldSize; ++i)
+    if (worldRank == 0)
     {
-        displacements[i] = displacement;
-        displacement += recvCounts[i];
+        int displacement = 0;
+        for (int i = 0; i < worldSize; ++i)
+        {
+            int startColThisRank = i * colsPerProcess;
+            int endColThisRank = (i != worldSize - 1) ? startColThisRank + colsPerProcess : startColThisRank + colsPerProcess + extraCols;
+            recvCounts[i] = numRows * (endColThisRank - startColThisRank);
+            displacements[i] = displacement;
+            displacement += recvCounts[i];
+        }
     }
 
     // Gather all local results into the root process
-    std::vector<double> gatheredResults(displacement);
+    std::vector<double> gatheredResults;
+    if (worldRank == 0)
+    {
+        gatheredResults.resize(std::accumulate(recvCounts.begin(), recvCounts.end(), 0));
+    }
     MPI_Gatherv(localResult.data(), localSize, MPI_DOUBLE,
                 gatheredResults.data(), recvCounts.data(),
                 displacements.data(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     // Reconstruct the final result matrix in the root process
-    DenseVector finalResult(numRows, std::vector<double>(vecCols, 0.0));
+    DenseVector finalResult;
     if (worldRank == 0)
     {
+        finalResult.resize(numRows, std::vector<double>(vecCols, 0.0));
         int resultIndex = 0;
         for (int rank = 0; rank < worldSize; ++rank)
         {

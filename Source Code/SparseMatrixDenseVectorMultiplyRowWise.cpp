@@ -43,28 +43,36 @@ DenseVector sparseMatrixDenseVectorMultiplyRowWise(const SparseMatrix &sparseMat
         }
     }
 
-    // Gather operation preparation:
+    // Préparation pour MPI_Gatherv
     std::vector<int> recvCounts(worldSize), displacements(worldSize);
-    MPI_Allgather(&localSize, 1, MPI_INT, recvCounts.data(), 1, MPI_INT, MPI_COMM_WORLD); // Collect local result sizes
-
-    // Calculate displacements for each process's data in the gathered array
-    int displacement = 0;
-    for (int i = 0; i < worldSize; ++i)
-    {
-        displacements[i] = displacement; // Displacement for the current process
-        displacement += recvCounts[i];   // Update the displacement
-    }
-
-    // Gather all local results inato the root process
-    std::vector<double> gatheredResults(displacement); // Flat vector to store the final result
-    MPI_Gatherv(localResult.data(), localSize, MPI_DOUBLE,
-                gatheredResults.data(), recvCounts.data(),
-                displacements.data(), MPI_DOUBLE, 0, MPI_COMM_WORLD); // Gather all local results into the root process
-
-    // Reconstruct the final result matrix in the root process
-    DenseVector finalResult(numRows, std::vector<double>(vecCols, 0.0));
     if (worldRank == 0)
     {
+        int totalSize = 0;
+        for (int rank = 0; rank < worldSize; ++rank)
+        {
+            int startRowThisRank = rank * rowsCountPerProcess + std::min(rank, extraRows);
+            int endRowThisRank = startRowThisRank + rowsCountPerProcess + (rank < extraRows ? 1 : 0);
+            recvCounts[rank] = (endRowThisRank - startRowThisRank) * vecCols;
+            displacements[rank] = totalSize;
+            totalSize += recvCounts[rank];
+        }
+    }
+
+    // Gather all local results into the root process
+    std::vector<double> gatheredResults;
+    if (worldRank == 0)
+    {
+        gatheredResults.resize(recvCounts[0] * worldSize); // Assurez-vous que la taille est suffisante
+    }
+    MPI_Gatherv(localResult.data(), localSize, MPI_DOUBLE,
+                gatheredResults.data(), recvCounts.data(),
+                displacements.data(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+    // Reconstruct the final result matrix in the root process
+    DenseVector finalResult;
+    if (worldRank == 0)
+    {
+        finalResult.resize(numRows, std::vector<double>(vecCols, 0.0)); // Initialize the final result vector
         // Iterate over the rows of the final result matrix
         for (int i = 0, index = 0; i < numRows; ++i)
         {
