@@ -14,7 +14,6 @@
  * @return DenseVector  Result of the multiplication
  */
 DenseVector sparseMatrixDenseVectorMultiply(const SparseMatrix &sparseMatrix,
-                                            const DenseVector &denseVector,
-                                            int numRows, int numCols, int vecCols);
+                                            const DenseVector &denseVector, int vecCols);
 
 #endif
