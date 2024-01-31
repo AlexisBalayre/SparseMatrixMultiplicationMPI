@@ -6,27 +6,28 @@
  *
  * @param sparseMatrix  The sparse matrix to be multiplied
  * @param denseVector  The dense vector to be multiplied
- * @param numRows   Number of rows in the sparse matrix
- * @param numCols  Number of columns in the sparse matrix
  * @param vecCols  Number of columns in the dense vector
  * @return DenseVector Result of the multiplication
  */
 DenseVector sparseMatrixDenseVectorMultiplyRowWise(const SparseMatrix &sparseMatrix,
                                                    const DenseVector &denseVector,
-                                                   int numRows, int numCols, int vecCols)
+                                                   int vecCols)
 {
     // MPI Initialisation
-    int worldSize, worldRank;                  // Total number of processes and the rank of the current process
-    MPI_Comm_size(MPI_COMM_WORLD, &worldSize); // Get the total number of processes
-    MPI_Comm_rank(MPI_COMM_WORLD, &worldRank); // Get the rank of the current process
+    int worldSize, worldRank;
+    MPI_Comm_size(MPI_COMM_WORLD, &worldSize);
+    MPI_Comm_rank(MPI_COMM_WORLD, &worldRank);
 
-    int rowsCountPerProcess = numRows / worldSize; // Number of rows to be processed by each process
-    int extraRows = numRows % worldSize;           // Number of processes that will process one extra row
+    /*  // Start timing for computation
+     double computation_start = MPI_Wtime(); */
+
+    int rowsCountPerProcess = sparseMatrix.numRows / worldSize;
+    int extraRows = sparseMatrix.numRows % worldSize;
 
     int startRow = worldRank * rowsCountPerProcess + std::min(worldRank, extraRows);
     int endRow = startRow + rowsCountPerProcess + (worldRank < extraRows ? 1 : 0);
 
-    // Local computation: each process computes its portion of the result
+    // Local computation
     int localSize = (endRow - startRow) * vecCols;
     std::vector<double> localResult(localSize);
 
@@ -43,7 +44,14 @@ DenseVector sparseMatrixDenseVectorMultiplyRowWise(const SparseMatrix &sparseMat
         }
     }
 
-    // Préparation pour MPI_Gatherv
+    /* // End timing for computation
+    double computation_end = MPI_Wtime();
+    double local_computation_time = computation_end - computation_start;
+
+    // Start timing for communication
+    double communication_start = MPI_Wtime(); */
+
+    // Preparation for MPI_Gatherv
     std::vector<int> recvCounts(worldSize), displacements(worldSize);
     if (worldRank == 0)
     {
@@ -62,28 +70,39 @@ DenseVector sparseMatrixDenseVectorMultiplyRowWise(const SparseMatrix &sparseMat
     std::vector<double> gatheredResults;
     if (worldRank == 0)
     {
-        gatheredResults.resize(recvCounts[0] * worldSize); // Assurez-vous que la taille est suffisante
+        gatheredResults.resize(recvCounts[0] * worldSize);
     }
     MPI_Gatherv(localResult.data(), localSize, MPI_DOUBLE,
                 gatheredResults.data(), recvCounts.data(),
                 displacements.data(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
+    /*  // End timing for communication
+     double communication_end = MPI_Wtime();
+     double local_communication_time = communication_end - communication_start;
+
+     // Collecting and analyzing performance data
+     double total_computation_time = 0.0, total_communication_time = 0.0;
+     MPI_Reduce(&local_computation_time, &total_computation_time, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+     MPI_Reduce(&local_communication_time, &total_communication_time, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD); */
+
     // Reconstruct the final result matrix in the root process
     DenseVector finalResult;
     if (worldRank == 0)
     {
-        finalResult.resize(numRows, std::vector<double>(vecCols, 0.0)); // Initialize the final result vector
-        // Iterate over the rows of the final result matrix
-        for (int i = 0, index = 0; i < numRows; ++i)
+        /* double avg_computation_time = total_computation_time / worldSize;
+        double avg_communication_time = total_communication_time / worldSize;
+        std::cout << "Row-wise Average Computation Time: " << avg_computation_time << std::endl;
+        std::cout << "Row-wise Average Communication Time: " << avg_communication_time << std::endl; */
+
+        finalResult.resize(sparseMatrix.numRows, std::vector<double>(vecCols, 0.0));
+        for (int i = 0, index = 0; i < sparseMatrix.numRows; ++i)
         {
-            // Iterate over the columns of the final result matrix
             for (int j = 0; j < vecCols; ++j, ++index)
             {
-                finalResult[i][j] = gatheredResults[index]; // Reconstruct the final result matrix
+                finalResult[i][j] = gatheredResults[index];
             }
         }
     }
 
-    // Return the final result in the root process, empty matrix in others
     return (worldRank == 0) ? finalResult : DenseVector{};
 }

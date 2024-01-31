@@ -6,23 +6,24 @@
  *
  * @param sparseMatrix  Sparse matrix
  * @param denseVector  Dense vector
- * @param numRows  Number of rows in the sparse matrix
- * @param numCols  Number of columns in the sparse matrix
  * @param vecCols  Number of columns in the dense vector
  * @return DenseVector  Result of the multiplication
  */
-DenseVector sparseMatrixDenseVectorMultiplyNonZeroElement(const SparseMatrix &sparseMatrix, const DenseVector &denseVector, int numRows, int numCols, int vecCols)
+DenseVector sparseMatrixDenseVectorMultiplyNonZeroElement(const SparseMatrix &sparseMatrix, const DenseVector &denseVector, int vecCols)
 {
     // MPI Initialisation
-    int worldSize, worldRank;                  // Number of processes and rank of the current process
-    MPI_Comm_size(MPI_COMM_WORLD, &worldSize); // Get the total number of processes
-    MPI_Comm_rank(MPI_COMM_WORLD, &worldRank); // Get the rank of the current process
+    int worldSize, worldRank;
+    MPI_Comm_size(MPI_COMM_WORLD, &worldSize);
+    MPI_Comm_rank(MPI_COMM_WORLD, &worldRank);
+
+    /* // Start timing for computation
+    double computation_start = MPI_Wtime(); */
 
     // Distribute non-zero elements among processes
-    int totalNonZeroElements = sparseMatrix.values.size();     // Total number of non-zero elements
-    int elementsPerProcess = totalNonZeroElements / worldSize; // Number of non-zero elements to be processed by each process
-    int extraElements = totalNonZeroElements % worldSize;      // Number of processes that will process one extra non-zero element
-    int startIdx, endIdx;                                      // Starting and ending indices of the non-zero elements for the current process
+    int totalNonZeroElements = sparseMatrix.values.size();
+    int elementsPerProcess = totalNonZeroElements / worldSize;
+    int extraElements = totalNonZeroElements % worldSize;
+    int startIdx, endIdx;
 
     // Determine the starting and ending indices of the non-zero elements for the current process
     if (worldRank < extraElements)
@@ -37,53 +38,68 @@ DenseVector sparseMatrixDenseVectorMultiplyNonZeroElement(const SparseMatrix &sp
     }
 
     // Precompute the row index mapping
-    std::vector<int> rowIndexMap(sparseMatrix.values.size()); // Stores the row index of each non-zero element
-    // Iterate over the rows of the sparse matrix
+    std::vector<int> rowIndexMap(sparseMatrix.values.size());
     for (int row = 0, idx = 0; row < sparseMatrix.rowPtr.size() - 1; ++row)
     {
-        // Iterate over the non-zero elements in the current row
         for (; idx < sparseMatrix.rowPtr[row + 1]; ++idx)
         {
-            rowIndexMap[idx] = row; // Store the row index of the current non-zero element
+            rowIndexMap[idx] = row;
         }
     }
 
     // Compute the multiplication for assigned non-zero elements
-    std::vector<double> localResult(numRows * vecCols, 0.0); // Local result vector
-    // Iterate over the non-zero elements assigned to the current process
+    std::vector<double> localResult(sparseMatrix.numRows * vecCols, 0.0);
     for (int idx = startIdx; idx < endIdx; ++idx)
     {
-        int row = rowIndexMap[idx];              // Row index of the current non-zero element
-        int col = sparseMatrix.colIndices[idx];  // Column index of the current non-zero element
-        double value = sparseMatrix.values[idx]; // Value of the current non-zero element
-
-        // Iterate over the columns of the dense vector
+        int row = rowIndexMap[idx];
+        int col = sparseMatrix.colIndices[idx];
+        double value = sparseMatrix.values[idx];
         for (int k = 0; k < vecCols; ++k)
         {
-            localResult[row * vecCols + k] += value * denseVector[col][k]; // Compute the local result
+            localResult[row * vecCols + k] += value * denseVector[col][k];
         }
     }
+
+    /* // End timing for computation
+    double computation_end = MPI_Wtime();
+    double local_computation_time = computation_end - computation_start;
+
+    // Start timing for communication
+    double communication_start = MPI_Wtime(); */
 
     // Initialize the final result only in the root process
     DenseVector finalResult;
     if (worldRank == 0)
     {
-        finalResult.resize(numRows, std::vector<double>(vecCols, 0.0)); // Initialize the final result vector
+        finalResult.resize(sparseMatrix.numRows, std::vector<double>(vecCols, 0.0));
     }
 
     // Gather the local results in the root process
-    std::vector<double> flatFinalResult(numRows * vecCols, 0.0);                                                       // Flat vector to store the final result
-    MPI_Reduce(localResult.data(), flatFinalResult.data(), numRows * vecCols, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD); // Gather the local results in the root process
+    std::vector<double> flatFinalResult(sparseMatrix.numRows * vecCols, 0.0);
+    MPI_Reduce(localResult.data(), flatFinalResult.data(), sparseMatrix.numRows * vecCols, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
+    /* // End timing for communication
+    double communication_end = MPI_Wtime();
+    double local_communication_time = communication_end - communication_start;
+
+    // Collecting and analyzing performance data
+    double total_computation_time = 0.0, total_communication_time = 0.0;
+    MPI_Reduce(&local_computation_time, &total_computation_time, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&local_communication_time, &total_communication_time, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+ */
     // Reconstruct the finalResult from flatFinalResult in the root process
     if (worldRank == 0)
     {
-        // Iterate over the rows of the final result
-        for (int i = 0; i < numRows; ++i)
+        /* double avg_computation_time = total_computation_time / worldSize;
+        double avg_communication_time = total_communication_time / worldSize;
+        std::cout << "Non-zero elements Average Computation Time: " << avg_computation_time << std::endl;
+        std::cout << "Non-zero elements Average Communication Time: " << avg_communication_time << std::endl; */
+
+        for (int i = 0; i < sparseMatrix.numRows; ++i)
         {
-            std::copy(flatFinalResult.begin() + i * vecCols, flatFinalResult.begin() + (i + 1) * vecCols, finalResult[i].begin()); // Copy the current row of flatFinalResult into the final result
+            std::copy(flatFinalResult.begin() + i * vecCols, flatFinalResult.begin() + (i + 1) * vecCols, finalResult[i].begin());
         }
     }
 
-    return (worldRank == 0) ? finalResult : DenseVector{}; // Return the final result only in the root process
+    return (worldRank == 0) ? finalResult : DenseVector{};
 }
