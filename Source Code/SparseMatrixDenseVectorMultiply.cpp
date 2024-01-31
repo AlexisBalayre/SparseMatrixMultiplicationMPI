@@ -11,12 +11,10 @@
 DenseVector sparseMatrixDenseVectorMultiply(const SparseMatrix &sparseMatrix,
                                             const DenseVector &denseVector, int vecCols)
 {
-    int m = sparseMatrix.numRows; // Number of rows in the sparse matrix
-
     // Initialisation of the result vector
-    DenseVector result(m, std::vector<double>(vecCols, 0.0));
+    DenseVector result(sparseMatrix.numRows, std::vector<double>(vecCols, 0.0));
     // Iterate over the rows of the sparse matrix
-    for (int i = 0; i < m; ++i)
+    for (int i = 0; i < sparseMatrix.numRows; ++i)
     {
         // Iterate over the non-zero elements in the current row
         for (int j = sparseMatrix.rowPtr[i]; j < sparseMatrix.rowPtr[i + 1]; ++j)
