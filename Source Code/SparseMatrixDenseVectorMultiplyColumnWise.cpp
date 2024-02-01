@@ -12,7 +12,7 @@
  */
 DenseVector sparseMatrixDenseVectorMultiplyColumnWise(const SparseMatrix &sparseMatrix, const DenseVector &denseVector, int vecCols)
 {
-    // MPI Initialization
+    // MPI Initialisation
     int worldSize, worldRank;
     MPI_Comm_size(MPI_COMM_WORLD, &worldSize);
     MPI_Comm_rank(MPI_COMM_WORLD, &worldRank);
@@ -21,29 +21,29 @@ DenseVector sparseMatrixDenseVectorMultiplyColumnWise(const SparseMatrix &sparse
     // double computation_start = MPI_Wtime();
     // =========================== FOR DEBUGGING ONLY - START LOCAL COMPUTATION TIMER ===============================
 
-    // Improved Workload Distribution
-    int colsPerProcess = vecCols / worldSize;
-    int extraCols = vecCols % worldSize;
+    // Distribute columns among processes
+    int colsPerProcess = vecCols / worldSize;                                                                      // Number of columns per process
+    int extraCols = vecCols % worldSize;                                                                           // Number of extra columns to be distributed among processes
+    int startCol = worldRank * colsPerProcess;                                                                     // Starting column index for the current process
+    int endCol = (worldRank != worldSize - 1) ? startCol + colsPerProcess : startCol + colsPerProcess + extraCols; // Ending column index for the current process
 
-    int startCol = worldRank * colsPerProcess;
-    int endCol = (worldRank != worldSize - 1) ? startCol + colsPerProcess : startCol + colsPerProcess + extraCols;
-
-    // Efficient Memory Allocation for Local Result
-    int localSize = sparseMatrix.numRows * (endCol - startCol);
+    // Local computation
+    int localSize = sparseMatrix.numRows * (endCol - startCol); // Number of elements in the local result vector
     std::vector<double> localResult(localSize, 0.0);
-
-    // Optimized Local Computation
+    // Iterate over the columns assigned to the current process
     for (int col = startCol; col < endCol; ++col)
     {
+        // Iterate over the rows of the sparse matrix
         for (int i = 0; i < sparseMatrix.numRows; ++i)
         {
+            // Iterate over the non-zero elements in the current row
             double sum = 0.0;
             for (int j = sparseMatrix.rowPtr[i]; j < sparseMatrix.rowPtr[i + 1]; ++j)
             {
-                int sparseCol = sparseMatrix.colIndices[j];
-                sum += sparseMatrix.values[j] * denseVector[sparseCol][col];
+                int sparseCol = sparseMatrix.colIndices[j];                  // Column index of the non-zero element
+                sum += sparseMatrix.values[j] * denseVector[sparseCol][col]; // Compute the result
             }
-            localResult[i * (endCol - startCol) + (col - startCol)] = sum;
+            localResult[i * (endCol - startCol) + (col - startCol)] = sum; // Store the result in the local result vector
         }
     }
 
@@ -58,17 +58,18 @@ DenseVector sparseMatrixDenseVectorMultiplyColumnWise(const SparseMatrix &sparse
     // =========================== FOR DEBUGGING ONLY - START COMMUNICATION TIMER ==================================
 
     // Preparation for Gather operation
-    std::vector<int> recvCounts(worldSize), displacements(worldSize);
+    std::vector<int> recvCounts(worldSize), displacements(worldSize); // Number of elements to be received from each process, Displacement for each process
     if (worldRank == 0)
     {
+        // Compute the number of elements to be received from each process
         int displacement = 0;
         for (int i = 0; i < worldSize; ++i)
         {
-            int startColThisRank = i * colsPerProcess;
-            int endColThisRank = (i != worldSize - 1) ? startColThisRank + colsPerProcess : startColThisRank + colsPerProcess + extraCols;
-            recvCounts[i] = sparseMatrix.numRows * (endColThisRank - startColThisRank);
-            displacements[i] = displacement;
-            displacement += recvCounts[i];
+            int startColThisRank = i * colsPerProcess;                                                                                     // Starting column index for the current process
+            int endColThisRank = (i != worldSize - 1) ? startColThisRank + colsPerProcess : startColThisRank + colsPerProcess + extraCols; // Ending column index for the current process
+            recvCounts[i] = sparseMatrix.numRows * (endColThisRank - startColThisRank);                                                    // Number of elements to be received from the current process
+            displacements[i] = displacement;                                                                                               // Displacement for the current process
+            displacement += recvCounts[i];                                                                                                 // Update the displacement
         }
     }
 
@@ -76,22 +77,22 @@ DenseVector sparseMatrixDenseVectorMultiplyColumnWise(const SparseMatrix &sparse
     std::vector<double> gatheredResults;
     if (worldRank == 0)
     {
-        gatheredResults.resize(std::accumulate(recvCounts.begin(), recvCounts.end(), 0));
+        gatheredResults.resize(std::accumulate(recvCounts.begin(), recvCounts.end(), 0)); // Resize the vector to hold the final result
     }
     MPI_Gatherv(localResult.data(), localSize, MPI_DOUBLE,
                 gatheredResults.data(), recvCounts.data(),
-                displacements.data(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
+                displacements.data(), MPI_DOUBLE, 0, MPI_COMM_WORLD); // Gather the local results in the root process
 
     // =========================== FOR DEBUGGING ONLY - STOP COMMUNICATION TIMER ===================================
     // double communication_end = MPI_Wtime();
     // double local_communication_time = communication_end - communication_start;
     // =========================== FOR DEBUGGING ONLY - STOP COMMUNICATION TIMER ===================================
 
-    // =========================== FOR DEBUGGING ONLY - COLLECTING AND ANALYZING PERFORMANCE DATA ==================
+    // =========================== FOR DEBUGGING ONLY - COLLECTING AND ANALYSING PERFORMANCE DATA ==================
     // double total_computation_time = 0.0, total_communication_time = 0.0;
     // MPI_Reduce(&local_computation_time, &total_computation_time, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
     // MPI_Reduce(&local_communication_time, &total_communication_time, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-    // =========================== FOR DEBUGGING ONLY - COLLECTING AND ANALYZING PERFORMANCE DATA ==================
+    // =========================== FOR DEBUGGING ONLY - COLLECTING AND ANALYSING PERFORMANCE DATA ==================
 
     // Reconstruct the final result matrix in the root process
     DenseVector finalResult;
@@ -104,22 +105,27 @@ DenseVector sparseMatrixDenseVectorMultiplyColumnWise(const SparseMatrix &sparse
         // std::cout << "Column-wise Average Communication Time: " << avg_communication_time << std::endl;
         // =========================== FOR DEBUGGING ONLY - PRINTING PERFORMANCE DATA =================================
 
-        finalResult.resize(sparseMatrix.numRows, std::vector<double>(vecCols, 0.0));
+        // Reconstruct the final result matrix
+        finalResult.resize(sparseMatrix.numRows, std::vector<double>(vecCols, 0.0)); // Resize the final result matrix
         int resultIndex = 0;
+        // Iterate over the processes
         for (int rank = 0; rank < worldSize; ++rank)
         {
-            int numColsThisRank = (rank != worldSize - 1) ? colsPerProcess : colsPerProcess + extraCols;
-            int startColThisRank = rank * colsPerProcess;
+            int numColsThisRank = (rank != worldSize - 1) ? colsPerProcess : colsPerProcess + extraCols; // Number of columns assigned to the current process
+            int startColThisRank = rank * colsPerProcess;                                                // Starting column index for the current process
 
+            // Iterate over the rows of the sparse matrix
             for (int row = 0; row < sparseMatrix.numRows; ++row)
             {
+                // Iterate over the columns assigned to the current process
                 for (int col = 0; col < numColsThisRank; ++col)
                 {
-                    finalResult[row][startColThisRank + col] = gatheredResults[resultIndex++];
+                    finalResult[row][startColThisRank + col] = gatheredResults[resultIndex++]; // Reconstruct the final result matrix
                 }
             }
         }
     }
 
+    // Return the final result
     return (worldRank == 0) ? finalResult : DenseVector{};
 }

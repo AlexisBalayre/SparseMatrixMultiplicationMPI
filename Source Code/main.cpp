@@ -6,6 +6,10 @@
 
 int main(int argc, char *argv[])
 {
+    // --------------------------------------------------------------------------------------------------------------
+    // ============================================= INITIALISATION =================================================
+    // --------------------------------------------------------------------------------------------------------------
+
     // Initialise MPI and PETSc
     MPI_Init(&argc, &argv);
     PetscInitialize(&argc, &argv, NULL, NULL);
@@ -33,13 +37,19 @@ int main(int argc, char *argv[])
     SparseMatrix M;
     DenseVector v;
 
-    std::vector<double> flatData;
-    int dataSize = 0;
-    double startTime, endTime;
-
     // Declare the result of the serial multiplication
     DenseVector resultSerial;
 
+    // Declare the data for broadcasting the sparse matrix and dense vector
+    std::vector<double> flatData;
+    int dataSize = 0;
+
+    // Declare the variables for timing the execution of the algorithms
+    double startTime, endTime;
+
+    // --------------------------------------------------------------------------------------------------------------
+    // =========================== READ THE SPARSE MATRIX AND GENERATE THE DENSE VECTOR =============================
+    // --------------------------------------------------------------------------------------------------------------
     if (worldRank == 0)
     {
         std::cout << "World size: " << worldSize << std::endl;   // Print the number of processes
@@ -56,7 +66,13 @@ int main(int argc, char *argv[])
         // Prepare the data for broadcasting
         flatData = serialize(v);    // Serialize the dense vector
         dataSize = flatData.size(); // Size of the serialized data
+    }
 
+    // --------------------------------------------------------------------------------------------------------------
+    // ==================================== EXECUTE THE SERIAL MULTIPLICATION =======================================
+    // --------------------------------------------------------------------------------------------------------------
+    if (worldRank == 0)
+    {
         // Execute the serial multiplication
         startTime = MPI_Wtime();
         resultSerial = sparseMatrixDenseVectorMultiply(M, v, k);
@@ -76,8 +92,16 @@ int main(int argc, char *argv[])
         // }
     }
 
+    // --------------------------------------------------------------------------------------------------------------
+    // ================================ BROADCAST THE SPARSE MATRIX AND DENSE VECTOR ================================
+    // --------------------------------------------------------------------------------------------------------------
+
     // Wait for the main process to finish the serial multiplication
     MPI_Barrier(MPI_COMM_WORLD);
+
+    // =========================== FOR DEBUGGING ONLY - START BROADCAST TIMER =====================================
+    // startTime = MPI_Wtime();
+    // =========================== FOR DEBUGGING ONLY - START BROADCAST TIMER =====================================
 
     // Broadcast the Sparse Matrix to all processes
     // Prepare the data for broadcasting
@@ -121,6 +145,18 @@ int main(int argc, char *argv[])
     // Wait for all processes to finish the broadcast
     MPI_Barrier(MPI_COMM_WORLD);
 
+    // =========================== FOR DEBUGGING ONLY - STOP BROADCAST TIMER =====================================
+    // endTime = MPI_Wtime();
+    // if (worldRank == 0)
+    // {
+    //     std::cout << "Broadcast time: " << (endTime - startTime) << std::endl;
+    // }
+    // =========================== FOR DEBUGGING ONLY - STOP BROADCAST TIMER =====================================
+
+    // --------------------------------------------------------------------------------------------------------------
+    // ========================= EXECUTE THE PARALLEL MULTIPLICATION (ROW-WISE) =====================================
+    // --------------------------------------------------------------------------------------------------------------
+
     // Execute the parallel multiplication (row-wise)
     startTime = MPI_Wtime();
     DenseVector resultRowWise = sparseMatrixDenseVectorMultiplyRowWise(M, v, k);
@@ -132,7 +168,7 @@ int main(int argc, char *argv[])
         std::cout << "Row-wise Execution time: " << (endTime - startTime)
                   << std::endl;
 
-        // FOR DEBUGGING ONLY - PRINT 10 FIRST ELEMENTS OF THE RESULT
+        // =========================== FOR DEBUGGING ONLY - PRINT 10 FIRST ELEMENTS  ==============================
         // std::cout << "Result: " << std::endl;
         // for (int i = 0; i < 10; ++i)
         // {
@@ -142,6 +178,7 @@ int main(int argc, char *argv[])
         //     }
         //     std::cout << std::endl;
         // }
+        // =========================== FOR DEBUGGING ONLY - PRINT 10 FIRST ELEMENTS  ==============================
 
         // Compare the results of the serial and parallel multiplications
         if (areMatricesEqual(resultSerial, resultRowWise, 1e-6)) // Tolerance = 1e-6
@@ -155,6 +192,10 @@ int main(int argc, char *argv[])
                       << std::endl;
         }
     }
+
+    // --------------------------------------------------------------------------------------------------------------
+    // ======================= EXECUTE THE PARALLEL MULTIPLICATION (COLUMN-WISE) ====================================
+    // --------------------------------------------------------------------------------------------------------------
 
     // Wait for all processes to finish the parallel multiplication (row-wise)
     MPI_Barrier(MPI_COMM_WORLD);
@@ -170,7 +211,7 @@ int main(int argc, char *argv[])
         std::cout << "Column-wise Execution time: " << (endTime - startTime)
                   << std::endl;
 
-        // FOR DEBUGGING ONLY - PRINT 10 FIRST ELEMENTS OF THE RESULT
+        // =========================== FOR DEBUGGING ONLY - PRINT 10 FIRST ELEMENTS  ==============================
         // std::cout << "Result: " << std::endl;
         // for (int i = 0; i < 10; ++i)
         // {
@@ -180,6 +221,7 @@ int main(int argc, char *argv[])
         //     }
         //     std::cout << std::endl;
         // }
+        // =========================== FOR DEBUGGING ONLY - PRINT 10 FIRST ELEMENTS  ==============================
 
         // Compare the results of the serial and parallel multiplications
         if (areMatricesEqual(resultSerial, resultColumnWise, 1e-6)) // Tolerance = 1e-6
@@ -193,6 +235,10 @@ int main(int argc, char *argv[])
                       << std::endl;
         }
     }
+
+    // --------------------------------------------------------------------------------------------------------------
+    // ========================== EXECUTE THE PARALLEL MULTIPLICATION (NON-ZERO ELEMENT) ============================
+    // --------------------------------------------------------------------------------------------------------------
 
     // Wait for all processes to finish the parallel multiplication (column-wise)
     MPI_Barrier(MPI_COMM_WORLD);
@@ -208,7 +254,7 @@ int main(int argc, char *argv[])
         std::cout << "Non-zero Elements Execution time: " << (endTime - startTime)
                   << std::endl;
 
-        // FOR DEBUGGING ONLY - PRINT 10 FIRST ELEMENTS OF THE RESULT
+        // =========================== FOR DEBUGGING ONLY - PRINT 10 FIRST ELEMENTS  ==============================
         // std::cout << "Result: " << std::endl;
         // for (int i = 0; i < 10; ++i)
         // {
@@ -218,6 +264,7 @@ int main(int argc, char *argv[])
         //     }
         //     std::cout << std::endl;
         // }
+        // =========================== FOR DEBUGGING ONLY - PRINT 10 FIRST ELEMENTS  ==============================
 
         // Compare the results of the serial and parallel multiplications
         if (areMatricesEqual(resultSerial, resultNonZeroElement, 1e-6)) // Tolerance = 1e-6
@@ -232,11 +279,19 @@ int main(int argc, char *argv[])
         }
     }
 
+    // --------------------------------------------------------------------------------------------------------------
+    // ================================== EXECUTE THE PARALLEL MULTIPLICATION (PETSc) ==============================
+    // --------------------------------------------------------------------------------------------------------------
+
     // Wait for all processes to finish the parallel multiplication (non-zero element)
     MPI_Barrier(MPI_COMM_WORLD);
 
     // Declare the PETSc matrix
     Mat A, B, C;
+
+    // =========================== FOR DEBUGGING ONLY - START PETSCS SETUP TIMER ========================================
+    // startTime = MPI_Wtime();
+    // =========================== FOR DEBUGGING ONLY - START PETSCS SETUP TIMER ========================================
 
     // Create a parallel matrix to store the sparse matrix
     MatCreate(PETSC_COMM_WORLD, &A);
@@ -278,12 +333,28 @@ int main(int argc, char *argv[])
     MatAssemblyBegin(B, MAT_FINAL_ASSEMBLY);
     MatAssemblyEnd(B, MAT_FINAL_ASSEMBLY);
 
-    // Create a parallel matrix to store the result of the multiplication
-    MatProductCreate(A, B, NULL, &C);
+    // =========================== FOR DEBUGGING ONLY - STOP PETSCS SETUP TIMER ========================================
+    // endTime = MPI_Wtime();
+    // if (worldRank == 0)
+    // {
+    //     std::cout << "PETSc Setup time: " << (endTime - startTime) << std::endl;
+    // }
+    // =========================== FOR DEBUGGING ONLY - STOP PETSCS SETUP TIMER ========================================
 
+    // Create a parallel matrix to store the result of the multiplication
     startTime = MPI_Wtime();
+    MatProductCreate(A, B, NULL, &C);
     MatMatMult(A, B, MAT_INITIAL_MATRIX, PETSC_DEFAULT, &C);
     endTime = MPI_Wtime();
+    if (worldRank == 0)
+    {
+        // Print the execution time
+        std::cout << "PETSc Execution time: " << (endTime - startTime) << std::endl;
+    }
+
+    // =========================== FOR DEBUGGING ONLY - START PETSCS CONVERSION TIMER ==================================
+    // startTime = MPI_Wtime();
+    // =========================== FOR DEBUGGING ONLY - START PETSCS CONVERSION TIMER ==================================
 
     // Create a sequential matrix to retrieve the result
     Mat CSeq;
@@ -291,13 +362,15 @@ int main(int argc, char *argv[])
 
     if (worldRank == 0)
     {
-        // Print the execution time
-        std::cout << "PETSc Execution time: " << (endTime - startTime) << std::endl;
-
         // Convert the result matrix C to a DenseVector
         DenseVector globalMatrix = ConvertPETScMatToDenseVector(CSeq);
 
-        // FOR DEBUGGING ONLY - PRINT 10 FIRST ELEMENTS OF THE RESULT
+        // =========================== FOR DEBUGGING ONLY - STOP PETSCS CONVERSION TIMER ===================================
+        // endTime = MPI_Wtime();
+        // std::cout << "PETSc Conversion time: " << (endTime - startTime) << std::endl;
+        // =========================== FOR DEBUGGING ONLY - STOP PETSCS CONVERSION TIMER ===================================
+
+        // =========================== FOR DEBUGGING ONLY - PRINT 10 FIRST ELEMENTS  ==============================
         // std::cout << "Result: " << std::endl;
         // for (int i = 0; i < 10; ++i)
         // {
@@ -307,6 +380,7 @@ int main(int argc, char *argv[])
         //     }
         //     std::cout << std::endl;
         // }
+        // =========================== FOR DEBUGGING ONLY - PRINT 10 FIRST ELEMENTS  ==============================
 
         // Compare the results of the serial and PETSc multiplications
         if (areMatricesEqual(resultSerial, globalMatrix, 1e-6)) // Tolerance = 1e-6
