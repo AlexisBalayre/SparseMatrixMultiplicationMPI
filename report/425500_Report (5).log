@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.14)  1 FEB 2024 10:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.14)  1 FEB 2024 18:28
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -587,30 +587,30 @@ Package: natbib 2010/09/13 8.31b (PWD, AO)
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count345
 )
-LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 152.
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 101.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 ) (./425500_Report.aux)
 \openout1 = `425500_Report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 152.
-LaTeX Font Info:    ... okay on input line 152.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 152.
-LaTeX Font Info:    ... okay on input line 152.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 152.
-LaTeX Font Info:    ... okay on input line 152.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 152.
-LaTeX Font Info:    ... okay on input line 152.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 152.
-LaTeX Font Info:    ... okay on input line 152.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 152.
-LaTeX Font Info:    ... okay on input line 152.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 152.
-LaTeX Font Info:    ... okay on input line 152.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 152.
-LaTeX Font Info:    ... okay on input line 152.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 152.
-LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
  (/usr/local/texlive/2023/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count346
@@ -675,7 +675,7 @@ Package caption Info: End \AtBeginDocument code.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 152.
+Package hyperref Info: Link coloring OFF on input line 101.
 (./425500_Report.out) (./425500_Report.out)
 \@outlinefile=\write3
 \openout3 = `425500_Report.out'.
@@ -683,30 +683,30 @@ Package hyperref Info: Link coloring OFF on input line 152.
 <CULogo.png, id=44, 125.268pt x 125.268pt>
 File: CULogo.png Graphic file (type png)
 <use CULogo.png>
-Package pdftex.def Info: CULogo.png  used on input line 157.
+Package pdftex.def Info: CULogo.png  used on input line 106.
 (pdftex.def)             Requested size: 125.26768pt x 125.26768pt.
-LaTeX Font Info:    Trying to load font information for OT1+ztmcm on input line 157.
+LaTeX Font Info:    Trying to load font information for OT1+ztmcm on input line 106.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
-LaTeX Font Info:    Trying to load font information for OML+ztmcm on input line 157.
+LaTeX Font Info:    Trying to load font information for OML+ztmcm on input line 106.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/omlztmcm.fd
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
-LaTeX Font Info:    Trying to load font information for OMS+ztmcm on input line 157.
+LaTeX Font Info:    Trying to load font information for OMS+ztmcm on input line 106.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/omsztmcm.fd
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
-LaTeX Font Info:    Trying to load font information for OMX+ztmcm on input line 157.
+LaTeX Font Info:    Trying to load font information for OMX+ztmcm on input line 106.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/omxztmcm.fd
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17.28> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 157.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 106.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 157.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 106.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 157.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 106.
  [1
 
 
@@ -714,83 +714,98 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
 {/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/base/8r.enc} <./CULogo.png>] [2
 
 
-] [3
-
 ] (./425500_Report.toc
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 8.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 6.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 8.
- [4
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 6.
+ [3
 
 
 ])
 \tf@toc=\write4
 \openout4 = `425500_Report.toc'.
 
- [5] (./425500_Report.lof)
+ [4] (./425500_Report.lof)
 \tf@lof=\write5
 \openout5 = `425500_Report.lof'.
 
- [6
+ [5
 
 
 ] (./425500_Report.lot)
 \tf@lot=\write6
 \openout6 = `425500_Report.lot'.
 
- [7
+ [6
 
 ]
 Chapter 1.
 [1
 
 
-]
+] [2]
 Chapter 2.
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 204.
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 233.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 198.
 (/usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [2
-
-] [3]
-LaTeX Font Info:    Trying to load font information for OMS+ptm on input line 264.
+)
+LaTeX Font Info:    Trying to load font information for OMS+ptm on input line 207.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 264.
- [4] [5] [6] [7] [8] [9] [10]
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 207.
+ [3
+
+]
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 237.
+ [4] [5]
+Overfull \hbox (248.6248pt too wide) in paragraph at lines 328--329
+[]$\OML/ztmcm/m/it/12 MPI[]Gatherv\OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 Result; localRows \OMS/ztmcm/m/n/12 ^^B \OML/ztmcm/m/it/12 k; MPI[]DOUBLE; FinalResult; recvCounts; displacements; MPI[]DOUBLE; \OT1/ztmcm/m/n/12 0\OML/ztmcm/m/it/12 ; MPI[]COMM[]WORLD\OT1/ztmcm/m/n/12 )$ 
+ []
+
+[6]
+Overfull \hbox (22.15973pt too wide) in paragraph at lines 361--363
+[]\OT1/ptm/m/n/12 Thus, the lo-cal com-pu-ta-tion for each pro-cess has a time com-plex-ity of $\OML/ztmcm/m/it/12 O []$\OT1/ptm/m/n/12 . 
+ []
+
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 365.
+[7] [8] [9] [10] [11] [12] [13]
 Chapter 3.
+[14
+
+]
+Chapter 4.
 No file 425500_Report.bbl.
-[11
+[15
 
 ]
 Appendix A.
 
-Overfull \hbox (7.74756pt too wide) in paragraph at lines 564--566
+Overfull \hbox (7.74756pt too wide) in paragraph at lines 776--778
 []\OT1/ptm/m/n/12 Install the re-quired de-pen-den-cies us-ing \OT1/cmtt/m/n/12 pip3 install -r requirements.txt\OT1/ptm/m/n/12 . 
  []
 
-[12
+[16
 
 ]
-Overfull \hbox (13.77136pt too wide) in paragraph at lines 579--580
+Overfull \hbox (13.77136pt too wide) in paragraph at lines 791--792
 []\OT1/cmtt/m/n/12 get[]aqi[]value[]p25(value)\OT1/ptm/m/n/12 : Func-tion for cal-cu-lat-ing the AQI value for PM2.5. 
  []
 
 
-Overfull \hbox (10.77136pt too wide) in paragraph at lines 580--581
+Overfull \hbox (10.77136pt too wide) in paragraph at lines 792--793
 []\OT1/cmtt/m/n/12 get[]aqi[]value[]p10(value)\OT1/ptm/m/n/12 : Func-tion for cal-cu-lat-ing the AQI value for PM10. 
  []
 
 
-Overfull \hbox (22.26286pt too wide) in paragraph at lines 589--590
+Overfull \hbox (22.26286pt too wide) in paragraph at lines 801--802
 []\OT1/cmtt/m/n/12 writeToTimestream(database[]name, table[]name, partionned[]df)\OT1/ptm/m/n/12 : Func-
  []
 
-[13]
+[17]
 Appendix B.
 (/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
@@ -799,15 +814,15 @@ File: lstlang1.sty 2023/02/27 1.9 listings language file
 ) (/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
 )
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 598.
- (../Source Code/SparseMatrixDenseVectorMultiply.h) (../Source Code/SparseMatrixDenseVectorMultiply.cpp [14
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 810.
+ (../Source Code/MatrixDefinitions.h) [18
 
-]) (../Source Code/SparseMatrixDenseVectorMultiplyRowWise.h) (../Source Code/SparseMatrixDenseVectorMultiplyRowWise.cpp [15] [16] [17]) (../Source Code/SparseMatrixDenseVectorMultiplyColumnWise.h) (../Source Code/SparseMatrixDenseVectorMultiplyColumnWise.cpp [18]
+] (../Source Code/SparseMatrixDenseVectorMultiply.h) (../Source Code/SparseMatrixDenseVectorMultiply.cpp) [19] (../Source Code/SparseMatrixDenseVectorMultiplyRowWise.h) (../Source Code/SparseMatrixDenseVectorMultiplyRowWise.cpp [20] [21]) [22] (../Source Code/SparseMatrixDenseVectorMultiplyColumnWise.h) (../Source Code/SparseMatrixDenseVectorMultiplyColumnWise.cpp [23]
 Overfull \hbox (82.81949pt too wide) in paragraph at lines 68--69
 [][] 
  []
 
-[19]
+
 Overfull \hbox (133.82062pt too wide) in paragraph at lines 71--72
 [][] 
  []
@@ -817,7 +832,7 @@ Overfull \hbox (144.02084pt too wide) in paragraph at lines 72--73
 [][] 
  []
 
-[20]) (../Source Code/SparseMatrixDenseVectorMultiplyNonZeroElement.h) (../Source Code/SparseMatrixDenseVectorMultiplyNonZeroElement.cpp [21] [22]) [23] (../Source Code/utils.h [24]) (../Source Code/utils.cpp [25] [26] [27] [28]) (../Source Code/main.cpp
+[24] [25]) (../Source Code/SparseMatrixDenseVectorMultiplyNonZeroElement.h) (../Source Code/SparseMatrixDenseVectorMultiplyNonZeroElement.cpp [26] [27]) [28] (../Source Code/utils.h [29]) (../Source Code/utils.cpp [30] [31] [32] [33]) (../Source Code/main.cpp
 Overfull \hbox (174.62152pt too wide) in paragraph at lines 9--10
 [][][][] 
  []
@@ -827,12 +842,12 @@ Overfull \hbox (174.62152pt too wide) in paragraph at lines 11--13
 [][][][] 
  []
 
-
+[34]
 Overfull \hbox (174.62152pt too wide) in paragraph at lines 50--51
 [][][][] 
  []
 
-[29]
+
 Overfull \hbox (174.62152pt too wide) in paragraph at lines 52--53
 [][][][] 
  []
@@ -857,17 +872,17 @@ Overfull \hbox (174.62152pt too wide) in paragraph at lines 97--99
 [][][][] 
  []
 
-[30]
+[35]
 Overfull \hbox (174.62152pt too wide) in paragraph at lines 156--157
 [][][][] 
  []
 
-
+[36]
 Overfull \hbox (174.62152pt too wide) in paragraph at lines 158--160
 [][][][] 
  []
 
-[31]
+
 Overfull \hbox (174.62152pt too wide) in paragraph at lines 196--197
 [][][][] 
  []
@@ -877,7 +892,7 @@ Overfull \hbox (174.62152pt too wide) in paragraph at lines 198--200
 [][][][] 
  []
 
-[32]
+[37]
 Overfull \hbox (174.62152pt too wide) in paragraph at lines 239--240
 [][][][] 
  []
@@ -887,7 +902,7 @@ Overfull \hbox (174.62152pt too wide) in paragraph at lines 241--243
 [][][][] 
  []
 
-[33]
+[38]
 Overfull \hbox (174.62152pt too wide) in paragraph at lines 282--283
 [][][][] 
  []
@@ -897,31 +912,31 @@ Overfull \hbox (174.62152pt too wide) in paragraph at lines 284--286
 [][][][] 
  []
 
-[34] [35]) (/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
+[39] [40]) (/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 ) (/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
-) (../Source Code/scripts/mpi.sub [36]
+) (../Source Code/scripts/mpi.sub [41]
 LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 60.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/base/ts1cmtt.fd
 File: ts1cmtt.fd 2022/07/10 v2.5l Standard LaTeX font definitions
-)) [37{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] (../Source Code/scripts/batch_test.sh [38]) [39] (../Source Code/scripts/get_csv_all.sh [40]) [41] (./425500_Report.aux)
+)) [42{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] (../Source Code/scripts/batch_test.sh [43]) [44] (../Source Code/scripts/get_csv_all.sh [45]) [46] (./425500_Report.aux)
 Package rerunfilecheck Info: File `425500_Report.out' has not changed.
-(rerunfilecheck)             Checksum: CFA9F93C8A8B21A2B5FAA442CD94F7B0;1164.
+(rerunfilecheck)             Checksum: A81B4A42A7F00AD38B7E524EB79C46BA;1212.
  ) 
 Here is how much of TeX's memory you used:
- 20957 strings out of 476025
- 347102 string characters out of 5790016
+ 21028 strings out of 476025
+ 348139 string characters out of 5790016
  2794388 words of memory out of 5000000
- 39404 multiletter control sequences out of 15000+600000
- 550886 words of font info for 112 fonts, out of 8000000 for 9000
+ 39412 multiletter control sequences out of 15000+600000
+ 552594 words of font info for 115 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,12n,122p,675b,2380s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,12n,122p,635b,2387s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on 425500_Report.pdf (48 pages, 380715 bytes).
+Output written on 425500_Report.pdf (52 pages, 403900 bytes).
 PDF statistics:
- 2254 PDF objects out of 2487 (max. 8388607)
- 2160 compressed objects within 22 object streams
- 1611 named destinations out of 1728 (max. 500000)
+ 2344 PDF objects out of 2487 (max. 8388607)
+ 2245 compressed objects within 23 object streams
+ 1668 named destinations out of 1728 (max. 500000)
  86 words of extra memory for PDF output out of 10000 (max. 10000000)
 

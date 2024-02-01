@@ -41,33 +41,6 @@
 \definecolor{terminalbgcolor}{HTML}{330033}
 \definecolor{terminalrulecolor}{HTML}{000099}
 
-\lstdefinestyle{pythonstyle}{
-    language=Python,
-    backgroundcolor=\color{backcolour},
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{codeblue},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codeteal},
-    identifierstyle=\color{codepurple},
-    basicstyle=\ttfamily\scriptsize,
-    breakatwhitespace=false,
-    breaklines=true,
-    captionpos=b,
-    keepspaces=true,
-    numbers=left,
-    numbersep=5pt,
-    showspaces=false,
-    showstringspaces=false,
-    showtabs=false,
-    tabsize=4,
-    frame=single,
-    rulecolor=\color{codegray},
-    framexleftmargin=15pt,
-    framextopmargin=5pt,
-    framexbottommargin=5pt,
-    framexrightmargin=15pt,
-}
-
 \lstdefinestyle{bashstyle}{
     language=bash,
     backgroundcolor=\color{backcolour},
@@ -85,30 +58,6 @@
     keepspaces=true,       % keeps spaces in text
     showspaces=false,      % show spaces everywhere adding particular underscores
     showstringspaces=false % underline spaces within strings only
-}
-
-\lstdefinestyle{ymlstyle}{
-    language=Python,
-    backgroundcolor=\color{backcolour},
-    basicstyle=\ttfamily\scriptsize,
-    keywordstyle=\color{blue},
-    stringstyle=\color{red},
-    identifierstyle=\color{codepurple},
-    commentstyle=\color{codegreen},
-    morecomment=[l]{\#},   % Define comment style
-    frame=single,          % adds a frame around the code
-    rulecolor=\color{gray},% if not set, the frame-color may be changed on line-breaks
-    breakatwhitespace=false,
-    breaklines=true,       % sets automatic line breaking
-    captionpos=b,          % sets the caption-position to bottom
-    keepspaces=true,       % keeps spaces in text
-    showspaces=false,      % show spaces everywhere adding particular underscores
-    showstringspaces=false, % underline spaces within strings only
-    literate=% Special handling for dot notations
-        {http.response_time.p99}{{\textcolor{blue}{http.response\_time.p99}}}{18}
-        {http.response_time.p95}{{\textcolor{blue}{http.response\_time.p95}}}{18}
-        {metrics-by-endpoint}{{\textcolor{blue}{metrics-by-endpoint}}}{16},
-    morekeywords={config, flow, target, phases, plugins, scenarios, loop, get, url, count, ensure, apdex, threshold, thresholds, duration, arrivalRate, name, pause, metrics -by-endpoint}, % Additional YAML-specific keywords
 }
 
 \lstdefinestyle{cstyle}{
@@ -161,25 +110,21 @@
     Replace with your abstract text of not more than 300 words.
 \end{abstract}
 
-% Acknowledgements
-\chapter{Acknowledgements}
-The author would like to thank \dots
-
 % Use single spacing for Table of Contents, List of Figures, etc
 {
-    \clearpage
-    \singlespacing
-    % Table of Contents
-    {
-        \tableofcontents
-    }
-    \clearpage
+\clearpage
+\singlespacing
+% Table of Contents
+{
+    \tableofcontents
+}
+\clearpage
 
-    % List of Figures
-    \listoffigures
+% List of Figures
+\listoffigures
 
-    % List of Tables
-    \listoftables
+% List of Tables
+\listoftables
 }
 
 %% Main Matter
@@ -189,27 +134,113 @@ The author would like to thank \dots
 \fancyhead[R]{\nouppercase{\rightmark}}
 
 \chapter{Introduction}
+High-Performance Computing (HPC) is a branch of computing that uses
+supercomputers and server clusters to solve complex, computationally intensive
+problems. Unlike a personal computer with a single processor, an HPC system is
+made up of many processors working in parallel, considerably increasing
+processing capacity. This enables scientists and engineers to carry out
+detailed numerical simulations, such as forecasting the weather, modelling
+molecules for new medicines or designing aircraft.
+
+Cranfield University has two HPC systems: CRESCENT2 and DELTA. However, this
+report will focus exclusively on CRESCENT2. The latter is a HPC cluster
+designed to provide computing power to the university community for teaching
+and research. The CRESCENT 2 nodes, which are like individual workstations
+within the cluster, are equipped with Intel Xeon E5 2620 processors. Each node
+contains two processors (or `sockets`), with 16 cores and as many threads,
+accompanied by 16 gigabytes of RAM, enabling them to handle large workloads.
+Communication between the nodes is ensured by a 128 Gb/s InfiniBand EDR
+network, a high-speed connectivity technology that facilitates the rapid
+exchange of data, a crucial function for parallel processing of computer tasks.
+
+Sparse matrix-vector multiplication is a fundamental operation in numerical
+linear algebra and has numerous applications in science and engineering.
+
+Consider a sparse matrix $M$ of dimensions $m \times n$ and a fat vector $v$ of
+dimensions $n \times k$. The objective is to perform the multiplication $M
+    \times v$, yielding a result that is of dimensions $m \times k$.
+
+The matrix $M$ is defined as:
+\begin{equation}
+    M = \begin{pmatrix}
+        m_{11} & m_{12} & \cdots & m_{1n} \\
+        m_{21} & m_{22} & \cdots & m_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        m_{m1} & m_{m2} & \cdots & m_{mn}
+    \end{pmatrix}
+\end{equation}\label{eq:sparse-matrix}
+where most elements of $M$ are zeros.
+
+The vector $v$ is defined as:
+\begin{equation}
+    v = \begin{pmatrix}
+        v_{11} & v_{12} & \cdots & v_{1k} \\
+        v_{21} & v_{22} & \cdots & v_{2k} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        v_{n1} & v_{n2} & \cdots & v_{nk}
+    \end{pmatrix}\label{eq:dense-vector}
+\end{equation}
 
 \chapter{Methodology}
-\section{Sequential Algorithm}
+\section{Data Structures}
+In numerical computation and linear algebra, efficient use of memory and fast
+computation are crucial. This is particularly true when working with hollow
+matrices and fat vectors.
 
-The algorithm for multiplying a sparse matrix by a dense vector can be
-efficiently implemented using the Compressed Sparse Row (CSR) format. The CSR
-format represents a sparse matrix using three arrays: \texttt{values},
-\texttt{col\_indices}, and \texttt{row\_pointers}. Given a sparse matrix \( M
-\) in CSR format and a dense vector \( v \), the product \( M \times v \) is
-computed as follows:
+\subsection{Sparse Matrix}
+The sparse matrix is represented in CSR (Compressed Sparse Row) format, which
+is particularly effective for storing and manipulating matrices where the
+majority of elements are zero. The CSR structure consists of three main
+vectors:
+\begin{itemize}
+    \item \textbf{values}: A vector storing all the non-zero elements of the matrix.
+    \item \textbf{rowPtr}: A vector storing the starting index for each element in the
+          \textit{values} vector.
+    \item \textbf{colIndices}: A vector storing the column indices for each element in the vector \textit{values}.
+          \
+\end{itemize}
+
+Here is an example of a sparse matrix in CSR format:
+\begin{itemize}
+    \item \texttt{values} = \{1, 2, 3, 4\}
+    \item \texttt{rowPtr} = \{0, 2, 3, 3, 4\}
+    \item \texttt{colIndices} = \{0, 2, 1, 3\}
+\end{itemize}
+
+This hollow matrix can be visualised as:
+\[
+    \begin{bmatrix}
+        1 & 0 & 2 & 0 \\
+        0 & 0 & 3 & 0 \\
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 4 \\
+    \end{bmatrix}
+\]
+
+The \textbf{SparseMatrix} structure is defined in
+Appendix~\ref{appendix:data-structures}.
+
+\subsection{fat vector}
+Unlike a hollow matrix, a fat vector (illustrated by
+equation~\ref{eq:dense-vector}) stores all its elements, including zeros. The
+data structure for a fat vector is a two-dimensional array, where each row
+represents a separate vector. The \textbf{DenseVector} structure is defined in
+Appendix~\ref{appendix:data-structures}.
+
+\section{Sequential Algorithm}
+Given a sparse matrix \( M \) in CSR format and a fat vector \( v \), the
+product \( M \times v \) is computed as follows:
 
 \begin{algorithm}[H]
     \caption{Sequential algorithm}
     \begin{algorithmic}
         \Require $M$ is an $m \times n$ sparse matrix
-        \Require $v$ is an $n \times k$ dense vector
+        \Require $v$ is an $n \times k$ fat vector
         \Ensure  $Result$ is an $m \times k$ matrix
         \State $Result \gets$ zero matrix of size $m \times k$
         \For{$i \gets 0$ \textbf{to} $m-1$}
         \For{each non-zero element $(j, \text{value})$ in row $i$ of $M$}
-        \For{$l \gets 0$ \textbf{to} $k-1$}
+        \For{$j \gets 0$ \textbf{to} $k-1$}
         \State $Result[i][l] \gets Result[i][l] + (\text{value} \times v[j][l])$
         \EndFor
         \EndFor
@@ -219,25 +250,32 @@ computed as follows:
 \end{algorithm}
 
 \subsection{Complexity Analysis}
-
-The complexity analysis of the algorithm for multiplying a sparse matrix by a
-dense vector focuses on two main aspects: temporal complexity and spatial
-complexity.
-
-\subsubsection{Temporal Complexity}
-
-The temporal complexity of the algorithm depends on how the sparse matrix is
-stored and the number of non-zero elements in the matrix.
+Let \( M \) be a sparse matrix of size \( m \times n \) with \( z \) non-zero
+elements, stored in CSR format, and \( v \) be a fat vector of size \( n \times
+k \). The multiplication \( M \times v \) can be analyzed as follows:
 
 \begin{itemize}
-    \item \textbf{Traversing Rows:} The algorithm traverses each row of the matrix. If the matrix has \( m \) rows, this step has a complexity of \( O(m) \).
-    \item \textbf{Traversing Non-Zero Elements:} Inside each row, the algorithm traverses the non-zero elements. If the total number of non-zero elements in the matrix is \( n_{nz} \), the traversal of all these elements has a complexity of \( O(n_{nz}) \).
+    \item For each row \( i \) of \( M \), the algorithm iterates over its non-zero
+          elements.
+    \item For each non-zero element \( M_{ij} \), the algorithm performs a multiplication
+          with each element of column \( j \) in \( v \), resulting in \( k \)
+          multiplications.
+    \item These products are accumulated in the corresponding row of the result matrix,
+          which has dimensions \( m \times k \).
 \end{itemize}
 
-The total temporal complexity is therefore \( O(m + n_{nz}) \). However, in
-practice, this complexity is often considered as \( O(n_{nz}) \), as the number
-of non-zero elements is usually the dominating factor, especially in very
-sparse matrices.
+\subsubsection{Temporal Complexity}
+The time complexity depends on the number of non-zero elements in the hollow
+matrix and the dimension of the fat vector.
+
+\begin{enumerate}
+    \item \textbf{Hollow Matrix Row Traversal:} Each row of the matrix is traversed once, so this part has complexity \( O(m) \).
+    \item \textbf{Access to non-zero elements:} For each row, the algorithm traverses the non-zero elements, therefore the complexity of traversing all the non-zero elements in the matrix is \( O(z) \).
+    \item \textbf{Multiplication et Accumulation:} For each non-zero element, the algorithm performs a multiplication for each column of the fat vector, so this step has complexity \( O(\frac{z}{m} \times k) \). Thus, for all rows, the complexity becomes  \( O(z \times k) \).
+\end{enumerate}
+
+Hence, the time complexity of multiplying a sparse matrix in CSR format with a
+fat matrix is \( O(z \times k) \).
 
 \subsubsection{Spatial Complexity}
 
@@ -245,79 +283,14 @@ The spatial complexity is related to the amount of memory required by the
 algorithm.
 
 \begin{itemize}
-    \item \textbf{Storing the Sparse Matrix:} The way the sparse matrix is stored affects the spatial complexity. Generally, storage formats like CSR or COO allow storing a sparse matrix with a complexity of \( O(n_{nz}) \), where \( n_{nz} \) is the number of non-zero elements.
-    \item \textbf{Dense Vector:} The dense vector has a spatial complexity of \( O(n) \), where \( n \) is the size of the vector.
-    \item \textbf{Result Vector:} The result vector also has a size of \( O(m) \), where \( m \) is the number of rows in the matrix.
+    \item \textbf{Sparse Matrix:} The matrix is stored using three main vectors (\( values \), \(colIndices \), \( rowPtr \)). If the matrix has \( z \) non-zero elements, then the spatial complexity of the two vectors \( values \) and \( colIndices \) is \( O(z) \). The vector \( rowPtr \) has a size of \( m + 1 \), so its spatial complexity is \( O(m) \). Thus, the space required for \( M \) in CSR format is \( O(z + z + m) = O(2z + m) \).
+    \item \textbf{Fat vector:} The fat vector has a spatial complexity of \( O(n \times k) \).
+    \item \textbf{Result Vector:} The result vector has a spatial complexity of \( O(m \times k) \).
 \end{itemize}
 
-The total spatial complexity is therefore \( O(n_{nz} + m + n) \), but in
-practice, the focus is mainly on the \( O(n_{nz}) \) term as it is generally
-the most significant.
-
-\newpage
-\subsection{Example}
-
-Dans le format CSR, la matrice est représentée par trois vecteurs :
-\texttt{values}, \texttt{rows}, et \texttt{cols}. Pour notre exemple, ces
-vecteurs sont définis comme suit:
-\begin{itemize}
-    \item \texttt{values} = \{1, 2, 3, 4\}
-    \item \texttt{rows} = \{0, 2, 3, 3, 4\}
-    \item \texttt{cols} = \{0, 2, 1, 3\}
-\end{itemize}
-
-La matrice creuse correspondante peut être visualisée comme:
-\[
-    \begin{bmatrix}
-        1 & 0 & 2 & 0 \\
-        0 & 0 & 3 & 0 \\
-        0 & 0 & 0 & 0 \\
-        0 & 0 & 0 & 4 \\
-    \end{bmatrix}
-\]
-
-Le vecteur dense est simplementq:
-\[
-    \begin{bmatrix}
-        1 \\
-        2 \\
-        3 \\
-        4 \\
-    \end{bmatrix}
-\]
-
-La multiplication de la matrice creuse par le vecteur dense est effectuée ligne
-par ligne. Le résultat peut être visualisé comme :
-
-\[
-    \begin{bmatrix}
-        1 & 0 & 2 & 0 \\
-        0 & 0 & 3 & 0 \\
-        0 & 0 & 0 & 0 \\
-        0 & 0 & 0 & 4 \\
-    \end{bmatrix}
-    \times
-    \begin{bmatrix}
-        1 \\
-        2 \\
-        3 \\
-        4 \\
-    \end{bmatrix}
-    =
-    \begin{bmatrix}
-        1 \times 1 + 0 \times 2 + 2 \times 3 + 0 \times 4 \\
-        0 \times 1 + 0 \times 2 + 3 \times 3 + 0 \times 4 \\
-        0 \times 1 + 0 \times 2 + 0 \times 3 + 0 \times 4 \\
-        0 \times 1 + 0 \times 2 + 0 \times 3 + 4 \times 4 \\
-    \end{bmatrix}
-    =
-    \begin{bmatrix}
-        7  \\
-        9  \\
-        0  \\
-        16 \\
-    \end{bmatrix}
-\]
+Considering the storage requirements for the sparse matrix, the dense matrix,
+and the result matrix, the overall spatial complexity of the multiplication
+operation is \( O(2z + m + n \times k + m \times k) \).
 
 \newpage
 \section{Line-Based Parallelism}
@@ -329,15 +302,17 @@ manner.
     \caption{Line-based parallel sparse matrix-vector multiplication}
     \begin{algorithmic}
         \Require $M$ is an $m \times n$ sparse matrix
-        \Require $v$ is an $n \times k$ vector
+        \Require $v$ is an $n \times k$ dense vector
         \Require $numProcs$ is the number of processes
         \Require $rank$ is the rank of the current process
-        \Ensure  $Result$ is a part of the $m \times k$ matrix computed by this process
+        \Ensure $Result$ is a part of the $m \times k$ matrix computed by this process
 
         \State $rowsPerProc \gets m / numProcs$
-        \State $startRow \gets rank \times rowsPerProc$
-        \State $endRow \gets startRow + rowsPerProc$
-        \State $Result \gets$ zero matrix of size $rowsPerProc \times k$
+        \State $extraRows \gets m\mod numProcs$
+        \State $startRow \gets rank \times rowsPerProc + \min(rank, extraRows)$
+        \State $endRow \gets startRow + rowsPerProc + (rank < extraRows)$
+        \State $localRows \gets endRow - startRow$
+        \State $Result \gets$ zero matrix of size $localRows \times k$
 
         \For{$i \gets startRow$ \textbf{to} $endRow-1$}
         \For{each non-zero element $(j, \text{value})$ in row $i$ of $M$}
@@ -347,14 +322,18 @@ manner.
         \EndFor
         \EndFor
 
-        \If{$rank \neq 0$}
+        \If{$rank = 0$}
+        \State $FinalResult \gets$ zero matrix of size $m \times k$
+        \EndIf
+
+        \State Define $recvCounts[numProcs]$, $displacements[numProcs]$
+        \State Compute $recvCounts$ and $displacements$ based on $localRows$ for all processes
+
+        \If{$rank != 0$}
         \State Send $Result$ to process $0$
         \Else
-        \State $FinalResult \gets$ zero matrix of size $m \times k$
-        \State Copy $Result$ into $FinalResult$
-        \For{$p \gets 1$ \textbf{to} $numProcs-1$}
-        \State Receive partial $Result$ from process $p$
-        \State Copy received $Result$ into appropriate position in $FinalResult$
+        \For {$p \gets 1$ \textbf{to} $numProcs-1$}
+        \State Integrates received partial $Results$ into $FinalResult$ based on $displacements$
         \EndFor
         \EndIf
 
@@ -364,21 +343,122 @@ manner.
 
 \subsection{Complexity Analysis}
 \subsubsection{Temporal Complexity}
-\begin{itemize}
-    \item \textbf{MPI Initialisation and Rank and Size Determination:} This step is generally fast, with a complexity close to \( O(1) \), as it mainly involves setup operations.
-    \item \textbf{Calculation of the Number of Rows per Process:} This operation also has a complexity of \( O(1) \) as it requires only simple arithmetic based on the total size of the matrix and the number of processes.
-    \item \textbf{Calculation of Start and End Indices for Each Process:} Again, this step has a complexity of \( O(1) \) as it involves simple arithmetic calculations.
-    \item \textbf{Scatter of Rows of \( M \) and Vector \( v \):} The complexity of this step depends on the MPI implementation and data distribution. In general, it can be considered as \( O(\frac{n_{nz}}{p}) \), where \( n_{nz} \) is the total number of non-zero elements in the matrix and \( p \) is the number of processes.
-    \item \textbf{Local Computation in Each Process:} Each process performs the matrix-vector product computation for its assigned portion of the matrix. The complexity of this step is \( O(\frac{n_{nz}}{p}) \) in the ideal case where the non-zero elements are evenly distributed among the processes.
-    \item \textbf{Gather of Local Results \( r_{local} \):} The gather operation can vary in complexity, but generally, it is proportional to the total number of elements to be gathered and depends on the efficiency of communication between processes.
-\end{itemize}
+The temporal (or time) complexity analysis of the sparse matrix-fat vector
+multiplication using MPI in a distributed-memory parallel environment involves
+understanding the computational steps required for each part of the process.
+The main components are as follows:
+
+\begin{enumerate}
+    \item \textbf{Initialisation and Setup}:
+          MPI initialisation and calculation of rows per process have a negligible time
+          complexity compared to the actual computation, so they can be considered as \(
+          O(1) \).
+
+    \item \textbf{Local Computation}:
+          \begin{itemize}
+              \item Each process computes the multiplication for its assigned subset of rows.
+              \item If the sparse matrix has \( z \) non-zero elements in total, and these elements
+                    are evenly distributed across \( m \) rows, each process handles approximately
+                    \( \frac{z}{\text{worldSize}} \) non-zero elements.
+              \item The computation for each non-zero element involves accessing the element and
+                    its corresponding column in the dense vector, followed by a multiplication and
+                    an addition. This operation is \( O(1) \).
+              \item Thus, the local computation for each process has a time complexity of \(
+                    O\left(\frac{z}{\text{worldSize}}\right) \).
+          \end{itemize}
+
+    \item \textbf{Communication (\texttt{MPI\_Gatherv})}:
+          \begin{itemize}
+              \item The complexity of the \texttt{MPI\_Gatherv} operation depends on the
+                    implementation of the MPI library and the underlying network architecture.
+              \item In general, gathering operations can be assumed to have a logarithmic
+                    complexity with respect to the number of processes, i.e., \(
+                    O(\log(\text{worldSize})) \), but this can vary.
+              \item The amount of data transferred per process is proportional to the size of the
+                    local result, which is \( O\left(\frac{m}{\text{worldSize}} \times k\right) \).
+          \end{itemize}
+
+    \item \textbf{Final Assembly}:
+          \begin{itemize}
+              \item The root process assembles the final result matrix. This step is essentially a
+                    concatenation of the results from each process and has a complexity linear to
+                    the total size of the result matrix, which is \( O(m \times k) \).
+          \end{itemize}
+\end{enumerate}
+
+Considering the parallel nature of the computation, the dominant factor in the
+time complexity is the local computation performed by each process, which is \(
+O\left(\frac{z}{\text{worldSize}}\right) \). The communication step's
+complexity depends on the MPI implementation and network, but the data volume
+transferred per process affects this step. The final assembly in the root
+process is also significant but does not exceed \( O(m \times k) \). Therefore,
+the overall time complexity of the algorithm can be approximated as \(
+O\left(\frac{z}{\text{worldSize}} + \log(\text{worldSize}) + m \times k\right)
+\), with the understanding that the actual performance can be influenced by
+factors like network latency, bandwidth, and the distribution of non-zero
+elements in the sparse matrix.
 
 \subsubsection{Spatial Complexity}
+The spatial complexity analysis of the algorithm performing sparse matrix-fat
+vector multiplication in a distributed-memory parallel environment using MPI
+can be understood by considering the memory requirements for storing the sparse
+matrix, the dense vector, and the final result, as well as the additional
+storage required for parallel processing. The breakdown is as follows:
 
-\begin{itemize}
-    \item \textbf{Storage of Sparse Matrix and Dense Vector:} The storage of the matrix and vector remains \( O(n_{nz} + m + n) \), where \( m \) and \( n \) are the dimensions of the matrix.
-    \item \textbf{Local Result Vectors \( r_{local} \):} Each process stores a local result vector of a size proportional to the portion of the matrix it processes, approximately \( O(\frac{m}{p}) \).
-\end{itemize}
+\begin{enumerate}
+    \item \textbf{Storage of Sparse Matrix (\texttt{sparseMatrix}):}
+          \begin{itemize}
+              \item The sparse matrix is stored in CSR format, which includes three arrays:
+                    \begin{itemize}
+                        \item \texttt{values}: Contains all non-zero elements of the matrix. If the matrix has \( z \) non-zero elements, this array takes \( O(z) \) space.
+                        \item \texttt{colIndices}: Stores column indices for each non-zero element, also taking \( O(z) \) space.
+                        \item \texttt{rowPtr}: Contains \( m + 1 \) elements for an \( m \times n \) matrix, requiring \( O(m + 1) \) space.
+                    \end{itemize}
+              \item Total space for the sparse matrix is therefore \( O(2z + m) \).
+          \end{itemize}
+
+    \item \textbf{Storage of Dense Vector (\texttt{denseVector}):}
+          \begin{itemize}
+              \item The dense vector (or fat vector) is a 2D array of size \( n \times k \). It
+                    requires \( O(n \times k) \) space.
+          \end{itemize}
+
+    \item \textbf{Local Result Vector (\texttt{localResult}):}
+          \begin{itemize}
+              \item Each process computes a local result vector of size proportional to the number
+                    of rows it handles times the number of columns in the dense vector. In the
+                    worst case, this is \( O\left(\frac{m}{\text{worldSize}} + 1 \times k\right) \)
+                    per process.
+          \end{itemize}
+
+    \item \textbf{Gathered Results (\texttt{gatheredResults}):}
+          \begin{itemize}
+              \item In the root process, the gathered results from all processes are combined. This
+                    requires space equivalent to the size of the final result matrix, which is \(
+                    O(m \times k) \).
+          \end{itemize}
+
+    \item \textbf{Final Result Matrix (\texttt{finalResult}):}
+          \begin{itemize}
+              \item The final result matrix, which is only constructed in the root process, is of
+                    size \( m \times k \), requiring \( O(m \times k) \) space.
+          \end{itemize}
+
+    \item \textbf{Auxiliary Data for MPI Operations:}
+          \begin{itemize}
+              \item Arrays like \texttt{recvCounts} and \texttt{displacements} are used for MPI
+                    communication. Their sizes are proportional to the number of processes, which
+                    is typically much smaller than the size of the matrix or vectors. Therefore,
+                    they add a relatively negligible \( O(\text{worldSize}) \) space complexity.
+          \end{itemize}
+\end{enumerate}
+
+The spatial complexity of the algorithm is dominated by the storage
+requirements for the sparse matrix, the dense vector, and the final result
+matrix. Thus, the overall spatial complexity is approximately \( O(2z + m + n
+\times k + m \times k) \). It is important to note that in a distributed-memory
+environment, the memory usage is distributed across multiple processes, which
+can reduce the memory burden on individual nodes.
 
 \newpage
 \section{Column-Wise Parallelism}
@@ -389,61 +469,157 @@ element.
 \begin{algorithm}
     \caption{Column-wise Parallelization using MPI for Sparse Matrix-Fat Vector Multiplication}
     \begin{algorithmic}
-        \Require $M$ is an $m \times n$ sparse matrix
-        \Require $v$ is an $n \times k$ vector
+        \Require $M$ is a sparse matrix of dimensions $m \times n$
+        \Require $v$ is a dense vector of dimensions $n \times k$
         \Require $numProcs$ is the number of processes
         \Require $rank$ is the rank of the current process
-        \Ensure  $PartialResult$ is a part of the $m \times k$ matrix computed by this process
+        \Ensure $PartialResult$ is part of the resulting $m \times k$ matrix computed by this process
 
         \State $colsPerProc \gets k / numProcs$
-        \State $startCol \gets rank \times colsPerProc$
-        \State $endCol \gets startCol + colsPerProc$
-        \State $PartialResult \gets$ zero matrix of size $m \times colsPerProc$
+        \State $extraCols \gets k \% numProcs$
+        \State $startCol \gets rank \times colsPerProc + \min(rank, extraCols)$
+        \State $endCol \gets (rank < numProcs - 1) ? startCol + colsPerProc : startCol + colsPerProc + extraCols$
+        \State $PartialResult \gets$ zero matrix of size $m \times (endCol - startCol)$
 
-        \For{$i \gets 0$ \textbf{to} $m-1$}
+        \For{$col \gets startCol$ \textbf{to} $endCol - 1$}
+        \For{$i \gets 0$ \textbf{to} $m - 1$}
+        \State $sum \gets 0$
         \For{each non-zero element $(j, \text{value})$ in row $i$ of $M$}
-        \For{$l \gets startCol$ \textbf{to} $endCol-1$}
-        \State $PartialResult[i][l - startCol] \gets PartialResult[i][l - startCol] + (\text{value} \times v[j][l])$
+        \State $sum \gets sum + (\text{value} \times v[j][col])$
         \EndFor
+        \State $PartialResult[i][col - startCol] \gets sum$
         \EndFor
         \EndFor
 
-        \If{$rank \neq 0$}
-        \State Send $PartialResult$ to process $0$
-        \Else
+        \If{$rank = 0$}
         \State $FinalResult \gets$ zero matrix of size $m \times k$
-        \State Copy $PartialResult$ into appropriate position in $FinalResult$
-        \For{$p \gets 1$ \textbf{to} $numProcs-1$}
-        \State Receive partial $PartialResult$ from process $p$
-        \State Copy received $PartialResult$ into appropriate position in $FinalResult$
-        \EndFor
         \EndIf
 
-        \State \textbf{if} $rank = 0$ \textbf{then} \Return $FinalResult$
+        \State $MPI\_Gatherv(PartialResult, localSize, MPI\_DOUBLE, FinalResult, recvCounts, displacements, MPI\_DOUBLE, 0, MPI\_COMM\_WORLD)$
+
+        \If{$rank = 0$}
+        \State Integrate $PartialResult$ into $FinalResult$
+        \Return $FinalResult$
+        \EndIf
     \end{algorithmic}
 \end{algorithm}
 
 \subsection{Complexity Analysis}
 \subsubsection{Temporal Complexity}
-\begin{itemize}
-    \item \textbf{MPI Initialisation and Rank and Size Determination:} Similar to the line-based approach, this step has a complexity of approximately \( O(1) \), involving basic setup operations.
 
-    \item \textbf{Distribution of Non-Zero Elements of \( M \):} This step involves distributing the non-zero elements among the processes. The complexity depends on the distribution mechanism but is generally proportional to the number of non-zero elements, \( n_{nz} \), and the efficiency of the distribution algorithm used.
+To analyse the temporal (or time) complexity of the sparse matrix-fat vector
+multiplication using a column-wise parallel approach with MPI, we need to
+consider the computation and communication steps involved in the process. The
+breakdown is as follows:
 
-    \item \textbf{Scatter of Vector \( v \) to All Processes:} Scattering the vector \( v \) to all processes can be done efficiently in MPI and typically has a complexity proportional to the size of the vector, \( O(n) \).
+\begin{enumerate}
+    \item \textbf{Local Computation:}
+          \begin{itemize}
+              \item Each MPI process computes a portion of the final matrix, responsible for a
+                    subset of columns. The number of columns processed by each process is roughly
+                    \( \text{colsPerProcess} = \frac{\text{vecCols}}{\text{worldSize}} \), with
+                    some processes handling extra columns if \( \text{vecCols} \) is not perfectly
+                    divisible by \( \text{worldSize} \).
+              \item For each column, the process computes the product with every row of the sparse
+                    matrix. If the sparse matrix has \( z \) non-zero elements in total, then, on
+                    average, each process handles approximately \( \frac{z}{\text{worldSize}} \)
+                    non-zero elements.
+              \item The computation involves accessing the element, performing a multiplication,
+                    and accumulating the result. These operations for each non-zero element are \(
+                    O(1) \).
+              \item Therefore, the local computation for each process has a time complexity of \(
+                    O\left(\frac{z}{\text{worldSize}}\right) \).
+          \end{itemize}
 
-    \item \textbf{Computation of Products for Assigned Non-Zero Elements:} Each process computes the products for its assigned non-zero elements. Assuming an even distribution, the complexity for each process would be \( O(\frac{n_{nz}}{p}) \), where \( p \) is the number of processes.
+    \item \textbf{Communication (\texttt{MPI\_Gatherv}):}
+          \begin{itemize}
+              \item The \texttt{MPI\_Gatherv} operation is used to gather the local results from
+                    each process into the root process. The complexity of this operation depends on
+                    the implementation of MPI and the underlying network architecture.
+              \item Generally, the gather operation can be assumed to have a complexity that grows
+                    with the number of processes and the amount of data being communicated. If the
+                    gathered data from each process is large, the communication time can become
+                    significant.
+              \item The amount of data transferred per process is proportional to the number of
+                    rows in the matrix and the number of columns processed, which is \( O(m \times
+                    \text{colsPerProcess}) \).
+          \end{itemize}
 
-    \item \textbf{MPI Atomic Operations and Reduction:} The use of atomic operations and reduction to form the final result vector can introduce additional complexity, depending on the implementation and efficiency of these operations in MPI.
-\end{itemize}
+    \item \textbf{Final Assembly:}
+          \begin{itemize}
+              \item The root process assembles the final result matrix. This step is essentially a
+                    concatenation of results from each process and is linearly proportional to the
+                    size of the final matrix, \( O(m \times k) \).
+          \end{itemize}
+\end{enumerate}
+
+The dominant factor in the time complexity is the local computation performed
+by each process, which is \( O\left(\frac{z}{\text{worldSize}}\right) \). The
+communication step can also be significant, especially if the network bandwidth
+is limited or if the size of the data being communicated is large. The final
+assembly in the root process is also linearly dependent on the size of the
+final result matrix. Therefore, the overall time complexity of the algorithm
+can be approximated as \( O\left(\frac{z}{\text{worldSize}} +
+\text{communication cost} + m \times k\right) \), with the understanding that
+actual performance can vary based on factors like network performance,
+distribution of non-zero elements in the sparse matrix, and the specific
+implementation of MPI.
 
 \subsubsection{Spatial Complexity}
+The spatial complexity of the given algorithm, which performs sparse matrix-fat
+vector multiplication in a distributed-memory environment using a column-wise
+parallel approach, can be analysed by considering the memory requirements for
+storing the matrix, the vector, and the intermediate and final computational
+results. The breakdown is as follows:
+\begin{enumerate}
+    \item \textbf{Sparse Matrix Storage:}
+          \begin{itemize}
+              \item The sparse matrix is stored in a CSR format, which includes arrays for non-zero
+                    values, column indices, and row pointers. If the matrix has \( z \) non-zero
+                    elements, then the space required is approximately \( O(z) \) for the values,
+                    \( O(z) \) for the column indices, and \( O(m + 1) \) for the row pointers,
+                    where \( m \) is the number of rows. Therefore, the total space requirement for
+                    the sparse matrix is \( O(2z + m) \).
+          \end{itemize}
 
-\begin{itemize}
-    \item \textbf{Storage of Sparse Matrix and Dense Vector:} The storage requirements remain the same as in the line-based approach, \( O(n_{nz} + m + n) \).
+    \item \textbf{Dense Vector Storage:}
+          \begin{itemize}
+              \item The dense vector (or fat vector) is a 2D array of size \( n \times k \),
+                    requiring \( O(n \times k) \) space.
+          \end{itemize}
 
-    \item \textbf{Local Result Vectors \( r_{local} \):} Each process maintains a local result vector, but since the computation is based on non-zero elements, the storage requirement for each \( r_{local} \) might be smaller, depending on the distribution of non-zero elements.
-\end{itemize}
+    \item \textbf{Local Result Vector:}
+          \begin{itemize}
+              \item Each process computes a local result vector for its assigned columns. The size
+                    of this local result vector is proportional to the number of rows in the sparse
+                    matrix and the number of columns processed by each process. The maximum size is
+                    \( O(m \times \text{colsPerProcess}) \), where \(\text{colsPerProcess}\) is the
+                    number of columns processed by each process.
+          \end{itemize}
+
+    \item \textbf{Gathered Results:}
+          \begin{itemize}
+              \item In the root process, the final gathered result needs to be stored. This is
+                    essentially the entire output matrix, which has a size of \( m \times k \),
+                    hence requiring \( O(m \times k) \) space.
+          \end{itemize}
+
+    \item \textbf{Auxiliary Arrays for MPI Operations:}
+          \begin{itemize}
+              \item Arrays such as \texttt{recvCounts} and \texttt{displacements} are used in the
+                    MPI Gather operation. The size of these arrays is proportional to the number of
+                    processes (i.e., \(\text{worldSize}\)). However, this is generally small
+                    compared to the size of the matrices and vectors, so their space contribution
+                    is relatively minor.
+          \end{itemize}
+\end{enumerate}
+
+Considering the storage requirements for the sparse matrix, the dense vector,
+the local results, and the final gathered results, the overall spatial
+complexity of the algorithm is approximately \( O(2z + m + n \times k + m
+\times \text{colsPerProcess} + m \times k) \). It is important to note that in
+a distributed-memory setting, this memory usage is spread across multiple
+processes, reducing the memory load on any single node.
 
 \newpage
 \section{Non-Zero Element Parallelism}
@@ -468,26 +644,25 @@ computations on the non-zero elements within those chunks.
 
         \State $NonZeroElements \gets$ list of non-zero elements in $M$ from $startIndex$ to $endIndex - 1$
         \For{each $(i, j, \text{value})$ in $NonZeroElements$}
-            \For{$l \gets 0$ \textbf{to} $k-1$}
-                \State $PartialResult[i][l] \gets PartialResult[i][l] + (\text{value} \times v[j][l])$
-            \EndFor
+        \For{$l \gets 0$ \textbf{to} $k-1$}
+        \State $PartialResult[i][l] \gets PartialResult[i][l] + (\text{value} \times v[j][l])$
+        \EndFor
         \EndFor
 
         \If{$rank \neq 0$}
-            \State Send $PartialResult$ to process $0$
+        \State Send $PartialResult$ to process $0$
         \Else
-            \State $FinalResult \gets$ zero matrix of size $m \times k$
-            \State Copy $PartialResult$ into $FinalResult$
-            \For{$p \gets 1$ \textbf{to} $numProcs-1$}
-                \State Receive partial $PartialResult$ from process $p$
-                \State Add received $PartialResult$ into $FinalResult$
-            \EndFor
+        \State $FinalResult \gets$ zero matrix of size $m \times k$
+        \State Copy $PartialResult$ into $FinalResult$
+        \For{$p \gets 1$ \textbf{to} $numProcs-1$}
+        \State Receive partial $PartialResult$ from process $p$
+        \State Add received $PartialResult$ into $FinalResult$
+        \EndFor
         \EndIf
 
         \State \textbf{if} $rank = 0$ \textbf{then} \Return $FinalResult$
     \end{algorithmic}
 \end{algorithm}
-
 
 \subsection{Complexity Analysis}
 \subsubsection{Temporal Complexity}
@@ -507,7 +682,7 @@ computations on the non-zero elements within those chunks.
 \subsubsection{Spatial Complexity}
 
 \begin{itemize}
-    \item \textbf{Storage of Sparse Matrix and Dense Vector:} The overall storage requirements remain \( O(n_{nz} + m + n) \), as in other sparse matrix-vector multiplication methods.
+    \item \textbf{Storage of Sparse Matrix and fat vector:} The overall storage requirements remain \( O(n_{nz} + m + n) \), as in other sparse matrix-vector multiplication methods.
 
     \item \textbf{Local Result Vectors \( r_{local} \):} Each process stores a local result vector for its chunk of rows, with the size depending on the distribution of rows and non-zero elements.
 \end{itemize}
@@ -523,6 +698,49 @@ issues, such as race conditions and proper synchronization, to ensure correct
 and efficient execution.
 
 \newpage
+
+\chapter{Results and Discussion}
+
+\section{HPC Environmental Impact}
+The LUMI supercomputer, based at the CSC-IT Center for Science in Finland,
+represents a milestone in the field of high-performance computing (HPC), not
+only because of its computing power, but also because of its approach to
+environmental sustainability. LUMI, one of EuroHPC's world-class
+supercomputers, began operating in 2021 and is expected to reach full capacity
+in 2023. It features an environmentally-friendly design and is considered to be
+one of the most energy-efficient data centres in the world.
+
+Irina Kupiainen, who works as Programme Director for the Open Scholarship
+Innovation Program at the CSC, plays an important role in the development of
+policies relating to high-performance computing and open science. With a strong
+background in international policy and experience in various government and
+research organisations, Irina Kupiainen leads EU public affairs at the CSC,
+focusing on policy and international collaboration, particularly in the area of
+open science.
+
+The impact of supercomputing on the environment is a major concern, not least
+because of the high energy demands of these systems. However, LUMI is an
+example of how HPC can make a positive contribution to environmental
+sustainability. It runs on 100\% renewable energy and makes efficient use of
+waste heat, which can heat up to 20\% of the homes in the surrounding city.
+This approach not only reduces the carbon footprint, but also demonstrates
+HPC's potential to meet climate neutrality targets.
+
+Furthermore, sustainability measures in HPC are not limited to energy
+consumption and waste heat management. The entire life cycle of the machine
+needs to be taken into account, including construction, modularity,
+scalability, recycling and reuse of materials. This holistic view can
+contribute to the development of a circular economy, supporting sustainability
+to its full potential.
+
+In conclusion, the LUMI supercomputer, led by experts such as Irina Kupiainen
+and others at the CSC-IT Center for Science, illustrates how supercomputing can
+be both a powerful tool for scientific progress and a leader in environmental
+sustainability. By harnessing renewable energy sources, making efficient use of
+waste heat and taking into account the full lifecycle of HPC systems, LUMI is
+setting a precedent for how high-performance computing can contribute to a
+greener, more sustainable future.
+
 \chapter{Conclusion}
 
 \bibliographystyle{CranfieldNumbered}
@@ -594,34 +812,37 @@ and efficient execution.
 \chapter{Source Codes}
 \begin{subappendices}
     \section{Data Structures}\label{appendix:data-structures}
-    Data stuctures of the sparse matrix and dense vector.
+    Data stuctures of the sparse matrix and fat vector.
     \lstinputlisting[style=cstyle]{../Source Code/MatrixDefinitions.h}
-    
+
     \newpage
 
     \section{Sequential Algorithm}\label{appendix:sequential}
-    Sequential algorithm for multiplying a sparse matrix by a dense vector.
+    Sequential algorithm for multiplying a sparse matrix by a fat vector.
     \subsection{Declaration File}
     \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiply.h}
     \subsection{Implementation File}
     \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiply.cpp}
 
     \section{Line-Based Parallelism}\label{appendix:line-based}
-    Parallel algorithm for multiplying a sparse matrix by a dense vector using line-based parallelism.
+    Parallel algorithm for multiplying a sparse matrix by a fat vector using
+    line-based parallelism.
     \subsection{Declaration File}
     \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiplyRowWise.h}
     \subsection{Implementation File}
     \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiplyRowWise.cpp}
 
     \section{Column-Wise Parallelism}\label{appendix:column-based}
-    Parallel algorithm for multiplying a sparse matrix by a dense vector using column-wise parallelism.
+    Parallel algorithm for multiplying a sparse matrix by a fat vector using
+    column-wise parallelism.
     \subsection{Declaration File}
     \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiplyColumnWise.h}
     \subsection{Implementation File}
     \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiplyColumnWise.cpp}
 
     \section{Non-Zero Element Parallelism}\label{appendix:non-zero}
-    Parallel algorithm for multiplying a sparse matrix by a dense vector using non-zero element parallelism.
+    Parallel algorithm for multiplying a sparse matrix by a fat vector using
+    non-zero element parallelism.
     \subsection{Declaration File}
     \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiplyNonZeroElement.h}
     \subsection{Implementation File}
@@ -638,21 +859,21 @@ and efficient execution.
     Main file for running the different algorithms and comparing their performance.
     \lstinputlisting[style=cstyle]{../Source Code/main.cpp}
 
-    \section{Scripts}\label{appendix:scripts}
-    \subsection{MPI Submission Script}
+    \section{Scripts}
+    \subsection{MPI Submission Script} \label{appendix:mpi-sub}
     Bash script to submit an MPI job to the cluster.
     \lstinputlisting[style=bashstyle]{../Source Code/scripts/mpi.sub}
 
     \newpage
-    \subsection{Batch Test Script}
+    \subsection{Batch Test Script}\label{appendix:batch-test}
     Bash script to submit multiple MPI jobs to the cluster.
     \lstinputlisting[style=bashstyle]{../Source Code/scripts/batch_test.sh}
 
     \newpage
-    \subsection{Get CSV Script}
-    Bash script to analyse all job results files and extract the relevant information to create a CSV file.
-    \lstinputlisting[style=bashstyle]{../Source Code/scripts/get_csv_all.sh}
-    
+    \subsection{Get CSV Script}\label{appendix:get-csv}
+    Bash script to analyse all job results files and extract the relevant
+    information to create a CSV file. \lstinputlisting[style=bashstyle]{../Source
+        Code/scripts/get_csv_all.sh}
 
 \end{subappendices}
 

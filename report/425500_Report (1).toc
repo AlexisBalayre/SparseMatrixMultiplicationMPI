@@ -1,43 +1,55 @@
 \contentsline {chapter}{Abstract}{ii}{chapter*.1}%
-\contentsline {chapter}{Acknowledgements}{iii}{chapter*.2}%
-\contentsline {chapter}{Table of Contents}{iv}{chapter*.3}%
-\contentsline {chapter}{List of Figures}{vi}{chapter*.4}%
-\contentsline {chapter}{List of Tables}{vii}{chapter*.5}%
+\contentsline {chapter}{Table of Contents}{iii}{chapter*.2}%
+\contentsline {chapter}{List of Figures}{v}{chapter*.3}%
+\contentsline {chapter}{List of Tables}{vi}{chapter*.4}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
-\contentsline {chapter}{\numberline {2}Methodology}{2}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Sequential Algorithm}{2}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}Complexity Analysis}{2}{subsection.2.1.1}%
-\contentsline {subsubsection}{\numberline {2.1.1.1}Temporal Complexity}{2}{subsubsection.2.1.1.1}%
-\contentsline {subsubsection}{\numberline {2.1.1.2}Spatial Complexity}{3}{subsubsection.2.1.1.2}%
-\contentsline {subsection}{\numberline {2.1.2}Example}{4}{subsection.2.1.2}%
-\contentsline {section}{\numberline {2.2}Line-Based Parallelism}{5}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Complexity Analysis}{5}{subsection.2.2.1}%
-\contentsline {subsubsection}{\numberline {2.2.1.1}Temporal Complexity}{5}{subsubsection.2.2.1.1}%
-\contentsline {subsubsection}{\numberline {2.2.1.2}Spatial Complexity}{6}{subsubsection.2.2.1.2}%
-\contentsline {section}{\numberline {2.3}Column-Wise Parallelism}{7}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Complexity Analysis}{7}{subsection.2.3.1}%
-\contentsline {subsubsection}{\numberline {2.3.1.1}Temporal Complexity}{7}{subsubsection.2.3.1.1}%
-\contentsline {subsubsection}{\numberline {2.3.1.2}Spatial Complexity}{8}{subsubsection.2.3.1.2}%
-\contentsline {section}{\numberline {2.4}Non-Zero Element Parallelism}{9}{section.2.4}%
-\contentsline {subsection}{\numberline {2.4.1}Complexity Analysis}{9}{subsection.2.4.1}%
-\contentsline {subsubsection}{\numberline {2.4.1.1}Temporal Complexity}{9}{subsubsection.2.4.1.1}%
-\contentsline {subsubsection}{\numberline {2.4.1.2}Spatial Complexity}{10}{subsubsection.2.4.1.2}%
-\contentsline {chapter}{\numberline {3}Conclusion}{11}{chapter.3}%
-\contentsline {chapter}{\numberline {A}Documentation}{12}{appendix.A}%
-\contentsline {section}{\numberline {A.A}Project tree}{12}{section.1.A.A}%
-\contentsline {section}{\numberline {A.B}Getting Started}{12}{section.1.A.B}%
-\contentsline {section}{\numberline {A.C}Detailed Features of Functions}{13}{section.1.A.C}%
-\contentsline {chapter}{\numberline {B}Source Codes}{14}{appendix.B}%
-\contentsline {section}{\numberline {B.A}Sequential Algorithm Source Code}{14}{section.2.B.A}%
-\contentsline {subsection}{\numberline {B.A.1}Declaration File}{14}{subsection.2.B.A.1}%
-\contentsline {subsection}{\numberline {B.A.2}Implementation File}{14}{subsection.2.B.A.2}%
-\contentsline {section}{\numberline {B.B}Line-Based Parallelism Source Code}{15}{section.2.B.B}%
-\contentsline {subsection}{\numberline {B.B.1}Declaration File}{15}{subsection.2.B.B.1}%
-\contentsline {subsection}{\numberline {B.B.2}Implementation File}{15}{subsection.2.B.B.2}%
-\contentsline {section}{\numberline {B.C}Column-Wise Parallelism Source Code}{18}{section.2.B.C}%
+\contentsline {section}{\numberline {1.1}Problem Description}{1}{section.1.1}%
+\contentsline {chapter}{\numberline {2}Methodology}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Data Structures}{3}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Sparse Matrix}{3}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}fat vector}{4}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2.2}Sequential Algorithm}{4}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Complexity Analysis}{4}{subsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.1.1}Temporal Complexity}{4}{subsubsection.2.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.2.1.2}Spatial Complexity}{5}{subsubsection.2.2.1.2}%
+\contentsline {section}{\numberline {2.3}Line-Based Parallelism}{6}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Complexity Analysis}{6}{subsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.1.1}Temporal Complexity}{6}{subsubsection.2.3.1.1}%
+\contentsline {subsubsection}{\numberline {2.3.1.2}Spatial Complexity}{7}{subsubsection.2.3.1.2}%
+\contentsline {section}{\numberline {2.4}Column-Wise Parallelism}{8}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Complexity Analysis}{8}{subsection.2.4.1}%
+\contentsline {subsubsection}{\numberline {2.4.1.1}Temporal Complexity}{8}{subsubsection.2.4.1.1}%
+\contentsline {subsubsection}{\numberline {2.4.1.2}Spatial Complexity}{9}{subsubsection.2.4.1.2}%
+\contentsline {section}{\numberline {2.5}Non-Zero Element Parallelism}{10}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Complexity Analysis}{10}{subsection.2.5.1}%
+\contentsline {subsubsection}{\numberline {2.5.1.1}Temporal Complexity}{10}{subsubsection.2.5.1.1}%
+\contentsline {subsubsection}{\numberline {2.5.1.2}Spatial Complexity}{11}{subsubsection.2.5.1.2}%
+\contentsline {chapter}{\numberline {3}Results and Discussion}{12}{chapter.3}%
+\contentsline {section}{\numberline {3.1}HPC Environmental Impact}{12}{section.3.1}%
+\contentsline {chapter}{\numberline {4}Conclusion}{13}{chapter.4}%
+\contentsline {chapter}{\numberline {A}Documentation}{14}{appendix.A}%
+\contentsline {section}{\numberline {A.A}Project tree}{14}{section.1.A.A}%
+\contentsline {section}{\numberline {A.B}Getting Started}{14}{section.1.A.B}%
+\contentsline {section}{\numberline {A.C}Detailed Features of Functions}{15}{section.1.A.C}%
+\contentsline {chapter}{\numberline {B}Source Codes}{16}{appendix.B}%
+\contentsline {section}{\numberline {B.A}Data Structures}{16}{section.2.B.A}%
+\contentsline {section}{\numberline {B.B}Sequential Algorithm}{17}{section.2.B.B}%
+\contentsline {subsection}{\numberline {B.B.1}Declaration File}{17}{subsection.2.B.B.1}%
+\contentsline {subsection}{\numberline {B.B.2}Implementation File}{17}{subsection.2.B.B.2}%
+\contentsline {section}{\numberline {B.C}Line-Based Parallelism}{18}{section.2.B.C}%
 \contentsline {subsection}{\numberline {B.C.1}Declaration File}{18}{subsection.2.B.C.1}%
 \contentsline {subsection}{\numberline {B.C.2}Implementation File}{18}{subsection.2.B.C.2}%
-\contentsline {section}{\numberline {B.D}Non-Zero Element Parallelism Source Code}{21}{section.2.B.D}%
+\contentsline {section}{\numberline {B.D}Column-Wise Parallelism}{21}{section.2.B.D}%
 \contentsline {subsection}{\numberline {B.D.1}Declaration File}{21}{subsection.2.B.D.1}%
 \contentsline {subsection}{\numberline {B.D.2}Implementation File}{21}{subsection.2.B.D.2}%
-\contentsline {section}{\numberline {B.E}Main File}{24}{section.2.B.E}%
+\contentsline {section}{\numberline {B.E}Non-Zero Element Parallelism}{24}{section.2.B.E}%
+\contentsline {subsection}{\numberline {B.E.1}Declaration File}{24}{subsection.2.B.E.1}%
+\contentsline {subsection}{\numberline {B.E.2}Implementation File}{24}{subsection.2.B.E.2}%
+\contentsline {section}{\numberline {B.F}Utility Functions}{27}{section.2.B.F}%
+\contentsline {subsection}{\numberline {B.F.1}Declaration File}{27}{subsection.2.B.F.1}%
+\contentsline {subsection}{\numberline {B.F.2}Implementation File}{28}{subsection.2.B.F.2}%
+\contentsline {section}{\numberline {B.G}Main File}{32}{section.2.B.G}%
+\contentsline {section}{\numberline {B.H}Scripts}{39}{section.2.B.H}%
+\contentsline {subsection}{\numberline {B.H.1}MPI Submission Script}{39}{subsection.2.B.H.1}%
+\contentsline {subsection}{\numberline {B.H.2}Batch Test Script}{41}{subsection.2.B.H.2}%
+\contentsline {subsection}{\numberline {B.H.3}Get CSV Script}{43}{subsection.2.B.H.3}%
