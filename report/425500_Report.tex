@@ -111,23 +111,20 @@
     morekeywords={config, flow, target, phases, plugins, scenarios, loop, get, url, count, ensure, apdex, threshold, thresholds, duration, arrivalRate, name, pause, metrics -by-endpoint}, % Additional YAML-specific keywords
 }
 
-\lstdefinestyle{servicestyle}{
-backgroundcolor=\color{backcolour},      % choose the background color
-basicstyle=\ttfamily\scriptsize, % print whole listing white
-keywordstyle=\color{blue},          % attributes in blue
-stringstyle=\color{red},            % values in red
-identifierstyle=\color{codepurple},
-breakatwhitespace=false,
-breaklines=true,                    % sets automatic line breaking
-captionpos=b,                       % sets the caption-position to bottom
-keepspaces=true,                    % keeps spaces in text
-showspaces=false,                   % show spaces everywhere adding particular underscores
-showstringspaces=false,             % underline spaces within strings only
-frame=single,                       % adds a frame around the code
-rulecolor=\color{gray},             % if not set, the frame-color may be changed on line-breaks
-morecomment=[l]{\#},                % Define comment style
-moredelim=[s][\color{codegreen}]{[}{]}, % color everything between [ and ] in green
-morekeywords={Description,Wants,After,ExecStart,WantedBy,EnvironmentFile,User,Group,Type,Restart,Documentation,WorkingDirectory,RuntimeDirectory,RuntimeDirectoryMode,LimitNOFILE,TimeoutStopSec,CapabilityBoundingSet,DeviceAllow,LockPersonality,MemoryDenyWriteExecute,NoNewPrivileges,PrivateDevices,PrivateTmp,ProtectClock,ProtectControlGroups,ProtectHome,ProtectHostname,ProtectKernelLogs,ProtectKernelModules,ProtectKernelTunables,ProtectProc,ProtectSystem,RemoveIPC,RestrictAddressFamilies,RestrictNamespaces,RestrictRealtime,RestrictSUIDSGID,SystemCallArchitectures,UMask} % add your attributes here
+\lstdefinestyle{cstyle}{
+    language=C++,
+    basicstyle=\ttfamily\scriptsize,
+    keywordstyle=\color{blue},
+    backgroundcolor=\color{backcolour},
+    stringstyle=\color{red},
+    commentstyle=\color{codegreen},
+    morecomment=[l][\color{magenta}]{\#},
+    breaklines=true,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    showstringspaces=false,
+    tabsize=2,
+    frame=single
 }
 
 % Title Page Set Up
@@ -592,6 +589,57 @@ and efficient execution.
                   \item \texttt{writeToTimestream(database\_name, table\_name, partionned\_df)}: Function for writing the DataFrame to the Timestream database.
               \end{itemize}
     \end{description}
+\end{subappendices}
+
+\chapter{Source Codes}
+\begin{subappendices}
+    \section{Sequential Algorithm}\label{appendix:sequential}
+    \subsection{Declaration File}
+    \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiply.h}
+    \subsection{Implementation File}
+    \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiply.cpp}
+
+    \section{Line-Based Parallelism}\label{appendix:line-based}
+    \subsection{Declaration File}
+    \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiplyRowWise.h}
+    \subsection{Implementation File}
+    \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiplyRowWise.cpp}
+
+    \section{Column-Wise Parallelism}\label{appendix:column-based}
+    \subsection{Declaration File}
+    \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiplyColumnWise.h}
+    \subsection{Implementation File}
+    \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiplyColumnWise.cpp}
+
+    \section{Non-Zero Element Parallelism}\label{appendix:non-zero}
+    \subsection{Declaration File}
+    \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiplyNonZeroElement.h}
+    \subsection{Implementation File}
+    \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiplyNonZeroElement.cpp}
+
+    \section{Utility Functions}\label{appendix:utility}
+    \subsection{Declaration File}
+    \lstinputlisting[style=cstyle]{../Source Code/utils.h}
+    \subsection{Implementation File}
+    \lstinputlisting[style=cstyle]{../Source Code/utils.cpp}
+
+    \section{Main File}\label{appendix:main}
+    \lstinputlisting[style=cstyle]{../Source Code/main.cpp}
+
+    \section{Scripts}\label{appendix:scripts}
+    \subsection{MPI Submission Script}
+    \lstinputlisting[style=bashstyle]{../Source Code/scripts/mpi.sub}
+
+    \newpage
+    \subsection{Batch Test Script}
+    \lstinputlisting[style=bashstyle]{../Source Code/scripts/batch_test.sh}
+
+    \newpage
+    \subsection{Get CSV Script}
+    Bash script to analyse all job results files and extract the relevant information to create a CSV file.
+    \lstinputlisting[style=bashstyle]{../Source Code/scripts/get_csv_all.sh}
+    
+
 \end{subappendices}
 
 \end{document}
