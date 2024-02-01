@@ -593,45 +593,59 @@ and efficient execution.
 
 \chapter{Source Codes}
 \begin{subappendices}
+    \section{Data Structures}\label{appendix:data-structures}
+    Data stuctures of the sparse matrix and dense vector.
+    \lstinputlisting[style=cstyle]{../Source Code/MatrixDefinitions.h}
+    
+    \newpage
+
     \section{Sequential Algorithm}\label{appendix:sequential}
+    Sequential algorithm for multiplying a sparse matrix by a dense vector.
     \subsection{Declaration File}
     \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiply.h}
     \subsection{Implementation File}
     \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiply.cpp}
 
     \section{Line-Based Parallelism}\label{appendix:line-based}
+    Parallel algorithm for multiplying a sparse matrix by a dense vector using line-based parallelism.
     \subsection{Declaration File}
     \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiplyRowWise.h}
     \subsection{Implementation File}
     \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiplyRowWise.cpp}
 
     \section{Column-Wise Parallelism}\label{appendix:column-based}
+    Parallel algorithm for multiplying a sparse matrix by a dense vector using column-wise parallelism.
     \subsection{Declaration File}
     \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiplyColumnWise.h}
     \subsection{Implementation File}
     \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiplyColumnWise.cpp}
 
     \section{Non-Zero Element Parallelism}\label{appendix:non-zero}
+    Parallel algorithm for multiplying a sparse matrix by a dense vector using non-zero element parallelism.
     \subsection{Declaration File}
     \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiplyNonZeroElement.h}
     \subsection{Implementation File}
     \lstinputlisting[style=cstyle]{../Source Code/SparseMatrixDenseVectorMultiplyNonZeroElement.cpp}
 
     \section{Utility Functions}\label{appendix:utility}
+    Utility functions used by the main file.
     \subsection{Declaration File}
     \lstinputlisting[style=cstyle]{../Source Code/utils.h}
     \subsection{Implementation File}
     \lstinputlisting[style=cstyle]{../Source Code/utils.cpp}
 
     \section{Main File}\label{appendix:main}
+    Main file for running the different algorithms and comparing their performance.
     \lstinputlisting[style=cstyle]{../Source Code/main.cpp}
 
     \section{Scripts}\label{appendix:scripts}
     \subsection{MPI Submission Script}
+    Bash script to submit an MPI job to the cluster.
     \lstinputlisting[style=bashstyle]{../Source Code/scripts/mpi.sub}
 
     \newpage
     \subsection{Batch Test Script}
+    Bash script to submit multiple MPI jobs to the cluster.
     \lstinputlisting[style=bashstyle]{../Source Code/scripts/batch_test.sh}
 
     \newpage

@@ -1,8 +1,8 @@
 \contentsline {chapter}{Abstract}{ii}{chapter*.1}%
 \contentsline {chapter}{Acknowledgements}{iii}{chapter*.2}%
 \contentsline {chapter}{Table of Contents}{iv}{chapter*.3}%
-\contentsline {chapter}{List of Figures}{v}{chapter*.4}%
-\contentsline {chapter}{List of Tables}{vi}{chapter*.5}%
+\contentsline {chapter}{List of Figures}{vi}{chapter*.4}%
+\contentsline {chapter}{List of Tables}{vii}{chapter*.5}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {chapter}{\numberline {2}Methodology}{2}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Sequential Algorithm}{2}{section.2.1}%
@@ -28,24 +28,23 @@
 \contentsline {section}{\numberline {A.B}Getting Started}{12}{section.1.A.B}%
 \contentsline {section}{\numberline {A.C}Detailed Features of Functions}{13}{section.1.A.C}%
 \contentsline {chapter}{\numberline {B}Source Codes}{14}{appendix.B}%
-\contentsline {section}{\numberline {B.A}Data Structures}{14}{section.2.B.A}%
-\contentsline {section}{\numberline {B.B}Sequential Algorithm}{15}{section.2.B.B}%
+\contentsline {section}{\numberline {B.A}Sequential Algorithm}{14}{section.2.B.A}%
+\contentsline {subsection}{\numberline {B.A.1}Declaration File}{14}{subsection.2.B.A.1}%
+\contentsline {subsection}{\numberline {B.A.2}Implementation File}{14}{subsection.2.B.A.2}%
+\contentsline {section}{\numberline {B.B}Line-Based Parallelism}{15}{section.2.B.B}%
 \contentsline {subsection}{\numberline {B.B.1}Declaration File}{15}{subsection.2.B.B.1}%
 \contentsline {subsection}{\numberline {B.B.2}Implementation File}{15}{subsection.2.B.B.2}%
-\contentsline {section}{\numberline {B.C}Line-Based Parallelism}{16}{section.2.B.C}%
-\contentsline {subsection}{\numberline {B.C.1}Declaration File}{16}{subsection.2.B.C.1}%
-\contentsline {subsection}{\numberline {B.C.2}Implementation File}{16}{subsection.2.B.C.2}%
-\contentsline {section}{\numberline {B.D}Column-Wise Parallelism}{19}{section.2.B.D}%
-\contentsline {subsection}{\numberline {B.D.1}Declaration File}{19}{subsection.2.B.D.1}%
-\contentsline {subsection}{\numberline {B.D.2}Implementation File}{19}{subsection.2.B.D.2}%
-\contentsline {section}{\numberline {B.E}Non-Zero Element Parallelism}{22}{section.2.B.E}%
-\contentsline {subsection}{\numberline {B.E.1}Declaration File}{22}{subsection.2.B.E.1}%
-\contentsline {subsection}{\numberline {B.E.2}Implementation File}{22}{subsection.2.B.E.2}%
-\contentsline {section}{\numberline {B.F}Utility Functions}{25}{section.2.B.F}%
-\contentsline {subsection}{\numberline {B.F.1}Declaration File}{25}{subsection.2.B.F.1}%
-\contentsline {subsection}{\numberline {B.F.2}Implementation File}{26}{subsection.2.B.F.2}%
-\contentsline {section}{\numberline {B.G}Main File}{30}{section.2.B.G}%
-\contentsline {section}{\numberline {B.H}Scripts}{37}{section.2.B.H}%
-\contentsline {subsection}{\numberline {B.H.1}MPI Submission Script}{37}{subsection.2.B.H.1}%
-\contentsline {subsection}{\numberline {B.H.2}Batch Test Script}{39}{subsection.2.B.H.2}%
-\contentsline {subsection}{\numberline {B.H.3}Get CSV Script}{41}{subsection.2.B.H.3}%
+\contentsline {section}{\numberline {B.C}Column-Wise Parallelism}{18}{section.2.B.C}%
+\contentsline {subsection}{\numberline {B.C.1}Declaration File}{18}{subsection.2.B.C.1}%
+\contentsline {subsection}{\numberline {B.C.2}Implementation File}{18}{subsection.2.B.C.2}%
+\contentsline {section}{\numberline {B.D}Non-Zero Element Parallelism}{21}{section.2.B.D}%
+\contentsline {subsection}{\numberline {B.D.1}Declaration File}{21}{subsection.2.B.D.1}%
+\contentsline {subsection}{\numberline {B.D.2}Implementation File}{21}{subsection.2.B.D.2}%
+\contentsline {section}{\numberline {B.E}Utility Functions}{24}{section.2.B.E}%
+\contentsline {subsection}{\numberline {B.E.1}Declaration File}{24}{subsection.2.B.E.1}%
+\contentsline {subsection}{\numberline {B.E.2}Implementation File}{25}{subsection.2.B.E.2}%
+\contentsline {section}{\numberline {B.F}Main File}{29}{section.2.B.F}%
+\contentsline {section}{\numberline {B.G}Scripts}{36}{section.2.B.G}%
+\contentsline {subsection}{\numberline {B.G.1}MPI Submission Script}{36}{subsection.2.B.G.1}%
+\contentsline {subsection}{\numberline {B.G.2}Batch Test Script}{38}{subsection.2.B.G.2}%
+\contentsline {subsection}{\numberline {B.G.3}Get CSV Script}{40}{subsection.2.B.G.3}%
