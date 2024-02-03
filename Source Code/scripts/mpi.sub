@@ -49,7 +49,7 @@
 ## Your email address is NOT your username
 ##
 #PBS -m abe 
-#PBS -M alexis.balayre@cranfield.ac.uk
+#PBS -M alexis.balayre.500@cranfield.ac.uk
 ##
 ## ====================================
 ## DO NOT CHANGE THE LINES BETWEEN HERE

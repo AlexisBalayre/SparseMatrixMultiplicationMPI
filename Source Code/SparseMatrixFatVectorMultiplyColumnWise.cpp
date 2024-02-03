@@ -1,6 +1,6 @@
 #include <mpi.h>
 #include "SparseMatrixFatVectorMultiplyColumnWise.h"
-#include <numeric> // Pour std::accumulate
+#include <numeric> // std::accumulate
 
 /**
  * @brief Function to execute the sparse matrix-Fat Vector multiplication using column-wise parallel algorithm
