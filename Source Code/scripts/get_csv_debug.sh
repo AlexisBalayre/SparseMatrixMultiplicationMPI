@@ -4,7 +4,7 @@
 output_csv="results_debug.csv"
 
 # Headers for the CSV file
-echo "File Name,Cores Number,Sparse Matrix,Dense Vector,Serial Algo Execution time,Setup time,Row-wise Average Communication Time,Row-wise Average Computation Time,Row-wise Execution time,Row-wise Result,Column-wise Average Communication Time,Column-wise Average Computation Time,Column-wise Execution time,Column-wise Result,Non-zero elements Average Communication Time,Non-zero elements Average Computation Time,Non-zero Elements Execution time,Non-zero Elements Result,PETSc Setup time,PETSc Execution time,PETSc Conversion time,PETSc Result" >$output_csv
+echo "File Name,Cores Number,Sparse Matrix,Fat Vector,Serial Algo Execution time,Setup time,Row-wise Average Communication Time,Row-wise Average Computation Time,Row-wise Execution time,Row-wise Result,Column-wise Average Communication Time,Column-wise Average Computation Time,Column-wise Execution time,Column-wise Result,Non-zero elements Average Communication Time,Non-zero elements Average Computation Time,Non-zero Elements Execution time,Non-zero Elements Result,PETSc Setup time,PETSc Execution time,PETSc Conversion time,PETSc Result" >$output_csv
 
 # Loop over the output files (Debug Files Only)
 for file in debug*.o*; do
@@ -21,7 +21,7 @@ for file in debug*.o*; do
         # Extract the serial execution time from the file
         serial_time=$(grep "Serial Algo Execution time" $file | awk '{print $5}')
 
-        # Broadcast time of Sparse Matrix and Dense Vector
+        # Broadcast time of Sparse Matrix and Fat Vector
         setup_time=$(grep "Broadcast time" $file | awk '{print $3}')
 
         # Row-wise Data

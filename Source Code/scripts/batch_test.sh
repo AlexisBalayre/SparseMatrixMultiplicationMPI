@@ -8,7 +8,7 @@ original_script="mpi.sub"
 # Maximum number of cores used for the job
 max_cores=96
 
-# Define a set of k values to test (Number of columns in the dense vector)
+# Define a set of k values to test (Number of columns in the Fat Vector)
 k_values=(1 3 6 9 12)
 
 # Define a set of paths to test

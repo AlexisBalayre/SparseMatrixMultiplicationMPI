@@ -1,8 +1,8 @@
 #include "utils.h"                                         // Utility functions
-#include "SparseMatrixDenseVectorMultiply.h"               // Sequential algorithm
-#include "SparseMatrixDenseVectorMultiplyRowWise.h"        // Parallel algorithm (row-wise)
-#include "SparseMatrixDenseVectorMultiplyColumnWise.h"     // Parallel algorithm (column-wise)
-#include "SparseMatrixDenseVectorMultiplyNonZeroElement.h" // Parallel algorithm (non-zero element)
+#include "SparseMatrixFatVectorMultiply.h"               // Sequential algorithm
+#include "SparseMatrixFatVectorMultiplyRowWise.h"        // Parallel algorithm (row-wise)
+#include "SparseMatrixFatVectorMultiplyColumnWise.h"     // Parallel algorithm (column-wise)
+#include "SparseMatrixFatVectorMultiplyNonZeroElement.h" // Parallel algorithm (non-zero element)
 
 int main(int argc, char *argv[])
 {
@@ -33,14 +33,14 @@ int main(int argc, char *argv[])
     int k = std::atoi(argv[1]);     // Convert the first argument to an integer
     std::string filename = argv[2]; // The second argument is the filename
 
-    // Declare the sparse matrix and dense vector
+    // Declare the sparse matrix and Fat Vector
     SparseMatrix M;
-    DenseVector v;
+    FatVector v;
 
     // Declare the result of the serial multiplication
-    DenseVector resultSerial;
+    FatVector resultSerial;
 
-    // Declare the data for broadcasting the sparse matrix and dense vector
+    // Declare the data for broadcasting the sparse matrix and Fat Vector
     std::vector<double> flatData;
     int dataSize = 0;
 
@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
     double startTime, endTime;
 
     // --------------------------------------------------------------------------------------------------------------
-    // =========================== READ THE SPARSE MATRIX AND GENERATE THE DENSE VECTOR =============================
+    // =========================== READ THE SPARSE MATRIX AND GENERATE THE Fat Vector =============================
     // --------------------------------------------------------------------------------------------------------------
     if (worldRank == 0)
     {
@@ -59,12 +59,12 @@ int main(int argc, char *argv[])
         M = readMatrixMarketFile(filename);
         std::cout << "Matrix size: " << M.numRows << "x" << M.numCols << std::endl;
 
-        // Generate a random dense vector
-        v = generateLargeDenseVector(M.numCols, k);
+        // Generate a random Fat Vector
+        v = generateLargeFatVector(M.numCols, k);
         std::cout << "Vector size: " << M.numCols << "x" << k << std::endl;
 
         // Prepare the data for broadcasting
-        flatData = serialize(v);    // Serialize the dense vector
+        flatData = serialize(v);    // Serialize the Fat Vector
         dataSize = flatData.size(); // Size of the serialized data
     }
 
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
     {
         // Execute the serial multiplication
         startTime = MPI_Wtime();
-        resultSerial = sparseMatrixDenseVectorMultiply(M, v, k);
+        resultSerial = sparseMatrixFatVectorMultiply(M, v, k);
         endTime = MPI_Wtime();
         std::cout << "Serial Algo Execution time: " << (endTime - startTime)
                   << std::endl;
@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
     }
 
     // --------------------------------------------------------------------------------------------------------------
-    // ================================ BROADCAST THE SPARSE MATRIX AND DENSE VECTOR ================================
+    // ================================ BROADCAST THE SPARSE MATRIX AND Fat Vector ================================
     // --------------------------------------------------------------------------------------------------------------
 
     // Wait for the main process to finish the serial multiplication
@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
     MPI_Bcast(M.colIndices.data(), colIndicesSize, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(M.rowPtr.data(), rowPtrSize, MPI_INT, 0, MPI_COMM_WORLD);
 
-    // Broadcast the Dense Vector to all processes
+    // Broadcast the Fat Vector to all processes
     // Broadcast the size of the serialized data
     MPI_Bcast(&dataSize, 1, MPI_INT, 0, MPI_COMM_WORLD);
     // Resize flatData for all processes
@@ -159,7 +159,7 @@ int main(int argc, char *argv[])
 
     // Execute the parallel multiplication (row-wise)
     startTime = MPI_Wtime();
-    DenseVector resultRowWise = sparseMatrixDenseVectorMultiplyRowWise(M, v, k);
+    FatVector resultRowWise = sparseMatrixFatVectorMultiplyRowWise(M, v, k);
     endTime = MPI_Wtime();
 
     // Only the main process prints the parallel execution time
@@ -202,7 +202,7 @@ int main(int argc, char *argv[])
 
     // Execute the parallel multiplication (column-wise)
     startTime = MPI_Wtime();
-    DenseVector resultColumnWise = sparseMatrixDenseVectorMultiplyColumnWise(M, v, k);
+    FatVector resultColumnWise = sparseMatrixFatVectorMultiplyColumnWise(M, v, k);
     endTime = MPI_Wtime();
 
     // Only the main process prints the parallel execution time
@@ -245,7 +245,7 @@ int main(int argc, char *argv[])
 
     // Execute the parallel multiplication (non-zero element)
     startTime = MPI_Wtime();
-    DenseVector resultNonZeroElement = sparseMatrixDenseVectorMultiplyNonZeroElement(M, v, k);
+    FatVector resultNonZeroElement = sparseMatrixFatVectorMultiplyNonZeroElement(M, v, k);
     endTime = MPI_Wtime();
 
     // Only the main process prints the parallel execution time
@@ -313,7 +313,7 @@ int main(int argc, char *argv[])
     MatAssemblyBegin(A, MAT_FINAL_ASSEMBLY);
     MatAssemblyEnd(A, MAT_FINAL_ASSEMBLY);
 
-    // Create a parallel matrix to store the dense vector
+    // Create a parallel matrix to store the Fat Vector
     MatCreate(PETSC_COMM_WORLD, &B);
     MatSetSizes(B, PETSC_DECIDE, PETSC_DECIDE, M.numCols, k);
     MatSetType(B, MATDENSE);
@@ -362,8 +362,8 @@ int main(int argc, char *argv[])
 
     if (worldRank == 0)
     {
-        // Convert the result matrix C to a DenseVector
-        DenseVector globalMatrix = ConvertPETScMatToDenseVector(CSeq);
+        // Convert the result matrix C to a FatVector
+        FatVector globalMatrix = ConvertPETScMatToFatVector(CSeq);
 
         // =========================== FOR DEBUGGING ONLY - STOP PETSCS CONVERSION TIMER ===================================
         // endTime = MPI_Wtime();

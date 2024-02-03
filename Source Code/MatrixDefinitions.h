@@ -18,7 +18,7 @@ struct SparseMatrix
     std::vector<int> rowPtr;
 };
 
-// Type definition for a dense vector
-typedef std::vector<std::vector<double>> DenseVector;
+// Type definition for a Fat Vector
+typedef std::vector<std::vector<double>> FatVector;
 
 #endif

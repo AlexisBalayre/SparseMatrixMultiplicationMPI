@@ -4,7 +4,7 @@
 output_csv="results.csv"
 
 # Headers for the CSV file
-echo "file Name,Cores Number,Sparse Matrix,Dense Vector,Serial Algo Execution time,Row-wise Average Communication Time,Row-wise Average Computation Time,Row-wise Execution time,Row-wise Result,Column-wise Average Communication Time,Column-wise Average Computation Time,Column-wise Execution time,Column-wise Result,Non-zero elements Average Communication Time,Non-zero elements Average Computation Time,Non-zero Elements Execution time,Non-zero Elements Result,PETSc Execution time,PETSc Result" >$output_csv
+echo "file Name,Cores Number,Sparse Matrix,Fat Vector,Serial Algo Execution time,Row-wise Average Communication Time,Row-wise Average Computation Time,Row-wise Execution time,Row-wise Result,Column-wise Average Communication Time,Column-wise Average Computation Time,Column-wise Execution time,Column-wise Result,Non-zero elements Average Communication Time,Non-zero elements Average Computation Time,Non-zero Elements Execution time,Non-zero Elements Result,PETSc Execution time,PETSc Result" >$output_csv
 
 # Loop over the output files
 for file in *.o*; do
