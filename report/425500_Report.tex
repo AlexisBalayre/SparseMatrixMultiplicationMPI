@@ -338,8 +338,8 @@ follows:
                     are evenly distributed across \( m \) rows, each process handles approximately
                     \( \frac{z}{\text{worldSize}} \) non-zero elements.
               \item The computation for each non-zero element involves accessing the element and
-                    its corresponding column in the dense vector, followed by a multiplication and
-                    an addition. This operation is \( O(1) \).
+                    its corresponding column in the fat vector, followed by a multiplication and an
+                    addition. This operation is \( O(1) \).
               \item Thus, the local computation for each process has a time complexity of \(
                     O\left(\frac{z}{\text{worldSize}}\right) \).
           \end{itemize}
@@ -384,7 +384,7 @@ element.
 \subsection{Algorithm Flow}
 
 \begin{algorithm}
-    \caption{Column-wise Parallel Sparse Matrix-Dense Vector Multiplication}
+    \caption{Column-wise Parallel Sparse Matrix-Fat Vector Multiplication}
     \begin{algorithmic}
         \Require $M$ is an $m \times n$ sparse matrix
         \Require $v$ is an $n \times k$ fat vector
@@ -880,61 +880,166 @@ greener, more sustainable future.
 \begin{subappendices}
     \section{Project tree}
     \begin{lstlisting}[breaklines=true, basicstyle=\small]
-    lib/
-        collecting.py
-        processing.py
-        storing.py
-    scripts/
-        get_iam_credentials.sh
-        start_spark_job.sh
-    services/
-        get_iam_credentials.service
-        spark_python_job.service
-    test/
-        artillery_load_test.yml
-        monitoring.py
-        metrics.csv
-        results.json
-        visualisation_load_test.ipynb
-    main.py
-    README.md
-    requirements.txt
+    Source Code/
+        scripts/
+            batch_test.sh
+            get_csv_all.sh
+            get_csv_debug.sh
+            get_csv_specific.sh
+            mpi.sub
+        MatrixDefinitions.h
+        SparseMatrixFatVectorMultiply.h
+        SparseMatrixFatVectorMultiply.cpp
+        SparseMatrixFatVectorMultiplyRowWise.h
+        SparseMatrixFatVectorMultiplyRowWise.cpp
+        SparseMatrixFatVectorMultiplyColumnWise.h
+        SparseMatrixFatVectorMultiplyColumnWise.cpp
+        SparseMatrixFatVectorMultiplyNonZeroElement.h
+        SparseMatrixFatVectorMultiplyNonZeroElement.cpp
+        utils.h
+        utils.cpp
+        main.cpp
+    results/
+        fat_vector_dim/
+            <sparse_matrix>_<k>_<metric>.png
+        matrix_dim/
+            <sparse_matrix>_<k>_<metric>.png
     \end{lstlisting}
 
     \section{Getting Started}
     To run the program, follow these steps:
     \begin{enumerate}
         \itemindent=17.87pt
-        \item Create a virtual environment using \texttt{python3 -m venv venv}.
-        \item Activate the virtual environment using \texttt{source venv/bin/activate}.
-        \item Install the required dependencies using \texttt{pip3 install -r
-                  requirements.txt}.
-        \item Run the program using \texttt{python3 main.py}.
-        \item Visualise the results using \texttt{visualisation.ipynb} (Jupyter Notebook).
+        \item Install the required libraries:
+              \href{https://docs.open-mpi.org/en/main/installing-open-mpi/quickstart.html}{mpi}
+              \& \href{https://petsc.org/release/install/}{petsc}
+        \item Compile the main program using the following command:
+              \begin{lstlisting}[style=bashstyle]
+                mmpicxx -o <executable_name> -I${PETSC_DIR}/include -I${PETSC_DIR}/${PETSC_ARCH}/include -L${PETSC_DIR}/${PETSC_ARCH}/lib -lpetsc SparseMatrixFatVectorMultiply.cpp  main_verify.cpp utils.cpp SparseMatrixFatVectorMultiplyColumnWise.cpp SparseMatrixFatVectorMultiplyNonZeroElement.cpp SparseMatrixFatVectorMultiplyRowWise.cpp
+            \end{lstlisting}
+        \item Run the program using the following command:
+              \begin{lstlisting}[style=bashstyle]
+                mpirun -np <number_of_processes> <executable_name> <k> <sparse_matrix_file_pathw>
+            \end{lstlisting}
     \end{enumerate}
 
-    \section{Detailed Features of Functions}
-    \begin{description}
-        \item \texttt{collecting.py}
-              \begin{itemize}
-                  \item \texttt{fetch\_sensors\_data(sparkSession)}: Function to ingest the latest data from the sensors and returns it as a Spark DataFrame.
-              \end{itemize}
+    \section{Methods Overview}
+    \subsection{Utils.h}
+    \subsubsection{ConvertPETScMatToFatVector}
 
-        \item \texttt{processing.py}
-              \begin{itemize}
-                  \item \texttt{get\_aqi\_value\_p25(value)}: Function for calculating the AQI value for PM2.5.
-                  \item \texttt{get\_aqi\_value\_p10(value)}: Function for calculating the AQI value for PM10.
-                  \item \texttt{computeAQI(df)}: Function for calculating the AQI value for each particulate matter sensor and returning the DataFrame with the AQI column.
-              \end{itemize}
+    \textbf{Description:} Converts a PETSc matrix to a FatVector stucture.\\
 
-        \item \texttt{storing.py}
-              \begin{itemize}
-                  \item \texttt{keepOnlyUpdatedRows(database\_name, table\_name, df)}: Function for keeping only the rows that have been updated in the DataFrame.
-                  \item \texttt{\_print\_rejected\_records\_exceptions(err)}: Internal function for printing the rejected records exceptions.
-                  \item \texttt{write\_records(database\_name, table\_name, client, records)}: Internal function for writing a batch of records to the Timestream database.
-                  \item \texttt{writeToTimestream(database\_name, table\_name, partionned\_df)}: Function for writing the DataFrame to the Timestream database.
-              \end{itemize}
-    \end{description}
+    \textbf{Parameters:}
+    \begin{itemize}
+        \item \texttt{Mat C} - PETSc matrix to be converted.
+    \end{itemize}
+
+    \textbf{Returns:} \texttt{FatVector} - Fat vector representation of the PETSc matrix.
+
+    \subsubsection{areMatricesEqual}
+    \textbf{Description:} Compares two matrices for equality within a specified tolerance.\\
+
+    \textbf{Parameters:}
+    \begin{itemize}
+        \item \texttt{FatVector \&mat1} - First matrix.
+        \item \texttt{FatVector \&mat2} - Second matrix.
+        \item \texttt{double tolerance} - Tolerance for comparison.
+    \end{itemize}
+
+    \textbf{Returns:} \texttt{bool} - True if matrices are equal within the tolerance, false otherwise.
+
+    \subsubsection{readMatrixMarketFile}
+    \textbf{Description:} Reads a matrix from a Matrix Market file into a sparse matrix format.\\
+
+    \textbf{Parameters:}
+    \begin{itemize}
+        \item \texttt{std::string \&filename} - Name of the Matrix Market file.
+    \end{itemize}
+    
+    \textbf{Returns:} \texttt{SparseMatrix} - Sparse matrix read from the file.
+
+    \subsubsection{generateLargeFatVector}
+    \textbf{Description:} Generates a random Fat Vector with specified dimensions.\\
+
+    \textbf{Parameters:}
+    \begin{itemize}
+        \item \texttt{int n} - Number of rows.
+        \item \texttt{int k} - Number of columns.
+    \end{itemize}
+
+    \textbf{Returns:} \texttt{FatVector} - Generated fat vector.
+
+    \subsubsection{serialize and deserialize}
+    \textbf{Description:} Serializes and deserializes a FatVector to and from a flat array, respectively.\\
+
+    \textbf{Parameters for serialize:}
+    \begin{itemize}
+        \item \texttt{FatVector \&denseVec} - fat vector to serialize.
+    \end{itemize}
+
+    \textbf{Returns:} \texttt{std::vector<double>} - Flat array containing the serialized data.\\
+
+    \textbf{Parameters for deserialize:}
+    \begin{itemize}
+        \item \texttt{std::vector<double> \&flat} - Flat array to deserialize.
+        \item \texttt{int rows} - Number of rows in the fat vector.
+        \item \texttt{int cols} - Number of columns in the fat vector.
+    \end{itemize}
+
+    \textbf{Returns:} \texttt{FatVector} - Deserialized fat vector.
+
+    \subsection{SparseMatrixFatVectorMultiply.h}
+    \subsubsection{sparseMatrixFatVectorMultiply}
+    \textbf{Description:} Executes the multiplication using a sequential algorithm.\\
+
+    \textbf{Parameters:}
+    \begin{itemize}
+        \item \texttt{SparseMatrix \&sparseMatrix} - The sparse matrix.
+        \item \texttt{FatVector \&fatVector} - The Fat Vector.
+        \item \texttt{int vecCols} - Number of columns in the Fat Vector.
+    \end{itemize}
+
+    \textbf{Returns:} \texttt{FatVector} - Result of the multiplication.
+
+    \subsection{SparseMatrixFatVectorMultiplyRowWise.h}
+    \subsubsection{sparseMatrixFatVectorMultiplyRowWise}
+    \textbf{Description:} Multiplies a sparse matrix with a Fat Vector using row-wise distribution.\\
+
+    \textbf{Parameters:}
+    \begin{itemize}
+        \item \texttt{SparseMatrix \&sparseMatrix} - The sparse matrix.
+        \item \texttt{FatVector \&fatVector} - The Fat Vector.
+        \item \texttt{int vecCols} - Number of columns in the Fat Vector.
+    \end{itemize}
+
+    \textbf{Returns:} \texttt{FatVector} - Result of the multiplication.
+
+    \subsection{SparseMatrixFatVectorMultiplyColumnWise.h}
+    \subsubsection{sparseMatrixFatVectorMultiplyColumnWise}
+    \textbf{Description:} Executes the multiplication using column-wise parallel algorithm.\\
+
+    \textbf{Parameters:}
+    \begin{itemize}
+        \item \texttt{SparseMatrix \&sparseMatrix} - The sparse matrix.
+        \item \texttt{FatVector \&fatVector} - The Fat Vector.
+        \item \texttt{int vecCols} - Number of columns in the Fat Vector.
+    \end{itemize}
+
+    \textbf{Returns:} \texttt{FatVector} - Result of the multiplication.
+
+    \subsection{SparseMatrixFatVectorMultiplyNonZeroElement.h}
+    \subsubsection{sparseMatrixFatVectorMultiplyNonZeroElement}
+    \textbf{Description:} Executes the multiplication using non-zero element parallel algorithm.\\
+
+    \textbf{Parameters:}
+    \begin{itemize}
+        \item \texttt{SparseMatrix \&sparseMatrix} - The sparse matrix.
+        \item \texttt{FatVector \&fatVector} - The Fat Vector.
+        \item \texttt{int vecCols} - Number of columns in the Fat Vector.
+    \end{itemize}
+
+    \textbf{Returns:} \texttt{FatVector} - Result of the multiplication.
+
 \end{subappendices}
 
 \chapter{Source Codes}

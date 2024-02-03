@@ -3,14 +3,14 @@
 /**
  * Method to convert a PETSc matrix to a fat vector
  * @param C PETSc matrix
- * @return FatVector Dense vector
+ * @return FatVector fat vector
  */
 FatVector ConvertPETScMatToFatVector(Mat C)
 {
     PetscInt m, n;         // Number of rows and columns in the matrix
     MatGetSize(C, &m, &n); // Get the number of rows and columns in the matrix
 
-    FatVector denseVec(m, std::vector<double>(n, 0.0)); // Dense vector to hold the matrix
+    FatVector denseVec(m, std::vector<double>(n, 0.0)); // fat vector to hold the matrix
 
     // Iterate over the rows of the matrix
     for (int i = 0; i < m; ++i)
@@ -188,11 +188,11 @@ SparseMatrix readMatrixMarketFile(const std::string &filename)
  * Method to generate a random fat vector
  * @param n Number of rows
  * @param m Number of columns
- * @return FatVector Dense vector
+ * @return FatVector fat vector
  */
 FatVector generateLargeFatVector(int n, int k)
 {
-    FatVector denseVector(n, std::vector<double>(k)); // Dense vector to hold the random values
+    FatVector denseVector(n, std::vector<double>(k)); // fat vector to hold the random values
 
     // Iterate over the rows of the fat vector
     for (int i = 0; i < n; ++i)
@@ -210,7 +210,7 @@ FatVector generateLargeFatVector(int n, int k)
 
 /**
  * @brief Method to serialize a FatVector to a flat array
- * @param denseVec Dense vector to serialize
+ * @param denseVec fat vector to serialize
  * @return std::vector<double> Flat array containing the serialized data
  */
 std::vector<double> serialize(const FatVector &denseVec)
@@ -232,11 +232,11 @@ std::vector<double> serialize(const FatVector &denseVec)
  * @param flat Flat array to deserialize
  * @param rows Number of rows in the fat vector
  * @param cols Number of columns in the fat vector
- * @return FatVector Dense vector
+ * @return FatVector fat vector
  */
 FatVector deserialize(const std::vector<double> &flat, int rows, int cols)
 {
-    FatVector denseVec(rows, std::vector<double>(cols)); // Dense vector to hold the deserialized data
+    FatVector denseVec(rows, std::vector<double>(cols)); // fat vector to hold the deserialized data
 
     // Iterate over the rows of the fat vector
     for (int i = 0; i < rows; ++i)

@@ -19,7 +19,7 @@
 /**
  * Method to convert a PETSc matrix to a fat vector
  * @param C PETSc matrix
- * @return FatVector Dense vector
+ * @return FatVector fat vector
  */
 FatVector ConvertPETScMatToFatVector(Mat C);
 
@@ -43,13 +43,13 @@ SparseMatrix readMatrixMarketFile(const std::string &filename);
  * Method to generate a random fat vector
  * @param n Number of rows
  * @param m Number of columns
- * @return FatVector Dense vector
+ * @return FatVector fat vector
  */
 FatVector generateLargeFatVector(int n, int k);
 
 /**
  * @brief Method to serialize a FatVector to a flat array
- * @param denseVec Dense vector to serialize
+ * @param denseVec fat vector to serialize
  * @return std::vector<double> Flat array containing the serialized data
  */
 std::vector<double> serialize(const FatVector &denseVec);
@@ -59,7 +59,7 @@ std::vector<double> serialize(const FatVector &denseVec);
  * @param flat Flat array to deserialize
  * @param rows Number of rows in the fat vector
  * @param cols Number of columns in the fat vector
- * @return FatVector Dense vector
+ * @return FatVector fat vector
  */
 FatVector deserialize(const std::vector<double> &flat, int rows, int cols);
 
