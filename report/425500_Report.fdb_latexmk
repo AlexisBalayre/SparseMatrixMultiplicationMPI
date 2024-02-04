@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex 425500_Report"] 1707062619 "425500_Report.aux" "425500_Report.bbl" "425500_Report" 1707062626 0
+["bibtex 425500_Report"] 1707062710 "425500_Report.aux" "425500_Report.bbl" "425500_Report" 1707062718 0
   "./CUCitations.bib" 1707062617 1159 9f459e242ef178793985f6622e42712c ""
   "./CranfieldNumbered.bst" 1702630679 40883 e68dccfb69fb01c9688750392ebeb179 ""
-  "425500_Report.aux" 1707062626 29404 718dcd6f4034b52e9ff739d2860e5d1f "pdflatex"
+  "425500_Report.aux" 1707062718 29404 718dcd6f4034b52e9ff739d2860e5d1f "pdflatex"
   (generated)
   "425500_Report.bbl"
   "425500_Report.blg"
   (rewritten before read)
-["pdflatex"] 1707062619 "/Users/alexis/Cranfield/HPC/Assignment/report/425500_Report.tex" "425500_Report.pdf" "425500_Report" 1707062626 0
+["pdflatex"] 1707062711 "/Users/alexis/Cranfield/HPC/Assignment/report/425500_Report.tex" "425500_Report.pdf" "425500_Report" 1707062718 0
   "../Source Code/MatrixDefinitions.h" 1706889173 473 45c7a09a42eaeaa41672930d6c1237bd ""
   "../Source Code/SparseMatrixFatVectorMultiply.cpp" 1706889176 1192 8b8d45bdc64f7c40a5d2b58940339230 ""
   "../Source Code/SparseMatrixFatVectorMultiply.h" 1706992079 568 a2e9e12f269d0f3367a67fb154b9ef9e ""
@@ -63,7 +63,7 @@
   "../results/matrix_dim/dc1_k6_computation_time.png" 1706966725 99213 2fe2ac59c0852e68ad0f13989c45182b ""
   "../results/matrix_dim/dc1_k6_execution_time.png" 1706966733 116852 770960cf8894468a1c2747b54194412b ""
   "../results/matrix_dim/dc1_k6_performance.png" 1706966741 110726 437fecead0f3059a29104884d76e8d43 ""
-  "/Users/alexis/Cranfield/HPC/Assignment/report/425500_Report.tex" 1707061951 51150 2b136ec9ea1a82a76645b4dad77e82f3 ""
+  "/Users/alexis/Cranfield/HPC/Assignment/report/425500_Report.tex" 1707062695 51145 6b5e8fea22fb3f60d2752e876918c69e ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -224,13 +224,13 @@
   "/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1699977258 4623355 b8cad38412faebe1ce5b780a45db67bd ""
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1699977188 7883458 0fc50070f6972b3c0ed45389126cac27 ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
-  "425500_Report.aux" 1707062626 29404 718dcd6f4034b52e9ff739d2860e5d1f "pdflatex"
-  "425500_Report.bbl" 1707062619 288 e8282d56677b44604f33997f36bcbc16 "bibtex 425500_Report"
-  "425500_Report.lof" 1707062626 4993 987ae6ef7c0528499d2b2d4a5a3601b6 "pdflatex"
-  "425500_Report.lot" 1707062626 254 d6a49a2ca2ed234f39b97a9912284090 "pdflatex"
-  "425500_Report.out" 1707062626 1308 7755cee8752813cc6f6e9a4b58a84967 "pdflatex"
-  "425500_Report.tex" 1707061951 51150 2b136ec9ea1a82a76645b4dad77e82f3 ""
-  "425500_Report.toc" 1707062626 8877 2089832afe9ca8071da9e333862b05dd "pdflatex"
+  "425500_Report.aux" 1707062718 29404 718dcd6f4034b52e9ff739d2860e5d1f "pdflatex"
+  "425500_Report.bbl" 1707062711 288 e8282d56677b44604f33997f36bcbc16 "bibtex 425500_Report"
+  "425500_Report.lof" 1707062718 4993 987ae6ef7c0528499d2b2d4a5a3601b6 "pdflatex"
+  "425500_Report.lot" 1707062718 254 d6a49a2ca2ed234f39b97a9912284090 "pdflatex"
+  "425500_Report.out" 1707062718 1308 7755cee8752813cc6f6e9a4b58a84967 "pdflatex"
+  "425500_Report.tex" 1707062695 51145 6b5e8fea22fb3f60d2752e876918c69e ""
+  "425500_Report.toc" 1707062718 8877 2089832afe9ca8071da9e333862b05dd "pdflatex"
   "CULogo.png" 1702630679 37421 80845472f4d1ac3cb2568c488d5d8081 ""
   "cranfieldthesis.sty" 1707061944 6185 11ca3d1f05076144f63ee44fe000dc22 ""
   (generated)

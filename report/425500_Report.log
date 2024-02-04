@@ -755,4 +755,436 @@ LaTeX Font Info:    Trying to load font information for OMS+ptm on input line 20
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <12> not available
-(Font)     
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 201.
+ [2
+
+]
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 235.
+ [3] [4] [5] [6] [7] [8] [9] [10] [11] [12]
+Overfull \hbox (62.20224pt too wide) in paragraph at lines 622--626
+[]\OT1/ptm/m/n/12 Read the sparse ma-trix from a file. This fea-ture is pro-vided by the \OT1/cmtt/m/n/12 readMatrixMarketFile
+ []
+
+
+Overfull \hbox (1.92883pt too wide) in paragraph at lines 622--626
+\OT1/ptm/m/n/12 method (see ap-pendix []B.F[]), cre-ated thanks to the Ma-trix Mar-ket I/O li-brary ([]). 
+ []
+
+[13]
+Chapter 3.
+<../results/matrix_dim/cage4_k6_execution_time.png, id=469, 770.3982pt x 528.2937pt>
+File: ../results/matrix_dim/cage4_k6_execution_time.png Graphic file (type png)
+<use ../results/matrix_dim/cage4_k6_execution_time.png>
+Package pdftex.def Info: ../results/matrix_dim/cage4_k6_execution_time.png  used on input line 676.
+(pdftex.def)             Requested size: 213.39568pt x 146.33319pt.
+<../results/matrix_dim/dc1_k6_execution_time.png, id=470, 769.6755pt x 521.7894pt>
+File: ../results/matrix_dim/dc1_k6_execution_time.png Graphic file (type png)
+<use ../results/matrix_dim/dc1_k6_execution_time.png>
+Package pdftex.def Info: ../results/matrix_dim/dc1_k6_execution_time.png  used on input line 682.
+(pdftex.def)             Requested size: 256.07741pt x 173.60028pt.
+[14
+
+ <../results/matrix_dim/cage4_k6_execution_time.png>]
+<../results/matrix_dim/amazon0302_k6_execution_time.png, id=476, 758.835pt x 523.9575pt>
+File: ../results/matrix_dim/amazon0302_k6_execution_time.png Graphic file (type png)
+<use ../results/matrix_dim/amazon0302_k6_execution_time.png>
+Package pdftex.def Info: ../results/matrix_dim/amazon0302_k6_execution_time.png  used on input line 688.
+(pdftex.def)             Requested size: 256.07741pt x 176.81602pt.
+<../results/matrix_dim/cop20k_A_k6_execution_time.png, id=477, 734.2632pt x 526.8483pt>
+File: ../results/matrix_dim/cop20k_A_k6_execution_time.png Graphic file (type png)
+<use ../results/matrix_dim/cop20k_A_k6_execution_time.png>
+Package pdftex.def Info: ../results/matrix_dim/cop20k_A_k6_execution_time.png  used on input line 694.
+(pdftex.def)             Requested size: 256.07741pt x 183.74046pt.
+<../results/matrix_dim/FEM_3D_thermal1_k6_execution_time.png, id=478, 761.7258pt x 516.0078pt>
+File: ../results/matrix_dim/FEM_3D_thermal1_k6_execution_time.png Graphic file (type png)
+<use ../results/matrix_dim/FEM_3D_thermal1_k6_execution_time.png>
+Package pdftex.def Info: ../results/matrix_dim/FEM_3D_thermal1_k6_execution_time.png  used on input line 700.
+(pdftex.def)             Requested size: 256.07741pt x 173.47191pt.
+ [15 <../results/matrix_dim/dc1_k6_execution_time.png> <../results/matrix_dim/amazon0302_k6_execution_time.png> <../results/matrix_dim/cop20k_A_k6_execution_time.png>]
+<../results/matrix_dim/cage4_k6_communication_time.png, id=486, 765.3393pt x 527.571pt>
+File: ../results/matrix_dim/cage4_k6_communication_time.png Graphic file (type png)
+<use ../results/matrix_dim/cage4_k6_communication_time.png>
+Package pdftex.def Info: ../results/matrix_dim/cage4_k6_communication_time.png  used on input line 708.
+(pdftex.def)             Requested size: 213.39568pt x 147.09901pt.
+<../results/matrix_dim/dc1_k6_communication_time.png, id=487, 776.9025pt x 529.7391pt>
+File: ../results/matrix_dim/dc1_k6_communication_time.png Graphic file (type png)
+<use ../results/matrix_dim/dc1_k6_communication_time.png>
+Package pdftex.def Info: ../results/matrix_dim/dc1_k6_communication_time.png  used on input line 714.
+(pdftex.def)             Requested size: 213.39568pt x 145.50491pt.
+<../results/matrix_dim/amazon0302_k6_communication_time.png, id=488, 761.7258pt x 525.4029pt>
+File: ../results/matrix_dim/amazon0302_k6_communication_time.png Graphic file (type png)
+<use ../results/matrix_dim/amazon0302_k6_communication_time.png>
+Package pdftex.def Info: ../results/matrix_dim/amazon0302_k6_communication_time.png  used on input line 720.
+(pdftex.def)             Requested size: 213.39568pt x 147.18396pt.
+ [16 <../results/matrix_dim/FEM_3D_thermal1_k6_execution_time.png> <../results/matrix_dim/cage4_k6_communication_time.png> <../results/matrix_dim/dc1_k6_communication_time.png>]
+<../results/matrix_dim/cop20k_A_k6_communication_time.png, id=496, 748.7172pt x 529.0164pt>
+File: ../results/matrix_dim/cop20k_A_k6_communication_time.png Graphic file (type png)
+<use ../results/matrix_dim/cop20k_A_k6_communication_time.png>
+Package pdftex.def Info: ../results/matrix_dim/cop20k_A_k6_communication_time.png  used on input line 726.
+(pdftex.def)             Requested size: 213.39568pt x 150.77931pt.
+<../results/matrix_dim/FEM_3D_thermal1_k6_communication_time.png, id=497, 757.3896pt x 523.2348pt>
+File: ../results/matrix_dim/FEM_3D_thermal1_k6_communication_time.png Graphic file (type png)
+<use ../results/matrix_dim/FEM_3D_thermal1_k6_communication_time.png>
+Package pdftex.def Info: ../results/matrix_dim/FEM_3D_thermal1_k6_communication_time.png  used on input line 732.
+(pdftex.def)             Requested size: 213.39568pt x 147.42288pt.
+<../results/matrix_dim/cage4_k6_computation_time.png, id=498, 741.4902pt x 516.7305pt>
+File: ../results/matrix_dim/cage4_k6_computation_time.png Graphic file (type png)
+<use ../results/matrix_dim/cage4_k6_computation_time.png>
+Package pdftex.def Info: ../results/matrix_dim/cage4_k6_computation_time.png  used on input line 740.
+(pdftex.def)             Requested size: 213.39568pt x 148.70473pt.
+ [17 <../results/matrix_dim/amazon0302_k6_communication_time.png> <../results/matrix_dim/cop20k_A_k6_communication_time.png> <../results/matrix_dim/FEM_3D_thermal1_k6_communication_time.png>]
+<../results/matrix_dim/dc1_k6_computation_time.png, id=507, 755.9442pt x 523.9575pt>
+File: ../results/matrix_dim/dc1_k6_computation_time.png Graphic file (type png)
+<use ../results/matrix_dim/dc1_k6_computation_time.png>
+Package pdftex.def Info: ../results/matrix_dim/dc1_k6_computation_time.png  used on input line 746.
+(pdftex.def)             Requested size: 213.39568pt x 147.90634pt.
+<../results/matrix_dim/amazon0302_k6_computation_time.png, id=508, 759.5577pt x 520.344pt>
+File: ../results/matrix_dim/amazon0302_k6_computation_time.png Graphic file (type png)
+<use ../results/matrix_dim/amazon0302_k6_computation_time.png>
+Package pdftex.def Info: ../results/matrix_dim/amazon0302_k6_computation_time.png  used on input line 752.
+(pdftex.def)             Requested size: 213.39568pt x 146.18759pt.
+<../results/matrix_dim/cop20k_A_k6_computation_time.png, id=509, 750.1626pt x 519.6213pt>
+File: ../results/matrix_dim/cop20k_A_k6_computation_time.png Graphic file (type png)
+<use ../results/matrix_dim/cop20k_A_k6_computation_time.png>
+Package pdftex.def Info: ../results/matrix_dim/cop20k_A_k6_computation_time.png  used on input line 758.
+(pdftex.def)             Requested size: 213.39568pt x 147.80817pt.
+ [18 <../results/matrix_dim/cage4_k6_computation_time.png> <../results/matrix_dim/dc1_k6_computation_time.png> <../results/matrix_dim/amazon0302_k6_computation_time.png>]
+<../results/matrix_dim/FEM_3D_thermal1_k6_computation_time.png, id=517, 768.9528pt x 523.2348pt>
+File: ../results/matrix_dim/FEM_3D_thermal1_k6_computation_time.png Graphic file (type png)
+<use ../results/matrix_dim/FEM_3D_thermal1_k6_computation_time.png>
+Package pdftex.def Info: ../results/matrix_dim/FEM_3D_thermal1_k6_computation_time.png  used on input line 764.
+(pdftex.def)             Requested size: 213.39568pt x 145.20337pt.
+<../results/matrix_dim/cage4_k6_performance.png, id=518, 759.5577pt x 524.6802pt>
+File: ../results/matrix_dim/cage4_k6_performance.png Graphic file (type png)
+<use ../results/matrix_dim/cage4_k6_performance.png>
+Package pdftex.def Info: ../results/matrix_dim/cage4_k6_performance.png  used on input line 772.
+(pdftex.def)             Requested size: 213.39568pt x 147.40582pt.
+<../results/matrix_dim/dc1_k6_performance.png, id=519, 751.608pt x 529.7391pt>
+File: ../results/matrix_dim/dc1_k6_performance.png Graphic file (type png)
+<use ../results/matrix_dim/dc1_k6_performance.png>
+Package pdftex.def Info: ../results/matrix_dim/dc1_k6_performance.png  used on input line 778.
+(pdftex.def)             Requested size: 213.39568pt x 150.4033pt.
+ [19 <../results/matrix_dim/cop20k_A_k6_computation_time.png> <../results/matrix_dim/FEM_3D_thermal1_k6_computation_time.png> <../results/matrix_dim/cage4_k6_performance.png>]
+<../results/matrix_dim/amazon0302_k6_performance.png, id=527, 729.2043pt x 532.6299pt>
+File: ../results/matrix_dim/amazon0302_k6_performance.png Graphic file (type png)
+<use ../results/matrix_dim/amazon0302_k6_performance.png>
+Package pdftex.def Info: ../results/matrix_dim/amazon0302_k6_performance.png  used on input line 784.
+(pdftex.def)             Requested size: 213.39568pt x 155.87285pt.
+<../results/matrix_dim/cop20k_A_k6_performance.png, id=528, 740.0448pt x 513.117pt>
+File: ../results/matrix_dim/cop20k_A_k6_performance.png Graphic file (type png)
+<use ../results/matrix_dim/cop20k_A_k6_performance.png>
+Package pdftex.def Info: ../results/matrix_dim/cop20k_A_k6_performance.png  used on input line 790.
+(pdftex.def)             Requested size: 213.39568pt x 147.95453pt.
+<../results/matrix_dim/FEM_3D_thermal1_k6_performance.png, id=529, 755.2215pt x 515.2851pt>
+File: ../results/matrix_dim/FEM_3D_thermal1_k6_performance.png Graphic file (type png)
+<use ../results/matrix_dim/FEM_3D_thermal1_k6_performance.png>
+Package pdftex.def Info: ../results/matrix_dim/FEM_3D_thermal1_k6_performance.png  used on input line 796.
+(pdftex.def)             Requested size: 213.39568pt x 145.59189pt.
+ [20 <../results/matrix_dim/dc1_k6_performance.png> <../results/matrix_dim/amazon0302_k6_performance.png> <../results/matrix_dim/cop20k_A_k6_performance.png>]
+<../results/fat_vector_dim/cop20k_A_k1_execution_time.png, id=537, 754.4988pt x 521.0667pt>
+File: ../results/fat_vector_dim/cop20k_A_k1_execution_time.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k1_execution_time.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k1_execution_time.png  used on input line 805.
+(pdftex.def)             Requested size: 213.39568pt x 147.36858pt.
+<../results/fat_vector_dim/cop20k_A_k3_execution_time.png, id=538, 760.2804pt x 525.4029pt>
+File: ../results/fat_vector_dim/cop20k_A_k3_execution_time.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k3_execution_time.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k3_execution_time.png  used on input line 811.
+(pdftex.def)             Requested size: 213.39568pt x 147.47256pt.
+<../results/fat_vector_dim/cop20k_A_k6_execution_time.png, id=539, 740.0448pt x 521.0667pt>
+File: ../results/fat_vector_dim/cop20k_A_k6_execution_time.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k6_execution_time.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k6_execution_time.png  used on input line 817.
+(pdftex.def)             Requested size: 213.39568pt x 150.24678pt.
+ [21 <../results/matrix_dim/FEM_3D_thermal1_k6_performance.png> <../results/fat_vector_dim/cop20k_A_k1_execution_time.png> <../results/fat_vector_dim/cop20k_A_k3_execution_time.png>]
+<../results/fat_vector_dim/cop20k_A_k9_execution_time.png, id=547, 754.4988pt x 520.344pt>
+File: ../results/fat_vector_dim/cop20k_A_k9_execution_time.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k9_execution_time.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k9_execution_time.png  used on input line 823.
+(pdftex.def)             Requested size: 213.39568pt x 147.16418pt.
+<../results/fat_vector_dim/cop20k_A_k12_execution_time.png, id=548, 750.8853pt x 525.4029pt>
+File: ../results/fat_vector_dim/cop20k_A_k12_execution_time.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k12_execution_time.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k12_execution_time.png  used on input line 829.
+(pdftex.def)             Requested size: 213.39568pt x 149.31648pt.
+<../results/fat_vector_dim/cop20k_A_k1_communication_time.png, id=549, 749.4399pt x 508.0581pt>
+File: ../results/fat_vector_dim/cop20k_A_k1_communication_time.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k1_communication_time.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k1_communication_time.png  used on input line 837.
+(pdftex.def)             Requested size: 213.39568pt x 144.65851pt.
+ [22 <../results/fat_vector_dim/cop20k_A_k6_execution_time.png> <../results/fat_vector_dim/cop20k_A_k9_execution_time.png> <../results/fat_vector_dim/cop20k_A_k12_execution_time.png>]
+<../results/fat_vector_dim/cop20k_A_k3_communication_time.png, id=557, 761.0031pt x 518.8986pt>
+File: ../results/fat_vector_dim/cop20k_A_k3_communication_time.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k3_communication_time.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k3_communication_time.png  used on input line 843.
+(pdftex.def)             Requested size: 213.39568pt x 145.5044pt.
+<../results/fat_vector_dim/cop20k_A_k6_communication_time.png, id=558, 761.7258pt x 523.9575pt>
+File: ../results/fat_vector_dim/cop20k_A_k6_communication_time.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k6_communication_time.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k6_communication_time.png  used on input line 849.
+(pdftex.def)             Requested size: 213.39568pt x 146.77905pt.
+<../results/fat_vector_dim/cop20k_A_k9_communication_time.png, id=559, 750.8853pt x 517.4532pt>
+File: ../results/fat_vector_dim/cop20k_A_k9_communication_time.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k9_communication_time.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k9_communication_time.png  used on input line 855.
+(pdftex.def)             Requested size: 213.39568pt x 147.05722pt.
+ [23 <../results/fat_vector_dim/cop20k_A_k1_communication_time.png> <../results/fat_vector_dim/cop20k_A_k3_communication_time.png> <../results/fat_vector_dim/cop20k_A_k6_communication_time.png>]
+<../results/fat_vector_dim/cop20k_A_k12_communication_time.png, id=568, 775.4571pt x 531.1845pt>
+File: ../results/fat_vector_dim/cop20k_A_k12_communication_time.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k12_communication_time.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k12_communication_time.png  used on input line 861.
+(pdftex.def)             Requested size: 213.39568pt x 146.16939pt.
+<../results/fat_vector_dim/cop20k_A_k1_computation_time.png, id=569, 757.3896pt x 516.7305pt>
+File: ../results/fat_vector_dim/cop20k_A_k1_computation_time.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k1_computation_time.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k1_computation_time.png  used on input line 869.
+(pdftex.def)             Requested size: 213.39568pt x 145.59029pt.
+<../results/fat_vector_dim/cop20k_A_k3_computation_time.png, id=570, 745.8264pt x 518.8986pt>
+File: ../results/fat_vector_dim/cop20k_A_k3_computation_time.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k3_computation_time.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k3_computation_time.png  used on input line 875.
+(pdftex.def)             Requested size: 213.39568pt x 148.46562pt.
+ [24 <../results/fat_vector_dim/cop20k_A_k9_communication_time.png> <../results/fat_vector_dim/cop20k_A_k12_communication_time.png> <../results/fat_vector_dim/cop20k_A_k1_computation_time.png>]
+<../results/fat_vector_dim/cop20k_A_k6_computation_time.png, id=578, 755.9442pt x 524.6802pt>
+File: ../results/fat_vector_dim/cop20k_A_k6_computation_time.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k6_computation_time.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k6_computation_time.png  used on input line 881.
+(pdftex.def)             Requested size: 213.39568pt x 148.11035pt.
+<../results/fat_vector_dim/cop20k_A_k9_computation_time.png, id=579, 747.9945pt x 515.2851pt>
+File: ../results/fat_vector_dim/cop20k_A_k9_computation_time.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k9_computation_time.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k9_computation_time.png  used on input line 887.
+(pdftex.def)             Requested size: 213.39568pt x 147.00717pt.
+<../results/fat_vector_dim/cop20k_A_k12_computation_time.png, id=580, 768.9528pt x 529.0164pt>
+File: ../results/fat_vector_dim/cop20k_A_k12_computation_time.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k12_computation_time.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k12_computation_time.png  used on input line 893.
+(pdftex.def)             Requested size: 213.39568pt x 146.80782pt.
+ [25 <../results/fat_vector_dim/cop20k_A_k3_computation_time.png> <../results/fat_vector_dim/cop20k_A_k6_computation_time.png> <../results/fat_vector_dim/cop20k_A_k9_computation_time.png>]
+<../results/fat_vector_dim/cop20k_A_k1_performance.png, id=589, 732.0951pt x 527.571pt>
+File: ../results/fat_vector_dim/cop20k_A_k1_performance.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k1_performance.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k1_performance.png  used on input line 901.
+(pdftex.def)             Requested size: 213.39568pt x 153.78058pt.
+<../results/fat_vector_dim/cop20k_A_k3_performance.png, id=590, 737.154pt x 518.8986pt>
+File: ../results/fat_vector_dim/cop20k_A_k3_performance.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k3_performance.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k3_performance.png  used on input line 907.
+(pdftex.def)             Requested size: 213.39568pt x 150.21545pt.
+<../results/fat_vector_dim/cop20k_A_k6_performance.png, id=591, 758.1123pt x 523.9575pt>
+File: ../results/fat_vector_dim/cop20k_A_k6_performance.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k6_performance.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k6_performance.png  used on input line 913.
+(pdftex.def)             Requested size: 213.39568pt x 147.4826pt.
+ [26 <../results/fat_vector_dim/cop20k_A_k12_computation_time.png> <../results/fat_vector_dim/cop20k_A_k1_performance.png> <../results/fat_vector_dim/cop20k_A_k3_performance.png>]
+<../results/fat_vector_dim/cop20k_A_k9_performance.png, id=599, 763.1712pt x 529.7391pt>
+File: ../results/fat_vector_dim/cop20k_A_k9_performance.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k9_performance.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k9_performance.png  used on input line 919.
+(pdftex.def)             Requested size: 213.39568pt x 148.12386pt.
+<../results/fat_vector_dim/cop20k_A_k12_performance.png, id=600, 740.0448pt x 523.9575pt>
+File: ../results/fat_vector_dim/cop20k_A_k12_performance.png Graphic file (type png)
+<use ../results/fat_vector_dim/cop20k_A_k12_performance.png>
+Package pdftex.def Info: ../results/fat_vector_dim/cop20k_A_k12_performance.png  used on input line 925.
+(pdftex.def)             Requested size: 213.39568pt x 151.08032pt.
+ [27 <../results/fat_vector_dim/cop20k_A_k6_performance.png> <../results/fat_vector_dim/cop20k_A_k9_performance.png> <../results/fat_vector_dim/cop20k_A_k12_performance.png>] [28]
+Chapter 4.
+(./425500_Report.bbl [29
+
+]) [30
+
+]
+Appendix A.
+LaTeX Font Info:    Trying to load font information for OML+ptm on input line 1001.
+(/usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/omlptm.fd
+File: omlptm.fd 
+)
+LaTeX Font Info:    Font shape `OML/ptm/m/n' in size <10.95> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 1001.
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2023/02/27 1.9 listings language file
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2023/02/27 1.9 listings language file
+)
+LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 1015.
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/base/ts1cmtt.fd
+File: ts1cmtt.fd 2022/07/10 v2.5l Standard LaTeX font definitions
+) [31
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 1027--1028
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1037--1038
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1049--1050
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1059--1060
+
+ []
+
+[32{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+Underfull \hbox (badness 10000) in paragraph at lines 1070--1071
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1077--1078
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1090--1091
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1103--1104
+
+ []
+
+[33]
+Underfull \hbox (badness 10000) in paragraph at lines 1116--1117
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1129--1130
+
+ []
+
+[34]
+Appendix B.
+(/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2023/02/27 1.9 listings language file
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2023/02/27 1.9 listings language file
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
+)
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 1146.
+ (../Source Code/MatrixDefinitions.h) [35
+
+] (../Source Code/SparseMatrixFatVectorMultiply.h) (../Source Code/SparseMatrixFatVectorMultiply.cpp) [36] (../Source Code/SparseMatrixFatVectorMultiplyRowWise.h) (../Source Code/SparseMatrixFatVectorMultiplyRowWise.cpp [37] [38]) [39] (../Source Code/SparseMatrixFatVectorMultiplyColumnWise.h) (../Source Code/SparseMatrixFatVectorMultiplyColumnWise.cpp [40]
+Overfull \hbox (82.81949pt too wide) in paragraph at lines 68--69
+[][] 
+ []
+
+
+Overfull \hbox (133.82062pt too wide) in paragraph at lines 71--72
+[][] 
+ []
+
+
+Overfull \hbox (144.02084pt too wide) in paragraph at lines 72--73
+[][] 
+ []
+
+[41] [42]) (../Source Code/SparseMatrixFatVectorMultiplyNonZeroElement.h) (../Source Code/SparseMatrixFatVectorMultiplyNonZeroElement.cpp [43] [44]) [45] (../Source Code/utils.h [46]) (../Source Code/utils.cpp [47] [48] [49] [50]) (../Source Code/main.cpp
+Overfull \hbox (174.62152pt too wide) in paragraph at lines 9--10
+[][][][] 
+ []
+
+
+Overfull \hbox (174.62152pt too wide) in paragraph at lines 11--13
+[][][][] 
+ []
+
+[51]
+Overfull \hbox (174.62152pt too wide) in paragraph at lines 50--51
+[][][][] 
+ []
+
+
+Overfull \hbox (174.62152pt too wide) in paragraph at lines 52--53
+[][][][] 
+ []
+
+
+Overfull \hbox (174.62152pt too wide) in paragraph at lines 71--72
+[][][][] 
+ []
+
+
+Overfull \hbox (174.62152pt too wide) in paragraph at lines 73--74
+[][][][] 
+ []
+
+
+Overfull \hbox (174.62152pt too wide) in paragraph at lines 95--96
+[][][][] 
+ []
+
+
+Overfull \hbox (174.62152pt too wide) in paragraph at lines 97--99
+[][][][] 
+ []
+
+[52]
+Overfull \hbox (174.62152pt too wide) in paragraph at lines 156--157
+[][][][] 
+ []
+
+[53]
+Overfull \hbox (174.62152pt too wide) in paragraph at lines 158--160
+[][][][] 
+ []
+
+
+Overfull \hbox (174.62152pt too wide) in paragraph at lines 196--197
+[][][][] 
+ []
+
+
+Overfull \hbox (174.62152pt too wide) in paragraph at lines 198--200
+[][][][] 
+ []
+
+[54]
+Overfull \hbox (174.62152pt too wide) in paragraph at lines 239--240
+[][][][] 
+ []
+
+
+Overfull \hbox (174.62152pt too wide) in paragraph at lines 241--243
+[][][][] 
+ []
+
+[55]
+Overfull \hbox (174.62152pt too wide) in paragraph at lines 282--283
+[][][][] 
+ []
+
+
+Overfull \hbox (174.62152pt too wide) in paragraph at lines 284--286
+[][][][] 
+ []
+
+[56] [57]) (../Source Code/scripts/mpi.sub [58]) [59] (../Source Code/scripts/batch_test.sh [60]) [61] (../Source Code/scripts/get_csv_all.sh [62]) [63] (./425500_Report.aux)
+Package rerunfilecheck Info: File `425500_Report.out' has not changed.
+(rerunfilecheck)             Checksum: 7755CEE8752813CC6F6E9A4B58A84967;1308.
+ ) 
+Here is how much of TeX's memory you used:
+ 21517 strings out of 476025
+ 368022 string characters out of 5790016
+ 2794388 words of memory out of 5000000
+ 39734 multiletter control sequences out of 15000+600000
+ 551089 words of font info for 113 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 90i,12n,122p,637b,2387s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on 425500_Report.pdf (71 pages, 3920743 bytes).
+PDF statistics:
+ 2740 PDF objects out of 2984 (max. 8388607)
+ 2537 compressed objects within 26 object streams
+ 1796 named destinations out of 2073 (max. 500000)
+ 294 words of extra memory for PDF output out of 10000 (max. 10000000)
+

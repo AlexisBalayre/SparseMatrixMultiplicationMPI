@@ -1,0 +1,98 @@
+\contentsline {chapter}{Abstract}{ii}{chapter*.1}%
+\contentsline {chapter}{Table of Contents}{iii}{chapter*.2}%
+\contentsline {chapter}{List of Figures}{vi}{chapter*.3}%
+\contentsline {chapter}{List of Tables}{viii}{chapter*.4}%
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Methodology}{2}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Data Structures}{2}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Sparse Matrix}{2}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Fat Vector}{3}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2.2}Sequential Algorithm}{3}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Algorithm Flow}{3}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Temporal Complexity Analysis}{3}{subsection.2.2.2}%
+\contentsline {section}{\numberline {2.3}Line-Based Parallelism}{4}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Algorithm Flow}{4}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Time Complexity Analysis}{5}{subsection.2.3.2}%
+\contentsline {subsubsection}{\numberline {2.3.2.1}Computational Complexity}{5}{subsubsection.2.3.2.1}%
+\contentsline {subsubsection}{\numberline {2.3.2.2}Communication Complexity}{5}{subsubsection.2.3.2.2}%
+\contentsline {subsubsection}{\numberline {2.3.2.3}Final Result Reconstruction}{6}{subsubsection.2.3.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.2.4}Overall Time Complexity}{6}{subsubsection.2.3.2.4}%
+\contentsline {subsection}{\numberline {2.3.3}Performance Analysis}{6}{subsection.2.3.3}%
+\contentsline {subsubsection}{\numberline {2.3.3.1}Performance Dependence}{6}{subsubsection.2.3.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.3.2}Expected Performance}{6}{subsubsection.2.3.3.2}%
+\contentsline {section}{\numberline {2.4}Column-Wise Parallelism}{7}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Algorithm Flow}{7}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Temporal Complexity Analysis}{8}{subsection.2.4.2}%
+\contentsline {subsubsection}{\numberline {2.4.2.1}Computation Time Complexity}{8}{subsubsection.2.4.2.1}%
+\contentsline {subsubsection}{\numberline {2.4.2.2}Communication Time Complexity}{8}{subsubsection.2.4.2.2}%
+\contentsline {subsubsection}{\numberline {2.4.2.3}Final Result Reconstruction}{8}{subsubsection.2.4.2.3}%
+\contentsline {subsubsection}{\numberline {2.4.2.4}Overall Time Complexity}{8}{subsubsection.2.4.2.4}%
+\contentsline {subsection}{\numberline {2.4.3}Performance Analysis}{9}{subsection.2.4.3}%
+\contentsline {subsubsection}{\numberline {2.4.3.1}Performance Dependence}{9}{subsubsection.2.4.3.1}%
+\contentsline {subsubsection}{\numberline {2.4.3.2}Expected Performance}{9}{subsubsection.2.4.3.2}%
+\contentsline {section}{\numberline {2.5}Non-Zero Element Parallelism}{10}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Algorithm Flow}{10}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Temporal Complexity Analysis}{11}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}Computation Complexity}{11}{subsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.5.4}Communication Complexity}{11}{subsection.2.5.4}%
+\contentsline {subsubsection}{\numberline {2.5.4.1}Final Result Reconstruction}{11}{subsubsection.2.5.4.1}%
+\contentsline {subsection}{\numberline {2.5.5}Overall Time Complexity}{11}{subsection.2.5.5}%
+\contentsline {subsection}{\numberline {2.5.6}Performance Analysis}{12}{subsection.2.5.6}%
+\contentsline {subsubsection}{\numberline {2.5.6.1}Performance Dependence}{12}{subsubsection.2.5.6.1}%
+\contentsline {subsubsection}{\numberline {2.5.6.2}Expected Performance}{12}{subsubsection.2.5.6.2}%
+\contentsline {section}{\numberline {2.6}Performance Metrics}{13}{section.2.6}%
+\contentsline {chapter}{\numberline {3}Results and Discussion}{14}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Results}{14}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Sparse Matrix Impact}{14}{subsection.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.1.1}Execution Time}{14}{subsubsection.3.1.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.1.2}Communication Time}{16}{subsubsection.3.1.1.2}%
+\contentsline {subsubsection}{\numberline {3.1.1.3}Computation Time}{18}{subsubsection.3.1.1.3}%
+\contentsline {subsubsection}{\numberline {3.1.1.4}Performance}{19}{subsubsection.3.1.1.4}%
+\contentsline {subsection}{\numberline {3.1.2}Fat Vector Impact}{21}{subsection.3.1.2}%
+\contentsline {subsubsection}{\numberline {3.1.2.1}Execution Time}{21}{subsubsection.3.1.2.1}%
+\contentsline {subsubsection}{\numberline {3.1.2.2}Communication Time}{23}{subsubsection.3.1.2.2}%
+\contentsline {subsubsection}{\numberline {3.1.2.3}Computation Time}{24}{subsubsection.3.1.2.3}%
+\contentsline {subsubsection}{\numberline {3.1.2.4}Performance}{26}{subsubsection.3.1.2.4}%
+\contentsline {section}{\numberline {3.2}HPC Environmental Impact}{27}{section.3.2}%
+\contentsline {chapter}{\numberline {4}Conclusion}{29}{chapter.4}%
+\contentsline {chapter}{References}{30}{chapter*.46}%
+\contentsline {chapter}{\numberline {A}Documentation}{31}{appendix.A}%
+\contentsline {section}{\numberline {A.A}Project tree}{31}{section.1.A.A}%
+\contentsline {section}{\numberline {A.B}Getting Started}{31}{section.1.A.B}%
+\contentsline {section}{\numberline {A.C}Methods Overview}{32}{section.1.A.C}%
+\contentsline {subsection}{\numberline {A.C.1}Utils.h}{32}{subsection.1.A.C.1}%
+\contentsline {subsubsection}{\numberline {A.C.1.1}ConvertPETScMatToFatVector}{32}{subsubsection.1.A.C.1.1}%
+\contentsline {subsubsection}{\numberline {A.C.1.2}areMatricesEqual}{32}{subsubsection.1.A.C.1.2}%
+\contentsline {subsubsection}{\numberline {A.C.1.3}readMatrixMarketFile}{32}{subsubsection.1.A.C.1.3}%
+\contentsline {subsubsection}{\numberline {A.C.1.4}generateLargeFatVector}{33}{subsubsection.1.A.C.1.4}%
+\contentsline {subsubsection}{\numberline {A.C.1.5}serialize and deserialize}{33}{subsubsection.1.A.C.1.5}%
+\contentsline {subsection}{\numberline {A.C.2}SparseMatrixFatVectorMultiply.h}{33}{subsection.1.A.C.2}%
+\contentsline {subsubsection}{\numberline {A.C.2.1}sparseMatrixFatVectorMultiply}{33}{subsubsection.1.A.C.2.1}%
+\contentsline {subsection}{\numberline {A.C.3}SparseMatrixFatVectorMultiplyRowWise.h}{34}{subsection.1.A.C.3}%
+\contentsline {subsubsection}{\numberline {A.C.3.1}sparseMatrixFatVectorMultiplyRowWise}{34}{subsubsection.1.A.C.3.1}%
+\contentsline {subsection}{\numberline {A.C.4}SparseMatrixFatVectorMultiplyColumnWise.h}{34}{subsection.1.A.C.4}%
+\contentsline {subsubsection}{\numberline {A.C.4.1}sparseMatrixFatVectorMultiplyColumnWise}{34}{subsubsection.1.A.C.4.1}%
+\contentsline {subsection}{\numberline {A.C.5}SparseMatrixFatVectorMultiplyNonZeroElement.h}{34}{subsection.1.A.C.5}%
+\contentsline {subsubsection}{\numberline {A.C.5.1}sparseMatrixFatVectorMultiplyNonZeroElement}{34}{subsubsection.1.A.C.5.1}%
+\contentsline {chapter}{\numberline {B}Source Codes}{35}{appendix.B}%
+\contentsline {section}{\numberline {B.A}Data Structures}{35}{section.2.B.A}%
+\contentsline {section}{\numberline {B.B}Sequential Algorithm}{36}{section.2.B.B}%
+\contentsline {subsection}{\numberline {B.B.1}Declaration File}{36}{subsection.2.B.B.1}%
+\contentsline {subsection}{\numberline {B.B.2}Implementation File}{36}{subsection.2.B.B.2}%
+\contentsline {section}{\numberline {B.C}Line-Based Parallelism}{37}{section.2.B.C}%
+\contentsline {subsection}{\numberline {B.C.1}Declaration File}{37}{subsection.2.B.C.1}%
+\contentsline {subsection}{\numberline {B.C.2}Implementation File}{37}{subsection.2.B.C.2}%
+\contentsline {section}{\numberline {B.D}Column-Wise Parallelism}{40}{section.2.B.D}%
+\contentsline {subsection}{\numberline {B.D.1}Declaration File}{40}{subsection.2.B.D.1}%
+\contentsline {subsection}{\numberline {B.D.2}Implementation File}{40}{subsection.2.B.D.2}%
+\contentsline {section}{\numberline {B.E}Non-Zero Element Parallelism}{43}{section.2.B.E}%
+\contentsline {subsection}{\numberline {B.E.1}Declaration File}{43}{subsection.2.B.E.1}%
+\contentsline {subsection}{\numberline {B.E.2}Implementation File}{43}{subsection.2.B.E.2}%
+\contentsline {section}{\numberline {B.F}Utility Functions}{46}{section.2.B.F}%
+\contentsline {subsection}{\numberline {B.F.1}Declaration File}{46}{subsection.2.B.F.1}%
+\contentsline {subsection}{\numberline {B.F.2}Implementation File}{47}{subsection.2.B.F.2}%
+\contentsline {section}{\numberline {B.G}Main File}{51}{section.2.B.G}%
+\contentsline {section}{\numberline {B.H}Scripts}{58}{section.2.B.H}%
+\contentsline {subsection}{\numberline {B.H.1}MPI Submission Script}{58}{subsection.2.B.H.1}%
+\contentsline {subsection}{\numberline {B.H.2}Batch Test Script}{60}{subsection.2.B.H.2}%
+\contentsline {subsection}{\numberline {B.H.3}Get CSV Script}{62}{subsection.2.B.H.3}%
