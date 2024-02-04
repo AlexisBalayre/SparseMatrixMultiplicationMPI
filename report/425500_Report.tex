@@ -174,7 +174,7 @@ The vector $v$ is defined as:
         v_{21} & v_{22} & \cdots & v_{2k} \\
         \vdots & \vdots & \ddots & \vdots \\
         v_{n1} & v_{n2} & \cdots & v_{nk}
-    \end{pmatrix}\label{eq:dense-vector}
+    \end{pmatrix}\label{eq:fat-vector}
 \end{equation}
 
 \chapter{Methodology}
@@ -218,7 +218,7 @@ Appendix~\ref{appendix:data-structures}.
 
 \subsection{Fat Vector}
 Unlike a hollow matrix, a fat vector (illustrated by
-equation~\ref{eq:dense-vector}) stores all its elements, including zeros. The
+equation~\ref{eq:fat-vector}) stores all its elements, including zeros. The
 data structure for a fat vector is a two-dimensional array, where each row
 represents a separate vector. The \textbf{FatVector} structure is defined in
 Appendix~\ref{appendix:data-structures}.
@@ -258,18 +258,22 @@ The algorithmic flow can be more explicitly detailed by:
 
 \subsection{Temporal Complexity Analysis}
 
-The time complexity can be broken down into the following components:
+Given a sparse matrix $M$ of size $m \times n$ with $z$ non-zero elements and a
+fat vector $v$ of size $n \times k$, the serial algorithm for multiplying \(M
+\times v\) iterates through each non-zero element of the matrix \(M\) to
+compute the product.
 
-\begin{enumerate}
-    \item \textbf{Matrix Row Traversal:} Each row of the matrix is traversed once, so the complexity of traversing all the rows is \( O(m) \).
-    \item \textbf{Non-zero Element Access:} The CSR format ensures efficient access to non-zero elements, attributing a complexity of \(O(z)\) for parsing all such elements across the matrix.
-    \item \textbf{Multiplication et Accumulation:} The key computational step involves multiplying each non-zero element by the corresponding entries in \(v\), across all \(k\) columns. Given that each non-zero element undergoes this operation, the complexity is more accurately described as \(O(zk)\), highlighting the direct proportionality to both the number of non-zero elements and the vector's column dimension.
-\end{enumerate}
+The algorithm performs two operations (a multiplication and an addition) for
+each non-zero element with respect to each column of \(v\), resulting in a
+total of \(2zk\) operations.
 
-Hence, the time complexity of multiplying a sparse matrix in CSR format with a
-fat matrix is \( O(z \times k) \).
+Hence, the time complexity of the serial sparse matrix-fat vector
+multiplication algorithm can be expressed as:
 
-\newpage
+\begin{equation}
+    T(n) = O(zk)
+\end{equation}
+
 \section{Line-Based Parallelism}
 This algorithm partitions a sparse matrix into row chunks and distributes these
 chunks across multiple processes for parallel computation in a line-based
@@ -321,59 +325,70 @@ The algorithmic flow can be explicitly detailed by:
     \item \textbf{Final Result Reconstruction:} The root process reconstructs the final result matrix from the gathered vector.
 \end{enumerate}
 
-\subsection{Temporal Complexity Analysis}
-The time complexity of the line-based parallel algorithm can be broken down as
-follows:
+\subsection{Time Complexity Analysis}
+Given a sparse matrix $M$ of size $m \times n$ with $z$ non-zero elements and a
+fat vector $v$ of size $n \times k$, the line-based algorithm distributes the
+multiplication task across $p$ processors.
 
-\begin{enumerate}
-    \item \textbf{Initialisation and Setup}:
-          MPI initialisation and calculation of rows per process have a negligible time
-          complexity compared to the actual computation, so they can be considered as \(
-          O(1) \).
+\subsubsection{Computational Complexity}
 
-    \item \textbf{Local Computation}:
-          \begin{itemize}
-              \item Each process computes the multiplication for its assigned subset of rows.
-              \item If the sparse matrix has \( z \) non-zero elements in total, and these elements
-                    are evenly distributed across \( m \) rows, each process handles approximately
-                    \( \frac{z}{\text{worldSize}} \) non-zero elements.
-              \item The computation for each non-zero element involves accessing the element and
-                    its corresponding column in the fat vector, followed by a multiplication and an
-                    addition. This operation is \( O(1) \).
-              \item Thus, the local computation for each process has a time complexity of \(
-                    O\left(\frac{z}{\text{worldSize}}\right) \).
-          \end{itemize}
+Each process computes a portion of the result vector, working on approximately
+\(m/p\) rows of the sparse matrix. The computation time (\(T_{\text{comp}}\))
+is therefore influenced by the distribution of non-zero elements across the
+rows. Assuming a uniform distribution, the computation time can be estimated
+as:
 
-    \item \textbf{Communication (\texttt{MPI\_Gatherv})}:
-          \begin{itemize}
-              \item The complexity of the \texttt{MPI\_Gatherv} operation depends on the
-                    implementation of the MPI library and the underlying network architecture.
-              \item In general, gathering operations can be assumed to have a logarithmic
-                    complexity with respect to the number of processes, i.e., \(
-                    O(\log(\text{worldSize})) \), but this can vary.
-              \item The amount of data transferred per process is proportional to the size of the
-                    local result, which is \( O\left(\frac{m}{\text{worldSize}} \times k\right) \).
-          \end{itemize}
+\begin{equation}
+    T_{\text{comp}} = O\left(\frac{z \times k}{p}\right)
+\end{equation}
 
-    \item \textbf{Final Assembly}:
-          \begin{itemize}
-              \item The root process assembles the final result matrix. This step is essentially a
-                    concatenation of the results from each process and has a complexity linear to
-                    the total size of the result matrix, which is \( O(m \times k) \).
-          \end{itemize}
-\end{enumerate}
+\subsubsection{Communication Complexity}
 
-Considering the parallel nature of the computation, the dominant factor in the
-time complexity is the local computation performed by each process, which is \(
-O\left(\frac{z}{\text{worldSize}}\right) \). The communication step's
-complexity depends on the MPI implementation and network, but the data volume
-transferred per process affects this step. The final assembly in the root
-process is also significant but does not exceed \( O(m \times k) \). Therefore,
-the overall time complexity of the algorithm can be approximated as \(
-O\left(\frac{z}{\text{worldSize}} + \log(\text{worldSize}) + m \times k\right)
-\), with the understanding that the actual performance can be influenced by
-factors like network latency, bandwidth, and the distribution of non-zero
-elements in the sparse matrix.
+After computation, each process holds a part of the result vector that needs to
+be combined to form the final result. The main communication cost arises from
+gathering these parts at a single process or distributing them among all
+processes.
+
+\begin{itemize}
+    \item \textbf{Startup Overhead:} The initiation of a communication incurs a latency cost, \(\alpha\), which is significant when the number of messages is large.
+    \item \textbf{Data Transmission Cost:} Each process sends its portion of the result vector, incurring a cost proportional to the amount of data sent, the number of processes and the network bandwidth, denoted by \(\beta\).
+\end{itemize}
+
+The communication time complexity (\(T_{\text{comm}}\)) can be approximated as:
+\begin{equation}
+    T_{\text{comm}} = p \times \alpha + \beta \times \frac{m}{p} \times k
+\end{equation}
+
+\subsubsection{Final Result Reconstruction}
+After gathering the local results, the root process reconstructs the final
+result matrix. This step has a time complexity proportional to the size of the
+final matrix, \(O(m \times k)\).
+
+\subsubsection{Overall Time Complexity}
+The overall time complexity, including both computation and communication, is
+given by:
+\begin{equation}
+    T_{\text{overall}} = T_{\text{comp}} + T_{\text{comm}} =  O\left(\frac{z \times k}{p}\right) + p \times \alpha + \beta \times \frac{m}{p} \times k + O(m \times k)
+\end{equation}
+
+\subsection{Performance Analysis}
+
+\subsubsection{Performance Dependence}
+\begin{itemize}
+    \item Number of processes ($p$): Performance improves with $p$ until communication
+          overhead becomes significant.
+    \item Number of rows ($m$): Affects workload distribution. Performance optimal when
+          $p \leq m$.
+    \item Number of non-zero elements ($z$): Higher $z$ increases computation workload
+          but mitigated by parallel execution.
+    \item Number of columns ($k$): Increases computation linearly. Each row computation
+          involves all columns.
+\end{itemize}
+
+\subsubsection{Expected Performance}
+Optimal when $p \leq m$ with even workload distribution. Performance may
+degrade if $p > m$ due to idle processes or when communication overhead
+outweighs computation benefits.
 
 \newpage
 \section{Column-Wise Parallelism}
@@ -383,7 +398,7 @@ element.
 
 \subsection{Algorithm Flow}
 
-\begin{algorithm}
+\begin{algorithm}[H]
     \caption{Column-wise Parallel Sparse Matrix-Fat Vector Multiplication}
     \begin{algorithmic}
         \Require $M$ is an $m \times n$ sparse matrix
@@ -430,61 +445,62 @@ The algorithmic flow can be explicitly detailed by:
 \end{enumerate}
 
 \subsection{Temporal Complexity Analysis}
+Consider a sparse matrix $M$ of size $m \times n$ with $z$ non-zero elements
+and a fat vector $v$ of size $n \times k$, the column-wise algorithm
+distributes the multiplication task across $p$ processors.
 
-To analyse the temporal (or time) complexity of the sparse matrix-fat vector
-multiplication using a column-wise parallel approach with MPI, we need to
-consider the computation and communication steps involved in the process. The
-breakdown is as follows:
+\subsubsection{Computation Time Complexity}
+Each process is responsible for approximately \(k/p\) columns of the fat
+vector. The computation time (\(T_{\text{comp}}\)) is therefore influenced by
+the distribution of non-zero elements across the columns. Assuming a uniform
+distribution, the computation time can be estimated as:
 
-\begin{enumerate}
-    \item \textbf{Local Computation:}
-          \begin{itemize}
-              \item Each MPI process computes a portion of the final matrix, responsible for a
-                    subset of columns. The number of columns processed by each process is roughly
-                    \( \text{colsPerProcess} = \frac{\text{k}}{\text{worldSize}} \), with some
-                    processes handling extra columns if \( \text{k} \) is not perfectly divisible
-                    by \( \text{worldSize} \).
-              \item For each column, the process computes the product with every row of the sparse
-                    matrix. If the sparse matrix has \( z \) non-zero elements in total, then, on
-                    average, each process handles approximately \( \frac{z}{\text{worldSize}} \)
-                    non-zero elements.
-              \item The computation involves accessing the element, performing a multiplication,
-                    and accumulating the result. These operations for each non-zero element are \(
-                    O(1) \).
-              \item Therefore, the local computation for each process has a time complexity of \(
-                    O\left(\frac{z}{\text{worldSize}}\right) \).
-          \end{itemize}
+\begin{equation}
+    T_{\text{comp}} = O\left(\frac{k \times z}{p}\right)
+\end{equation}
 
-    \item \textbf{Communication (\texttt{MPI\_Gatherv}):}
-          \begin{itemize}
-              \item After computing the local results, processes use \texttt{MPI\_Gatherv} to
-                    gather these results at the root process. The complexity of this operation can
-                    vary based on the MPI implementation and network conditions but generally
-                    involves logarithmic complexity with respect to the number of processes,
-                    \(O(\log(worldSize))\), for the gathering operation itself.
-              \item The size of data being communicated by each process is proportional to its
-                    portion of the result matrix, which can be approximated as \(O(m \times
-                    \text{colsPerProcess})\).
-          \end{itemize}
+\subsubsection{Communication Time Complexity}
 
-    \item \textbf{Final Assembly:}
-          \begin{itemize}
-              \item The root process assembles the final result matrix. This step is essentially a
-                    concatenation of results from each process and is linearly proportional to the
-                    size of the final matrix, \( O(m \times k) \).
-          \end{itemize}
-\end{enumerate}
-Combining these components, the overall temporal complexity of the algorithm can be summarised as:
+After local computations, partial results must be gathered at the root process.
+The communication time complexity (\(T_{\text{comm}}\)) can be approximated as:
 
-\[ O\left(\frac{z}{worldSize} + \log(worldSize) + m \times k\right) \]
+\begin{equation}
+    T_{\text{comm}} = p \times \alpha + \beta \times m \times \frac{k}{p}
+\end{equation}
 
-This analysis reflects the balanced distribution of computation through
-column-wise partitioning, the efficiency of parallel computation, and the
-inherent costs of communication and data assembly in a distributed-memory
-parallel computing environment. It's important to note that the actual
-performance may also depend on the specifics of the MPI environment, network
-bandwidth and latency, and the distribution of non-zero elements in the sparse
-matrix.
+\subsubsection{Final Result Reconstruction}
+After gathering the local results, the root process reconstructs the final
+result matrix. This step has a time complexity proportional to the size of the
+final matrix, \(O(m \times k)\).
+
+\subsubsection{Overall Time Complexity}
+
+The overall time complexity of the column-wise parallel sparse matrix-vector
+multiplication algorithm is dominated by the sum of computation and
+communication complexities:
+
+\begin{equation}
+    T_{\text{overall}} = T_{\text{comp}} + T_{\text{comm}} = O\left(\frac{k \times z}{p}\right) + p \times \alpha + \beta \times m \times \frac{k}{p} + O(m \times k)
+\end{equation}
+
+\subsection{Performance Analysis}
+\subsubsection{Performance Dependence}
+\begin{itemize}
+    \item Number of processes ($p$): Performance improvement depends on the ratio of $k$
+          to $p$.
+    \item Number of rows ($m$): Less impact on performance scaling compared to $p$ and
+          $k$.
+    \item Number of non-zero elements ($z$): Impacts computation time, balanced by
+          parallel processing.
+    \item Number of columns ($k$): Critical for performance. Optimal when large and
+          divisible by $p$.
+\end{itemize}
+
+\subsubsection{Expected Performance}
+Best when $k$ is significantly larger than $p$ and divisible, allowing
+efficient parallel processing with minimal communication overhead. Performance
+may degrade if $p > k$ due to idle processes or when communication outweighs
+computation benefits.
 
 \newpage
 \section{Non-Zero Element Parallelism}
@@ -505,7 +521,7 @@ computations on the non-zero elements within those chunks.
         \State Calculate the total number of non-zero elements and distribute them among MPI processes
         \State Determine $startIdx$ and $endIdx$ for non-zero elements for the current process
         \State Map non-zero element indices to their corresponding row indices in the sparse matrix
-        \State Initialize $localResult$ with zeros of size $m \times k$
+        \State Initialise $localResult$ with zeros of size $m \times k$
         \For{$idx \gets startIdx$ \textbf{to} $endIdx - 1$}
         \State Determine $row$, $col$, and $value$ for each non-zero element
         \For{$k \gets 0$ \textbf{to} $k - 1$}
@@ -530,23 +546,104 @@ The algorithmic flow can be explicitly detailed by:
 \end{enumerate}
 
 \subsection{Temporal Complexity Analysis}
+Given a sparse matrix $M$ of size $m \times n$ with $z$ non-zero elements and a
+fat vector $v$ of size $n \times k$, the non-zero elements algorithm
+distributes the multiplication task across $p$ processors.
 
+\subsection{Computation Complexity}
+Each process is responsible for a subset of the non-zero elements. The total
+computation workload is proportional to the number of non-zero elements \(z\),
+distributed evenly among \(p\) processes:
+
+\begin{equation}
+    T_{\text{comp}} = O\left(\frac{z \times k}{p}\right)
+\end{equation}
+
+Given that each non-zero element computation involves a multiplication and an
+addition, the computation complexity remains linear with respect to the number
+of non-zero elements handled by each process.
+
+\subsection{Communication Complexity}
+The communication complexity involves reducing the local results from all the
+processes to a single result at the root process. The communication time
+complexity (\(T_{\text{comm}}\)) can be approximated as:
+
+\begin{equation}
+    T_{\text{comm}} = p \times \alpha + \beta \times m \times \frac{k}{p}
+\end{equation}
+
+where:
 \begin{itemize}
-    \item \textbf{MPI Initialisation and Rank and Size Determination:} As with other MPI-based algorithms, this step has a complexity of approximately \( O(1) \).
-
-    \item \textbf{Scattering Chunks of Rows of \( M \) to Each Process:} This step distributes parts of the matrix to different processes. Its complexity depends on the number of rows and the distribution method, typically around \( O(\frac{m}{p}) \), where \( m \) is the number of rows and \( p \) is the number of processes.
-
-    \item \textbf{Scatter of Vector \( v \) to All Processes:} This operation generally has a complexity of \( O(n) \), where \( n \) is the size of the vector.
-
-    \item \textbf{Local Computations for Non-Zero Elements:} Each process computes the products for the non-zero elements in its assigned rows. Assuming an even distribution of non-zero elements, the complexity for each process is approximately \( O(\frac{n_{nz}}{p}) \).
-
-    \item \textbf{Gather of Local Results \( r_{local} \) into Final Result Vector \( r \):} This step combines the partial results from all processes and typically has a complexity proportional to the total number of elements in \( r \).
+    \item \(\alpha\) is the latency cost of initiating a communication.
+    \item \(\beta\) is the cost of data transmission.
 \end{itemize}
 
+\subsubsection{Final Result Reconstruction}
+After reducing the local results, the root process reconstructs the final
+result matrix. This step has a time complexity proportional to the size of the
+final matrix, \(O(m \times k)\).
+
+\subsection{Overall Time Complexity}
+The overall time complexity of the SparseMatrixFatVectorMultiplyNonZeroElement
+algorithm is the sum of computation and communication complexities:
+
+\begin{equation}
+    T_{\text{overall}} = T_{\text{comp}} + T_{\text{comm}} = O\left(\frac{z \times k}{p}\right) + p \times \alpha + \beta \times m \times \frac{k}{p} + O(m \times k)
+\end{equation}
+
+\subsection{Performance Analysis}
+\subsubsection{Performance Dependence}
+\begin{itemize}
+    \item Number of processes ($p$): Performance improves with $p$, but aggregation
+          communication can be a bottleneck.
+    \item Number of rows ($m$): Impacts performance through non-zero element
+          distribution.
+    \item Number of non-zero elements ($z$): Directly proportional to computation
+          workload, benefiting from parallel execution.
+    \item Number of columns ($k$): Increases workload linearly, balanced by distributing
+          non-zero elements across processes.
+\end{itemize}
+
+\subsubsection{Expected Performance}
+Highly efficient for matrices with large and evenly distributed $z$, maximising
+parallelism. Optimal when $z/p$ is large, minimising idle time and
+communication overhead.
+
+\newpage
 \section{Performance Metrics}
 In order to evaluate the performance of all the algorithms, they were
-implemented by the main program (Appendix~\ref{appendix:main}) and executed on
-CRESCENT2. The script \texttt{run.sh} (Appendix~\ref{appendix:run-sh}) was used
+implemented by the main program (see appendix~\ref{appendix:main}). Here is the
+flow of this program:
+
+\begin{enumerate}
+    \item \textbf{Initialisation:} Start MPI and PETSc environments.
+    \item \textbf{Matrix and Vector Preparation:}
+          \begin{itemize}
+              \item Read the sparse matrix from a file. This feature is provided by the
+                    \texttt{readMatrixMarketFile} method (see appendix~\ref{appendix:utility}),
+                    created thanks to the Matrix Market I/O
+                    library~\cite{Lugowski2023FastMatrixMarket}.
+              \item Generate a random fat vector with dimensions matching the matrix and a
+                    specified number of columns.
+              \item Distribute the matrix and vector across all processes.
+          \end{itemize}
+    \item \textbf{Serial Multiplication:} Perform matrix-vector multiplication using a serial algorithm and measure execution time.
+    \item \textbf{Line-Based Parallel Multiplication:} Perform matrix-vector multiplication using a line-based parallel algorithm and measure execution time.
+    \item \textbf{Column-Based Parallel Multiplication:} Perform matrix-vector multiplication using a column-based parallel algorithm and measure execution time.
+    \item \textbf{Non-Zero Element Parallel Multiplication:} Perform matrix-vector multiplication using a non-zero element parallel algorithm and measure execution time.
+    \item \textbf{PETSc Implementation:}
+          \begin{itemize}
+              \item Convert the sparse matrix and fat vector into PETSc formats.
+              \item Execute matrix-vector multiplication using PETSc operations.
+              \item Convert the result back into a Fat Vector format for comparison.
+          \end{itemize}
+    \item \textbf{Result Comparison:} Compare the results of serial, parallel, and PETSc implementations for correctness.
+    \item \textbf{Finalisation:} Clean up and close MPI and PETSc environments.
+\end{enumerate}
+
+This program was executed with different sparse matrices, number of columns in
+the fat vector, and number of processes to evaluate the performance of the
+algorithms. To do so, the following performance metrics were used:
 
 \newpage
 
@@ -955,7 +1052,7 @@ greener, more sustainable future.
     \begin{itemize}
         \item \texttt{std::string \&filename} - Name of the Matrix Market file.
     \end{itemize}
-    
+
     \textbf{Returns:} \texttt{SparseMatrix} - Sparse matrix read from the file.
 
     \subsubsection{generateLargeFatVector}
@@ -974,7 +1071,7 @@ greener, more sustainable future.
 
     \textbf{Parameters for serialize:}
     \begin{itemize}
-        \item \texttt{FatVector \&denseVec} - fat vector to serialize.
+        \item \texttt{FatVector \&fatVec} - fat vector to serialize.
     \end{itemize}
 
     \textbf{Returns:} \texttt{std::vector<double>} - Flat array containing the serialized data.\\

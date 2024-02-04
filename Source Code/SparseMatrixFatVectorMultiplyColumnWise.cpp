@@ -40,7 +40,7 @@ FatVector sparseMatrixFatVectorMultiplyColumnWise(const SparseMatrix &sparseMatr
             double sum = 0.0;
             for (int j = sparseMatrix.rowPtr[i]; j < sparseMatrix.rowPtr[i + 1]; ++j)
             {
-                int sparseCol = sparseMatrix.colIndices[j];                  // Column index of the non-zero element
+                int sparseCol = sparseMatrix.colIndices[j];                // Column index of the non-zero element
                 sum += sparseMatrix.values[j] * fatVector[sparseCol][col]; // Compute the result
             }
             localResult[i * (endCol - startCol) + (col - startCol)] = sum; // Store the result in the local result vector
@@ -104,7 +104,7 @@ FatVector sparseMatrixFatVectorMultiplyColumnWise(const SparseMatrix &sparseMatr
         // std::cout << "Column-wise Average Computation Time: " << avg_computation_time << std::endl;
         // std::cout << "Column-wise Average Communication Time: " << avg_communication_time << std::endl;
         // =========================== FOR DEBUGGING ONLY - PRINTING PERFORMANCE DATA =================================
-    
+
         // Reconstruct the final result matrix
         finalResult.resize(sparseMatrix.numRows, std::vector<double>(vecCols, 0.0)); // Resize the final result matrix
         int resultIndex = 0;

@@ -24,7 +24,7 @@
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \newlabel{eq:sparse-matrix}{{1}{1}{Introduction}{equation.1.0.1}{}}
-\newlabel{eq:dense-vector}{{1.2}{1}{Introduction}{equation.1.0.2}{}}
+\newlabel{eq:fat-vector}{{1.2}{1}{Introduction}{equation.1.0.2}{}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {2}Methodology}{2}{chapter.2}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
@@ -35,189 +35,48 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Algorithm Flow}{3}{subsection.2.2.1}\protected@file@percent }
 \@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Sequential algorithm\relax }}{3}{algorithm.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Temporal Complexity Analysis}{3}{subsection.2.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.3}Line-Based Parallelism}{5}{section.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}Algorithm Flow}{5}{subsection.2.3.1}\protected@file@percent }
-\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Row-wise Parallel Sparse Matrix-Fat Vector Multiplication\relax }}{5}{algorithm.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}Temporal Complexity Analysis}{6}{subsection.2.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.4}Column-Wise Parallelism}{8}{section.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.1}Algorithm Flow}{8}{subsection.2.4.1}\protected@file@percent }
-\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces Column-wise Parallel Sparse Matrix-Fat Vector Multiplication\relax }}{8}{algorithm.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.2}Temporal Complexity Analysis}{9}{subsection.2.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.5}Non-Zero Element Parallelism}{11}{section.2.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.1}Algorithm Flow}{11}{subsection.2.5.1}\protected@file@percent }
-\@writefile{loa}{\contentsline {algorithm}{\numberline {4}{\ignorespaces Non-Zero Element Parallel Sparse Matrix-Fat Vector Multiplication\relax }}{11}{algorithm.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.2}Temporal Complexity Analysis}{12}{subsection.2.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.6}Performance Metrics}{12}{section.2.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Results and Discussion}{13}{chapter.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Line-Based Parallelism}{4}{section.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}Algorithm Flow}{4}{subsection.2.3.1}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Row-wise Parallel Sparse Matrix-Fat Vector Multiplication\relax }}{4}{algorithm.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}Time Complexity Analysis}{5}{subsection.2.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2.1}Computational Complexity}{5}{subsubsection.2.3.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2.2}Communication Complexity}{5}{subsubsection.2.3.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2.3}Final Result Reconstruction}{6}{subsubsection.2.3.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2.4}Overall Time Complexity}{6}{subsubsection.2.3.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.3}Performance Analysis}{6}{subsection.2.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3.1}Performance Dependence}{6}{subsubsection.2.3.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3.2}Expected Performance}{6}{subsubsection.2.3.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Column-Wise Parallelism}{7}{section.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.1}Algorithm Flow}{7}{subsection.2.4.1}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces Column-wise Parallel Sparse Matrix-Fat Vector Multiplication\relax }}{7}{algorithm.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.2}Temporal Complexity Analysis}{8}{subsection.2.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.2.1}Computation Time Complexity}{8}{subsubsection.2.4.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.2.2}Communication Time Complexity}{8}{subsubsection.2.4.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.2.3}Final Result Reconstruction}{8}{subsubsection.2.4.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.2.4}Overall Time Complexity}{8}{subsubsection.2.4.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.3}Performance Analysis}{9}{subsection.2.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.3.1}Performance Dependence}{9}{subsubsection.2.4.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.3.2}Expected Performance}{9}{subsubsection.2.4.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.5}Non-Zero Element Parallelism}{10}{section.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.1}Algorithm Flow}{10}{subsection.2.5.1}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {4}{\ignorespaces Non-Zero Element Parallel Sparse Matrix-Fat Vector Multiplication\relax }}{10}{algorithm.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.2}Temporal Complexity Analysis}{11}{subsection.2.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.3}Computation Complexity}{11}{subsection.2.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.4}Communication Complexity}{11}{subsection.2.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.5.4.1}Final Result Reconstruction}{11}{subsubsection.2.5.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.5}Overall Time Complexity}{11}{subsection.2.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.6}Performance Analysis}{12}{subsection.2.5.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.5.6.1}Performance Dependence}{12}{subsubsection.2.5.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.5.6.2}Expected Performance}{12}{subsubsection.2.5.6.2}\protected@file@percent }
+\citation{Lugowski2023FastMatrixMarket}
+\@writefile{toc}{\contentsline {section}{\numberline {2.6}Performance Metrics}{13}{section.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Results and Discussion}{14}{chapter.3}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Results}{13}{section.3.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Sparse matrix specifications\relax }}{13}{table.caption.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Results}{14}{section.3.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Sparse matrix specifications\relax }}{14}{table.caption.5}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{tab:matrix_summary}{{3.1}{13}{Sparse matrix specifications\relax }{table.caption.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Sparse Matrix Impact}{13}{subsection.3.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.1}Execution Time}{13}{subsubsection.3.1.1.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Cage4 matrix execution time\relax }}{13}{figure.caption.6}\protected@file@percent }
-\newlabel{fig:cage4-k6-execution-time}{{3.1}{13}{Cage4 matrix execution time\relax }{figure.caption.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces DC1 matrix execution time\relax }}{14}{figure.caption.7}\protected@file@percent }
-\newlabel{fig:dc1-k6-execution-time}{{3.2}{14}{DC1 matrix execution time\relax }{figure.caption.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Amazon0302 matrix execution time\relax }}{14}{figure.caption.8}\protected@file@percent }
-\newlabel{fig:amazon0302-k6-execution-time}{{3.3}{14}{Amazon0302 matrix execution time\relax }{figure.caption.8}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Cop20k\_A matrix execution time\relax }}{14}{figure.caption.9}\protected@file@percent }
-\newlabel{fig:cop20k-a-k6-execution-time}{{3.4}{14}{Cop20k\_A matrix execution time\relax }{figure.caption.9}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces FEM\_3D\_thermal1 matrix execution time\relax }}{15}{figure.caption.10}\protected@file@percent }
-\newlabel{fig:fem-3d-thermal1-k6-execution-time}{{3.5}{15}{FEM\_3D\_thermal1 matrix execution time\relax }{figure.caption.10}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.2}Communication Time}{15}{subsubsection.3.1.1.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Cage4 matrix communication time\relax }}{15}{figure.caption.11}\protected@file@percent }
-\newlabel{fig:cage4-k6-communication-time}{{3.6}{15}{Cage4 matrix communication time\relax }{figure.caption.11}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces DC1 matrix communication time\relax }}{15}{figure.caption.12}\protected@file@percent }
-\newlabel{fig:dc1-k6-communication-time}{{3.7}{15}{DC1 matrix communication time\relax }{figure.caption.12}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces Amazon0302 matrix communication time\relax }}{16}{figure.caption.13}\protected@file@percent }
-\newlabel{fig:amazon0302-k6-communication-time}{{3.8}{16}{Amazon0302 matrix communication time\relax }{figure.caption.13}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.9}{\ignorespaces Cop20k\_A matrix communication time\relax }}{16}{figure.caption.14}\protected@file@percent }
-\newlabel{fig:cop20k-a-k6-communication-time-1}{{3.9}{16}{Cop20k\_A matrix communication time\relax }{figure.caption.14}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.10}{\ignorespaces FEM\_3D\_thermal1 matrix communication time\relax }}{16}{figure.caption.15}\protected@file@percent }
-\newlabel{fig:fem-3d-thermal1-k6-communication-time}{{3.10}{16}{FEM\_3D\_thermal1 matrix communication time\relax }{figure.caption.15}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.3}Computation Time}{17}{subsubsection.3.1.1.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.11}{\ignorespaces Cage4 matrix computation time\relax }}{17}{figure.caption.16}\protected@file@percent }
-\newlabel{fig:cage4-k6-computation-time}{{3.11}{17}{Cage4 matrix computation time\relax }{figure.caption.16}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.12}{\ignorespaces DC1 matrix computation time\relax }}{17}{figure.caption.17}\protected@file@percent }
-\newlabel{fig:dc1-k6-computation-time}{{3.12}{17}{DC1 matrix computation time\relax }{figure.caption.17}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.13}{\ignorespaces Amazon0302 matrix computation time\relax }}{17}{figure.caption.18}\protected@file@percent }
-\newlabel{fig:amazon0302-k6-computation-time}{{3.13}{17}{Amazon0302 matrix computation time\relax }{figure.caption.18}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.14}{\ignorespaces Cop20k\_A matrix computation time\relax }}{18}{figure.caption.19}\protected@file@percent }
-\newlabel{fig:cop20k-a-k6-computation-tim-1}{{3.14}{18}{Cop20k\_A matrix computation time\relax }{figure.caption.19}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.15}{\ignorespaces FEM\_3D\_thermal1 matrix computation time\relax }}{18}{figure.caption.20}\protected@file@percent }
-\newlabel{fig:fem-3d-thermal1-k6-computation-time}{{3.15}{18}{FEM\_3D\_thermal1 matrix computation time\relax }{figure.caption.20}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.4}Performance}{18}{subsubsection.3.1.1.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.16}{\ignorespaces Cage4 matrix performance\relax }}{18}{figure.caption.21}\protected@file@percent }
-\newlabel{fig:cage4-k6-performance}{{3.16}{18}{Cage4 matrix performance\relax }{figure.caption.21}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.17}{\ignorespaces DC1 matrix performance\relax }}{19}{figure.caption.22}\protected@file@percent }
-\newlabel{fig:dc1-k6-performance}{{3.17}{19}{DC1 matrix performance\relax }{figure.caption.22}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.18}{\ignorespaces Amazon0302 matrix performance\relax }}{19}{figure.caption.23}\protected@file@percent }
-\newlabel{fig:amazon0302-k6-performance}{{3.18}{19}{Amazon0302 matrix performance\relax }{figure.caption.23}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.19}{\ignorespaces Cop20k\_A matrix performance\relax }}{19}{figure.caption.24}\protected@file@percent }
-\newlabel{fig:cop20k-a-k6-performance-1}{{3.19}{19}{Cop20k\_A matrix performance\relax }{figure.caption.24}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.20}{\ignorespaces FEM\_3D\_thermal1 matrix performance\relax }}{20}{figure.caption.25}\protected@file@percent }
-\newlabel{fig:fem-3d-thermal1-k6-performance}{{3.20}{20}{FEM\_3D\_thermal1 matrix performance\relax }{figure.caption.25}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}Fat Vector Impact}{20}{subsection.3.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2.1}Execution Time}{20}{subsubsection.3.1.2.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.21}{\ignorespaces Cop20k\_A matrix execution time\relax }}{20}{figure.caption.26}\protected@file@percent }
-\newlabel{fig:cop20k-a-k1-execution-time}{{3.21}{20}{Cop20k\_A matrix execution time\relax }{figure.caption.26}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.22}{\ignorespaces Cop20k\_A matrix execution time\relax }}{20}{figure.caption.27}\protected@file@percent }
-\newlabel{fig:cop20k-a-k3-execution-time}{{3.22}{20}{Cop20k\_A matrix execution time\relax }{figure.caption.27}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.23}{\ignorespaces Cop20k\_A matrix execution time\relax }}{21}{figure.caption.28}\protected@file@percent }
-\newlabel{fig:cop20k-a-k6-execution-time-2}{{3.23}{21}{Cop20k\_A matrix execution time\relax }{figure.caption.28}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.24}{\ignorespaces Cop20k\_A matrix execution time\relax }}{21}{figure.caption.29}\protected@file@percent }
-\newlabel{fig:cop20k-a-k9-execution-time}{{3.24}{21}{Cop20k\_A matrix execution time\relax }{figure.caption.29}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.25}{\ignorespaces Cop20k\_A matrix execution time\relax }}{21}{figure.caption.30}\protected@file@percent }
-\newlabel{fig:cop20k-a-k12-execution-time}{{3.25}{21}{Cop20k\_A matrix execution time\relax }{figure.caption.30}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2.2}Communication Time}{22}{subsubsection.3.1.2.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.26}{\ignorespaces Cop20k\_A matrix communication time\relax }}{22}{figure.caption.31}\protected@file@percent }
-\newlabel{fig:cop20k-a-k1-communication-time}{{3.26}{22}{Cop20k\_A matrix communication time\relax }{figure.caption.31}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.27}{\ignorespaces Cop20k\_A matrix communication time\relax }}{22}{figure.caption.32}\protected@file@percent }
-\newlabel{fig:cop20k-a-k3-communication-time}{{3.27}{22}{Cop20k\_A matrix communication time\relax }{figure.caption.32}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.28}{\ignorespaces Cop20k\_A matrix communication time\relax }}{22}{figure.caption.33}\protected@file@percent }
-\newlabel{fig:cop20k-a-k6-communication-time}{{3.28}{22}{Cop20k\_A matrix communication time\relax }{figure.caption.33}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.29}{\ignorespaces Cop20k\_A matrix communication time\relax }}{23}{figure.caption.34}\protected@file@percent }
-\newlabel{fig:cop20k-a-k9-communication-time}{{3.29}{23}{Cop20k\_A matrix communication time\relax }{figure.caption.34}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.30}{\ignorespaces Cop20k\_A matrix communication time\relax }}{23}{figure.caption.35}\protected@file@percent }
-\newlabel{fig:cop20k-a-k12-communication-time}{{3.30}{23}{Cop20k\_A matrix communication time\relax }{figure.caption.35}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2.3}Computation Time}{23}{subsubsection.3.1.2.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.31}{\ignorespaces Cop20k\_A matrix computation time\relax }}{23}{figure.caption.36}\protected@file@percent }
-\newlabel{fig:cop20k-a-k1-computation-time}{{3.31}{23}{Cop20k\_A matrix computation time\relax }{figure.caption.36}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.32}{\ignorespaces Cop20k\_A matrix computation time\relax }}{24}{figure.caption.37}\protected@file@percent }
-\newlabel{fig:cop20k-a-k3-computation-time}{{3.32}{24}{Cop20k\_A matrix computation time\relax }{figure.caption.37}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.33}{\ignorespaces Cop20k\_A matrix computation time\relax }}{24}{figure.caption.38}\protected@file@percent }
-\newlabel{fig:cop20k-a-k6-computation-time}{{3.33}{24}{Cop20k\_A matrix computation time\relax }{figure.caption.38}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.34}{\ignorespaces Cop20k\_A matrix computation time\relax }}{24}{figure.caption.39}\protected@file@percent }
-\newlabel{fig:cop20k-a-k9-computation-time}{{3.34}{24}{Cop20k\_A matrix computation time\relax }{figure.caption.39}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.35}{\ignorespaces Cop20k\_A matrix computation time\relax }}{25}{figure.caption.40}\protected@file@percent }
-\newlabel{fig:cop20k-a-k12-computation-time}{{3.35}{25}{Cop20k\_A matrix computation time\relax }{figure.caption.40}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2.4}Performance}{25}{subsubsection.3.1.2.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.36}{\ignorespaces Cop20k\_A matrix performance\relax }}{25}{figure.caption.41}\protected@file@percent }
-\newlabel{fig:cop20k-a-k1-performance}{{3.36}{25}{Cop20k\_A matrix performance\relax }{figure.caption.41}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.37}{\ignorespaces Cop20k\_A matrix performance\relax }}{25}{figure.caption.42}\protected@file@percent }
-\newlabel{fig:cop20k-a-k3-performance}{{3.37}{25}{Cop20k\_A matrix performance\relax }{figure.caption.42}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.38}{\ignorespaces Cop20k\_A matrix performance\relax }}{26}{figure.caption.43}\protected@file@percent }
-\newlabel{fig:cop20k-a-k6-performance}{{3.38}{26}{Cop20k\_A matrix performance\relax }{figure.caption.43}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.39}{\ignorespaces Cop20k\_A matrix performance\relax }}{26}{figure.caption.44}\protected@file@percent }
-\newlabel{fig:cop20k-a-k9-performance}{{3.39}{26}{Cop20k\_A matrix performance\relax }{figure.caption.44}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.40}{\ignorespaces Cop20k\_A matrix performance\relax }}{26}{figure.caption.45}\protected@file@percent }
-\newlabel{fig:cop20k-a-k12-performance}{{3.40}{26}{Cop20k\_A matrix performance\relax }{figure.caption.45}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}HPC Environmental Impact}{26}{section.3.2}\protected@file@percent }
-\bibstyle{CranfieldNumbered}
-\bibdata{CUCitations}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Conclusion}{28}{chapter.4}\protected@file@percent }
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Documentation}{29}{appendix.A}\protected@file@percent }
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {A.A}Project tree}{29}{section.1.A.A}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {A.B}Getting Started}{29}{section.1.A.B}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {A.C}Methods Overview}{30}{section.1.A.C}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.C.1}Utils.h}{30}{subsection.1.A.C.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.C.1.1}ConvertPETScMatToFatVector}{30}{subsubsection.1.A.C.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.C.1.2}areMatricesEqual}{30}{subsubsection.1.A.C.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.C.1.3}readMatrixMarketFile}{30}{subsubsection.1.A.C.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.C.1.4}generateLargeFatVector}{31}{subsubsection.1.A.C.1.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.C.1.5}serialize and deserialize}{31}{subsubsection.1.A.C.1.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.C.2}SparseMatrixFatVectorMultiply.h}{31}{subsection.1.A.C.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.C.2.1}sparseMatrixFatVectorMultiply}{31}{subsubsection.1.A.C.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.C.3}SparseMatrixFatVectorMultiplyRowWise.h}{32}{subsection.1.A.C.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.C.3.1}sparseMatrixFatVectorMultiplyRowWise}{32}{subsubsection.1.A.C.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.C.4}SparseMatrixFatVectorMultiplyColumnWise.h}{32}{subsection.1.A.C.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.C.4.1}sparseMatrixFatVectorMultiplyColumnWise}{32}{subsubsection.1.A.C.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.C.5}SparseMatrixFatVectorMultiplyNonZeroElement.h}{32}{subsection.1.A.C.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.C.5.1}sparseMatrixFatVectorMultiplyNonZeroElement}{32}{subsubsection.1.A.C.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {B}Source Codes}{33}{appendix.B}\protected@file@percent }
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {B.A}Data Structures}{33}{section.2.B.A}\protected@file@percent }
-\newlabel{appendix:data-structures}{{B.A}{33}{Data Structures}{section.2.B.A}{}}
-\@writefile{lol}{\contentsline {lstlisting}{../Source Code/MatrixDefinitions.h}{33}{lstlisting.B.-4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {B.B}Sequential Algorithm}{34}{section.2.B.B}\protected@file@percent }
-\newlabel{appendix:sequential}{{B.B}{34}{Sequential Algorithm}{section.2.B.B}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.B.1}Declaration File}{34}{subsection.2.B.B.1}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{../Source Code/SparseMatrixFatVectorMultiply.h}{34}{lstlisting.B.-5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.B.2}Implementation File}{34}{subsection.2.B.B.2}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{../Source Code/SparseMatrixFatVectorMultiply.cpp}{34}{lstlisting.B.-6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {B.C}Line-Based Parallelism}{35}{section.2.B.C}\protected@file@percent }
-\newlabel{appendix:line-based}{{B.C}{35}{Line-Based Parallelism}{section.2.B.C}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.C.1}Declaration File}{35}{subsection.2.B.C.1}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{../Source Code/SparseMatrixFatVectorMultiplyRowWise.h}{35}{lstlisting.B.-7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.C.2}Implementation File}{35}{subsection.2.B.C.2}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{../Source Code/SparseMatrixFatVectorMultiplyRowWise.cpp}{35}{lstlisting.B.-8}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {B.D}Column-Wise Parallelism}{38}{section.2.B.D}\protected@file@percent }
-\newlabel{appendix:column-based}{{B.D}{38}{Column-Wise Parallelism}{section.2.B.D}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.D.1}Declaration File}{38}{subsection.2.B.D.1}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{../Source Code/SparseMatrixFatVectorMultiplyColumnWise.h}{38}{lstlisting.B.-9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.D.2}Implementation File}{38}{subsection.2.B.D.2}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{../Source Code/SparseMatrixFatVectorMultiplyColumnWise.cpp}{38}{lstlisting.B.-10}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {B.E}Non-Zero Element Parallelism}{41}{section.2.B.E}\protected@file@percent }
-\newlabel{appendix:non-zero}{{B.E}{41}{Non-Zero Element Parallelism}{section.2.B.E}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.E.1}Declaration File}{41}{subsection.2.B.E.1}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{../Source Code/SparseMatrixFatVectorMultiplyNonZeroElement.h}{41}{lstlisting.B.-11}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.E.2}Implementation File}{41}{subsection.2.B.E.2}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{../Source Code/SparseMatrixFatVectorMultiplyNonZeroElement.cpp}{41}{lstlisting.B.-12}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {B.F}Utility Functions}{44}{section.2.B.F}\protected@file@percent }
-\newlabel{appendix:utility}{{B.F}{44}{Utility Functions}{section.2.B.F}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.F.1}Declaration File}{44}{subsection.2.B.F.1}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{../Source Code/utils.h}{44}{lstlisting.B.-13}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.F.2}Implementation File}{45}{subsection.2.B.F.2}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{../Source Code/utils.cpp}{45}{lstlisting.B.-14}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {B.G}Main File}{49}{section.2.B.G}\protected@file@percent }
-\newlabel{appendix:main}{{B.G}{49}{Main File}{section.2.B.G}{}}
-\@writefile{lol}{\contentsline {lstlisting}{../Source Code/main.cpp}{49}{lstlisting.B.-15}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {B.H}Scripts}{56}{section.2.B.H}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.H.1}MPI Submission Script}{56}{subsection.2.B.H.1}\protected@file@percent }
-\newlabel{appendix:mpi-sub}{{B.H.1}{56}{MPI Submission Script}{subsection.2.B.H.1}{}}
-\@writefile{lol}{\contentsline {lstlisting}{../Source Code/scripts/mpi.sub}{56}{lstlisting.B.-16}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.H.2}Batch Test Script}{58}{subsection.2.B.H.2}\protected@file@percent }
-\newlabel{appendix:batch-test}{{B.H.2}{58}{Batch Test Script}{subsection.2.B.H.2}{}}
-\@writefile{lol}{\contentsline {lstlisting}{../Source Code/scripts/batch\textunderscore test.sh}{58}{lstlisting.B.-17}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.H.3}Get CSV Script}{60}{subsection.2.B.H.3}\protected@file@percent }
-\newlabel{appendix:get-csv}{{B.H.3}{60}{Get CSV Script}{subsection.2.B.H.3}{}}
-\@writefile{lol}{\contentsline {lstlisting}{../Source Code/scripts/get\textunderscore csv\textunderscore all.sh}{60}{lstlisting.B.-18}\protected@file@percent }
-\gdef \@abspage@last{69}
+\newlabel{tab:matrix_summary}{{3.1}{14}{Sparse matrix specifications\relax }{table.caption.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Sparse Matrix Impact}{14}{subsection.3.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.1}Execution Time}{14}{subsubsection.3.1.1.1}\protected@file@percent }
+\@writefile{lof}
