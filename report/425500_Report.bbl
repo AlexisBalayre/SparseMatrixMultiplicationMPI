@@ -1,7 +1,38 @@
 \begin{thebibliography}{1}
 
+\bibitem{petsc-web-page}
+Balay S, Abhyankar S, Adams MF, Benson S, Brown J, Brune P, et~al.. {PETS}c {W}eb page; 2023.
+\newblock \url{https://petsc.org/}.
+\newblock Available at: \url{https://petsc.org/}. (Accessed: December 28, 2023).
+
 \bibitem{Lugowski2023FastMatrixMarket}
 Lugowski A. fast matrix market: Fast and Full-Featured Matrix Market I/O Library; 2023.
 \newblock Available at: \url{https://github.com/alugowski/fast_matrix_market}. (Accessed: December 28, 2023).
+
+\bibitem{Kolodziej2019SuiteSparseInterface}
+Kolodziej SP, Aznaveh M, Bullock M, David J, Davis TA, Henderson M, et~al.
+\newblock The SuiteSparse Matrix Collection Website Interface.
+\newblock Journal of Open Source Software. 2019;4(35):1244-8.
+\newblock Available at: \url{https://sparse.tamu.edu/}. (Accessed: December 28, 2023).
+
+\bibitem{Kupiainen2021HPCGreenDigital}
+Kupiainen I. HPC at the core of green and digital transition; 2021.
+\newblock Available at: \url{https://www.scientific-computing.com/viewpoint/hpc-core-green-and-digital-transition}. (Accessed: January 02, 2024).
+
+\bibitem{9190269}
+Karwa N. Ultra-Low Global Warming Potential Heat Transfer Fluids for Pumped Two-Phase Cooling in HPC Data Centers; 2020.
+\newblock Available at: \url{https://ieeexplore.ieee.org/document/9190269}. (Accessed: December 28, 2023).
+
+\bibitem{9917654}
+Geetanjali, Quraishi SJ. Energy Savings using Green Cloud Computing; 2022.
+\newblock Available at: \url{https://ieeexplore.ieee.org/document/9917654}. (Accessed: December 28, 2023).
+
+\bibitem{7912681}
+Guyon D, Orgerie AC, Morin C, Agarwal D. How Much Energy Can Green HPC Cloud Users Save?; 2017.
+\newblock Available at: \url{https://ieeexplore.ieee.org/document/7912681}. (Accessed: December 28, 2023).
+
+\bibitem{6270748}
+Subramaniam B, Feng Wc. The Green Index: A Metric for Evaluating System-Wide Energy Efficiency in HPC Systems; 2012.
+\newblock Available at: \url{https://ieeexplore.ieee.org/document/6270748}. (Accessed: December 28, 2023).
 
 \end{thebibliography}

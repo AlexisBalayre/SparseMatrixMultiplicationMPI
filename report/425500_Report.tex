@@ -107,7 +107,13 @@
 
 % Abstract and Keywords
 \begin{abstract}
-    Replace with your abstract text of not more than 300 words.
+    This paper explores the effectiveness of different parallelization strategies
+    for multiplying sparse matrices by fat vectors, focusing on the use of MPI
+    in High Performance Computing (HPC). It compares the performance of sequential
+    and parallel methods, including row-by-row, column-by-column, and non-zero element
+    approaches. The results highlight the implications of each strategy on execution time
+    and efficiency, while considering the environmental impact of HPC, suggesting avenues
+    towards more sustainable computing systems.
 \end{abstract}
 
 % Use single spacing for Table of Contents, List of Figures, etc
@@ -152,6 +158,9 @@ The aim of this report is to explore distributed memory parallel programming
 strategies for optimising the performance of sparse matrix multiplication by a
 fat vector, a common operation in numerical linear algebra.
 
+\chapter{Methodology}
+
+\section{Problem Statement}
 Consider a sparse matrix $M$ of dimensions $m \times n$ and a fat vector $v$ of
 dimensions $n \times k$. The objective is to perform the multiplication $M
     \times v$, yielding a result that is of dimensions $m \times k$.
@@ -177,7 +186,7 @@ The vector $v$ is defined as:
     \end{pmatrix}\label{eq:fat-vector}
 \end{equation}
 
-\chapter{Methodology}
+\newpage
 \section{Data Structures}
 In numerical computation and linear algebra, efficient use of memory and fast
 computation are crucial. This is particularly true when working with hollow
@@ -200,7 +209,7 @@ Here is an example of a sparse matrix in CSR format:
 \begin{itemize}
     \item \texttt{values} = \{1, 2, 3, 4\}
     \item \texttt{rowPtr} = \{0, 2, 3, 3, 4\}
-    \item \texttt{colIndices} = \{0, 2, 1, 3\}
+    \item \texttt{colIndices} = \{0, 2, 2, 3\}
 \end{itemize}
 
 This hollow matrix can be visualised as:
@@ -223,6 +232,7 @@ data structure for a fat vector is a two-dimensional array, where each row
 represents a separate vector. The \textbf{FatVector} structure is defined in
 Appendix~\ref{appendix:data-structures}.
 
+\newpage
 \section{Sequential Algorithm}
 Let \( M \) be a sparse matrix of size \( m \times n \) with \( z \) non-zero
 elements, stored in CSR format, and \( v \) be a fat vector of size \( n \times
@@ -274,10 +284,11 @@ multiplication algorithm can be expressed as:
     T(n) = O(zk)
 \end{equation}
 
+\newpage
 \section{Line-Based Parallelism}
-This algorithm partitions a sparse matrix into row chunks and distributes these
-chunks across multiple processes for parallel computation in a line-based
-manner.
+This algorithm distributes the rows of the sparse matrix across multiple
+processes for parallel computation in a line-based manner. The implementation
+is detailed in Appendix~\ref{appendix:line-based}.
 
 \subsection{Algorithm Flow}
 
@@ -392,9 +403,9 @@ outweighs computation benefits.
 
 \newpage
 \section{Column-Wise Parallelism}
-This algorithm distributes the non-zero elements of a sparse matrix among
-different processes, enabling parallel computation focused on each non-zero
-element.
+This algorithm distributes the columns of the fat vector across multiple
+processes for parallel computation in a column-based manner. The implementation
+is detailed in Appendix~\ref{appendix:column-based}.
 
 \subsection{Algorithm Flow}
 
@@ -504,9 +515,9 @@ computation benefits.
 
 \newpage
 \section{Non-Zero Element Parallelism}
-This algorithm combines line-based and non-zero element-based approaches by
-distributing chunks of rows to each process and then performing parallel
-computations on the non-zero elements within those chunks.
+This algorithm distributes the non-zero elements of the sparse matrix across
+multiple processes for parallel computation. The implementation is detailed in
+Appendix~\ref{appendix:non-zero}.
 
 \subsection{Algorithm Flow}
 
@@ -611,366 +622,490 @@ communication overhead.
 
 \newpage
 \section{Performance Metrics}
-In order to evaluate the performance of all the algorithms, they were
-implemented by the main program (see appendix~\ref{appendix:main}). Here is the
-flow of this program:
+The evaluation of algorithm performance within the main program (detailed in
+appendix~\ref{appendix:main}) involves a systematic approach to assess
+efficiency across various implementations. In addition, the PETSc
+library~\cite{petsc-web-page} is used to compare the performance of the
+parallel algorithms with a highly optimised parallel sparse matrix-vector
+multiplication implementation. The program's workflow is structured as follows:
 
 \begin{enumerate}
-    \item \textbf{Initialisation:} Start MPI and PETSc environments.
+    \item \textbf{Initialisation:} Initial setup of MPI and PETSc environments to enable distributed computation and matrix operations.
     \item \textbf{Matrix and Vector Preparation:}
           \begin{itemize}
-              \item Read the sparse matrix from a file. This feature is provided by the
-                    \texttt{readMatrixMarketFile} method (see appendix~\ref{appendix:utility}),
-                    created thanks to the Matrix Market I/O
-                    library~\cite{Lugowski2023FastMatrixMarket}.
-              \item Generate a random fat vector with dimensions matching the matrix and a
-                    specified number of columns.
-              \item Distribute the matrix and vector across all processes.
+              \item \textit{Matrix Reading:} Sparse matrices are sourced from files utilising the \texttt{readMatrixMarketFile} method (refer to appendix~\ref{appendix:utility}), leveraging the Matrix Market I/O library~\cite{Lugowski2023FastMatrixMarket} for efficient data handling.
+              \item \textit{Fat Vector Generation:} Creation of fat vectors, with dimensions tailored to the corresponding matrices and predetermined column counts, ensuring compatibility for multiplication.
+              \item \textit{Distribution:} Uniform distribution of matrices and vectors across processes for parallel computation.
           \end{itemize}
-    \item \textbf{Serial Multiplication:} Perform matrix-vector multiplication using a serial algorithm and measure execution time.
-    \item \textbf{Line-Based Parallel Multiplication:} Perform matrix-vector multiplication using a line-based parallel algorithm and measure execution time.
-    \item \textbf{Column-Based Parallel Multiplication:} Perform matrix-vector multiplication using a column-based parallel algorithm and measure execution time.
-    \item \textbf{Non-Zero Element Parallel Multiplication:} Perform matrix-vector multiplication using a non-zero element parallel algorithm and measure execution time.
+    \item \textbf{Serial Multiplication:} Execution and timing of matrix-vector multiplication in a serial context to establish a performance baseline.
+    \item \textbf{Parallel Multiplication Variants:} Application of distinct parallel multiplication strategies—line-based, column-based, and non-zero element—to measure execution times and identify efficiency variances.
     \item \textbf{PETSc Implementation:}
           \begin{itemize}
-              \item Convert the sparse matrix and fat vector into PETSc formats.
-              \item Execute matrix-vector multiplication using PETSc operations.
-              \item Convert the result back into a Fat Vector format for comparison.
+              \item \textit{Conversion:} Adaptation of matrices and vectors to PETSc formats to utilise its optimized operations.
+              \item \textit{Execution:} Conducting matrix-vector multiplication within the PETSc framework.
+              \item \textit{Result Conversion:} Reformatting PETSc output back to Fat Vector for uniform result comparison.
           \end{itemize}
-    \item \textbf{Result Comparison:} Compare the results of serial, parallel, and PETSc implementations for correctness.
-    \item \textbf{Finalisation:} Clean up and close MPI and PETSc environments.
+    \item \textbf{Result Comparison:} Validation of output correctness across serial, parallel, and PETSc implementations to ensure computational integrity.
+    \item \textbf{Finalisation:} Termination of MPI and PETSc environments and release of resources.
 \end{enumerate}
 
-This program was executed with different sparse matrices, number of columns in
-the fat vector, and number of processes to evaluate the performance of the
-algorithms. To do so, the following performance metrics were used:
+Comprehensive testing, facilitated by the \texttt{batch\_test.sh} script (see
+appendix~\ref{appendix:batch-test}), was conducted to evaluate algorithmic
+performance under varying conditions—spanning different sparse matrix
+characteristics, fat vector column numbers, and process counts. These tests
+were categorised into three batches to pinpoint performance influencers:
+
+\begin{itemize}
+    \item \textbf{Matrix Impact:} Examining how variations in sparse matrix properties affect algorithm efficiency.
+    \item \textbf{Fat Vector Influence:} Assessing the performance implications of altering fat vector column quantities.
+    \item \textbf{Execution Time Measurement:} Repeating the second batch tests without tracking average communication and computation times to capture precise execution durations.
+\end{itemize}
+
+This structured approach enables a thorough understanding of each algorithm's
+behavior under diverse computational scenarios and establishes a foundation for
+optimising sparse matrix-vector multiplication operations.
 
 \newpage
 
 \chapter{Results and Discussion}
 \section{Results}
 
-The performance of all algorithms was evaluated using the following five sparse
-matrix:
+\subsection{Sparse Matrix Impact}
+The first set of experiments focused on the impact of the sparse matrix on the
+performance of the algorithms. The number of columns in the fat vector was
+fixed at 6. The performance of all algorithms was evaluated using the following
+five sparse matrix~\cite{Lugowski2023FastMatrixMarket,
+    Kolodziej2019SuiteSparseInterface}:
 \begin{table}[h]
     \centering
-    \begin{tabular}{|l|l|l|}
+    \begin{tabular}{|l|l|l|l|l|}
         \hline
-        \textbf{Matrix Name} & \textbf{Dimensions}        & \textbf{Non-Zero Elements} \\ \hline
-        Cage4                & \(9 \times 9\)             & 49                         \\ \hline
-        FEM\_3D\_thermal1    & \(17,880 \times 17,880\)   & 430,740                    \\ \hline
-        DC1                  & \(116,835 \times 116,835\) & 766,396                    \\ \hline
-        Cop20k\_A            & \(121,192 \times 121,192\) & 2,624,331                  \\ \hline
-        Amazon0302           & \(262,111 \times 262,111\) & 1,234,877                  \\ \hline
+        \textbf{Matrix Name} & \textbf{Dimensions}        & \textbf{Non-Zero Elements} & \textbf{Symmetric} & \textbf{Type} \\ \hline
+        Cage4                & \(9 \times 9\)             & 49                         & No                 & Real          \\ \hline
+        FEM\_3D\_thermal1    & \(17,880 \times 17,880\)   & 430,740                    & No                 & Real          \\ \hline
+        DC1                  & \(116,835 \times 116,835\) & 766,396                    & No                 & Real          \\ \hline
+        Cop20k\_A            & \(121,192 \times 121,192\) & 2,624,331                  & Yes                & Real          \\ \hline
+        Amazon0302           & \(262,111 \times 262,111\) & 1,234,877                  & No                 & Binary        \\ \hline
     \end{tabular}
     \caption{Sparse matrix specifications}
     \label{tab:matrix_summary}
 \end{table}
 
-\subsection{Sparse Matrix Impact}
-The first set of experiments focused on the impact of the sparse matrix on the
-performance of the algorithms.
-\subsubsection{Execution Time}
+\newpage
+\subsubsection{Execution Time Evolution}
+The following figures illustrate the evolution of the execution time for each
+of the five test matrices as the number of processes increases.
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{../results/matrix_dim/cage4_k6_execution_time.png}
-    \caption{Cage4 matrix execution time}\label{fig:cage4-k6-execution-time}
+    \includegraphics[width=0.6\linewidth]{../results/matrix_dim/cage4_k6_execution_time.png}
+    \caption{Cage4 Matrix Execution Time Evolution}\label{fig:cage4-k6-execution-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{../results/matrix_dim/dc1_k6_execution_time.png}
-    \caption{DC1 matrix execution time}\label{fig:dc1-k6-execution-time}
+    \caption{DC1 Matrix Execution Time Evolution}\label{fig:dc1-k6-execution-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{../results/matrix_dim/amazon0302_k6_execution_time.png}
-    \caption{Amazon0302 matrix execution time}\label{fig:amazon0302-k6-execution-time}
+    \caption{Amazon0302 Matrix Execution Time Evolution}\label{fig:amazon0302-k6-execution-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{../results/matrix_dim/cop20k_A_k6_execution_time.png}
-    \caption{Cop20k\_A matrix execution time}\label{fig:cop20k-a-k6-execution-time}
+    \caption{Cop20k\_A Matrix Execution Time Evolution}\label{fig:cop20k-a-k6-execution-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{../results/matrix_dim/FEM_3D_thermal1_k6_execution_time.png}
-    \caption{FEM\_3D\_thermal1 matrix execution time}\label{fig:fem-3d-thermal1-k6-execution-time}
+    \caption{FEM\_3D\_thermal1 Matrix Execution Time Evolution}\label{fig:fem-3d-thermal1-k6-execution-time}
 \end{figure}
 
-\subsubsection{Communication Time}
+\subsubsection{Average Communication Time Evolution}
+The following figures illustrate the evolution of the average communication
+time per process for each of the five test matrices as the number of processes
+increases.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/matrix_dim/cage4_k6_communication_time.png}
-    \caption{Cage4 matrix communication time}\label{fig:cage4-k6-communication-time}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\textwidth]{../results/matrix_dim/dc1_k6_communication_time.png}
-    \caption{DC1 matrix communication time}\label{fig:dc1-k6-communication-time}
+    \includegraphics[width=0.6\textwidth]{../results/matrix_dim/cage4_k6_communication_time.png}
+    \caption{Cage4 Matrix Communication Time Evolution}\label{fig:cage4-k6-communication-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/matrix_dim/amazon0302_k6_communication_time.png}
-    \caption{Amazon0302 matrix communication time}\label{fig:amazon0302-k6-communication-time}
+    \includegraphics[width=0.6\textwidth]{../results/matrix_dim/dc1_k6_communication_time.png}
+    \caption{DC1 Matrix Communication Time Evolution}\label{fig:dc1-k6-communication-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/matrix_dim/cop20k_A_k6_communication_time.png}
-    \caption{Cop20k\_A matrix communication time}\label{fig:cop20k-a-k6-communication-time-1}
+    \includegraphics[width=0.6\textwidth]{../results/matrix_dim/amazon0302_k6_communication_time.png}
+    \caption{Amazon0302 Matrix Communication Time Evolution}\label{fig:amazon0302-k6-communication-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/matrix_dim/FEM_3D_thermal1_k6_communication_time.png}
-    \caption{FEM\_3D\_thermal1 matrix communication time}\label{fig:fem-3d-thermal1-k6-communication-time}
-\end{figure}
-
-\subsubsection{Computation Time}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\textwidth]{../results/matrix_dim/cage4_k6_computation_time.png}
-    \caption{Cage4 matrix computation time}\label{fig:cage4-k6-computation-time}
+    \includegraphics[width=0.6\textwidth]{../results/matrix_dim/cop20k_A_k6_communication_time.png}
+    \caption{Cop20k\_A Matrix Communication Time Evolution}\label{fig:cop20k-a-k6-communication-time-1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/matrix_dim/dc1_k6_computation_time.png}
-    \caption{DC1 matrix computation time}\label{fig:dc1-k6-computation-time}
+    \includegraphics[width=0.6\textwidth]{../results/matrix_dim/FEM_3D_thermal1_k6_communication_time.png}
+    \caption{FEM\_3D\_thermal1 Matrix Communication Time Evolution}\label{fig:fem-3d-thermal1-k6-communication-time}
+\end{figure}
+
+\subsubsection{Average Computation Time Evolution}
+The following figures illustrate the evolution of the average computation time
+per process for each of the five test matrices as the number of processes
+increases.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../results/matrix_dim/cage4_k6_computation_time.png}
+    \caption{Cage4 Matrix Computation Time Evolution}\label{fig:cage4-k6-computation-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/matrix_dim/amazon0302_k6_computation_time.png}
-    \caption{Amazon0302 matrix computation time}\label{fig:amazon0302-k6-computation-time}
+    \includegraphics[width=0.6\textwidth]{../results/matrix_dim/dc1_k6_computation_time.png}
+    \caption{DC1 Matrix Computation Time Evolution}\label{fig:dc1-k6-computation-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/matrix_dim/cop20k_A_k6_computation_time.png}
-    \caption{Cop20k\_A matrix computation time}\label{fig:cop20k-a-k6-computation-tim-1}
+    \includegraphics[width=0.6\textwidth]{../results/matrix_dim/amazon0302_k6_computation_time.png}
+    \caption{Amazon0302 Matrix Computation Time Evolution}\label{fig:amazon0302-k6-computation-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/matrix_dim/FEM_3D_thermal1_k6_computation_time.png}
-    \caption{FEM\_3D\_thermal1 matrix computation time}\label{fig:fem-3d-thermal1-k6-computation-time}
-\end{figure}
-
-\subsubsection{Performance}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\textwidth]{../results/matrix_dim/cage4_k6_performance.png}
-    \caption{Cage4 matrix performance}\label{fig:cage4-k6-performance}
+    \includegraphics[width=0.6\textwidth]{../results/matrix_dim/cop20k_A_k6_computation_time.png}
+    \caption{Cop20k\_A Matrix Computation Time Evolution}\label{fig:cop20k-a-k6-computation-tim-1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/matrix_dim/dc1_k6_performance.png}
-    \caption{DC1 matrix performance}\label{fig:dc1-k6-performance}
+    \includegraphics[width=0.6\textwidth]{../results/matrix_dim/FEM_3D_thermal1_k6_computation_time.png}
+    \caption{FEM\_3D\_thermal1 Matrix Computation Time Evolution}\label{fig:fem-3d-thermal1-k6-computation-time}
+\end{figure}
+
+\subsubsection{Performance Evolution}
+The following figures illustrate the evolution of the performance for each of
+the five test matrices as the number of processes increases.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../results/matrix_dim/cage4_k6_performance.png}
+    \caption{Cage4 Matrix Performance Evolution}\label{fig:cage4-k6-performance}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/matrix_dim/amazon0302_k6_performance.png}
-    \caption{Amazon0302 matrix performance}\label{fig:amazon0302-k6-performance}
+    \includegraphics[width=0.6\textwidth]{../results/matrix_dim/dc1_k6_performance.png}
+    \caption{DC1 Matrix Performance Evolution}\label{fig:dc1-k6-performance}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/matrix_dim/cop20k_A_k6_performance.png}
-    \caption{Cop20k\_A matrix performance}\label{fig:cop20k-a-k6-performance-1}
+    \includegraphics[width=0.6\textwidth]{../results/matrix_dim/amazon0302_k6_performance.png}
+    \caption{Amazon0302 Matrix Performance Evolution}\label{fig:amazon0302-k6-performance}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/matrix_dim/FEM_3D_thermal1_k6_performance.png}
-    \caption{FEM\_3D\_thermal1 matrix performance}\label{fig:fem-3d-thermal1-k6-performance}
+    \includegraphics[width=0.6\textwidth]{../results/matrix_dim/cop20k_A_k6_performance.png}
+    \caption{Cop20k\_A Matrix Performance Evolution}\label{fig:cop20k-a-k6-performance-1}
 \end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../results/matrix_dim/FEM_3D_thermal1_k6_performance.png}
+    \caption{FEM\_3D\_thermal1 Matrix Performance Evolution}\label{fig:fem-3d-thermal1-k6-performance}
+\end{figure}
+
+\subsubsection{Performance Summary}
+Here is a summary of the performance of the algorithms:
+
+\begin{enumerate}
+    \item \textbf{Serial Algorithm:}
+          The execution time increases with the size and non-zero elements number
+          of the matrix due to the linear increase in computation.
+          As expected, it remains constant with the number of processes.
+          As shown in the figures~\ref{fig:cage4-k6-execution-time},\ref{fig:dc1-k6-performance} and \ref{fig:cage4-k6-performance},
+          the serial algorithm outperforms the parallel algorithms for small matrices
+          or with a lot of non-zero elements non-uniformly distributed like the Cage4 and DC1 matrices.
+          This is due to the overhead associated with coordinating parallel tasks and the communication between processes.
+    \item \textbf{Line-Based Algorithm:}
+          This algorithm performs better with matrices having a balanced
+          distribution of non-zero elements across rows.
+          Matrices with irregular distributions can lead to load
+          imbalance among processes, affecting performance negatively.
+
+          For matrices like Amazon0302 or Cop20k\_A with a high number of rows, this
+          algorithm perform well due to its ability to parallelize over rows, but
+          struggle with load balancing for matrices like Cage4 that are smaller or less
+          uniformly distributed. This is evident in the
+          figures~\ref{fig:cage4-k6-performance}, \ref{fig:cop20k-a-k6-performance} and
+          \ref{fig:amazon0302-k6-performance}. As shown in the figures
+          \ref{fig:cop20k-a-k6-communication-time} and
+          \ref{fig:cop20k-a-k6-computation-time}, the communication and computation time
+          per process decreases with the number of processes. However, after about 60
+          processes, the total execution time starts to increase due to the increased
+          communication overhead.
+    \item \textbf{Column-Based Algorithm:}
+          Similar to the row-wise algorithm, but the performance is more
+          sensitive to the matrix's column distribution.
+          Sparsity patterns that lead to dense columns can result in significant
+          overhead due to increased communication between processes.
+    \item \textbf{Non-Zero Element Algorithm:}
+          The performance heavily depends on the distribution of non-zero elements.
+          For matrices with a large number of non-zero elements scattered across,
+          this algorithm can optimise the use of computational
+          resources by focusing work where it's needed. As shown in the figures {\ref{fig:cop20k-a-k6-performance} and \ref{fig:cage4-k6-performance}}, it is efficient for matrices with a high density of non-zero elements like Cop20k\_A, since it focuses computation only where necessary.
+    \item \textbf{PETSc Algorithm:}
+          Based on the execution time, the PETSc algorithm outperforms all the other algorithms (see \ref{fig:amazon0302-k6-execution-time}). However, the total perfomance remain constant with the number of processes and very low compared to the other algorithms (see \ref{fig:amazon0302-k6-performance}) as this library is not designed to reconstruct the final result matrix.
+\end{enumerate}
+
+\newpage
 \subsection{Fat Vector Impact}
-\subsubsection{Execution Time}
+The second and third sets of experiments focused on the impact of the
+dimensions of the fat vector on the performance of the algorithms. The sparse
+matrix used was Cop20k\_A. The performance of all algorithms was evaluated
+using the following five fat vector column counts: 1, 3, 6, 9, and 12.
+
+\subsubsection{Execution Time Evolution}
+
+The following figures illustrate the evolution of the execution time for each
+of the five test fat vector column counts as the number of processes increases.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k1_execution_time.png}
-    \caption{Cop20k\_A matrix execution time}\label{fig:cop20k-a-k1-execution-time}
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k1_execution_time.png}
+    \caption{Execution Time Evolution (k=1)}\label{fig:cop20k-a-k1-execution-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k3_execution_time.png}
-    \caption{Cop20k\_A matrix execution time}\label{fig:cop20k-a-k3-execution-time}
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k3_execution_time.png}
+    \caption{Execution Time Evolution (k=3)}\label{fig:cop20k-a-k3-execution-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k6_execution_time.png}
-    \caption{Cop20k\_A matrix execution time}\label{fig:cop20k-a-k6-execution-time-2}
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k6_execution_time.png}
+    \caption{Execution Time Evolution (k=6)}\label{fig:cop20k-a-k6-execution-time-2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k9_execution_time.png}
-    \caption{Cop20k\_A matrix execution time}\label{fig:cop20k-a-k9-execution-time}
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k9_execution_time.png}
+    \caption{Execution Time Evolution (k=9)}\label{fig:cop20k-a-k9-execution-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k12_execution_time.png}
-    \caption{Cop20k\_A matrix execution time}\label{fig:cop20k-a-k12-execution-time}
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k12_execution_time.png}
+    \caption{Execution Time Evolution (k=12)}\label{fig:cop20k-a-k12-execution-time}
 \end{figure}
 
-\subsubsection{Communication Time}
+\subsubsection{Average Communication Time Evolution}
+
+The following figures illustrate the evolution of the average communication
+time per process for each of the five test fat vector column counts as the
+number of processes increases.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k1_communication_time.png}
-    \caption{Cop20k\_A matrix communication time}\label{fig:cop20k-a-k1-communication-time}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k3_communication_time.png}
-    \caption{Cop20k\_A matrix communication time}\label{fig:cop20k-a-k3-communication-time}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k6_communication_time.png}
-    \caption{Cop20k\_A matrix communication time}\label{fig:cop20k-a-k6-communication-time}
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k1_communication_time.png}
+    \caption{Communication Time Evolution (k=1)}\label{fig:cop20k-a-k1-communication-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k9_communication_time.png}
-    \caption{Cop20k\_A matrix communication time}\label{fig:cop20k-a-k9-communication-time}
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k3_communication_time.png}
+    \caption{Communication Time Evolution (k=3)}\label{fig:cop20k-a-k3-communication-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k12_communication_time.png}
-    \caption{Cop20k\_A matrix communication time}\label{fig:cop20k-a-k12-communication-time}
-\end{figure}
-
-\subsubsection{Computation Time}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k1_computation_time.png}
-    \caption{Cop20k\_A matrix computation time}\label{fig:cop20k-a-k1-computation-time}
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k6_communication_time.png}
+    \caption{Communication Time Evolution (k=6)}\label{fig:cop20k-a-k6-communication-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k3_computation_time.png}
-    \caption{Cop20k\_A matrix computation time}\label{fig:cop20k-a-k3-computation-time}
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k9_communication_time.png}
+    \caption{Communication Time Evolution (k=9)}\label{fig:cop20k-a-k9-communication-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k6_computation_time.png}
-    \caption{Cop20k\_A matrix computation time}\label{fig:cop20k-a-k6-computation-time}
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k12_communication_time.png}
+    \caption{Communication Time Evolution (k=12)}\label{fig:cop20k-a-k12-communication-time}
+\end{figure}
+
+\subsubsection{Average Computation Time Evolution}
+
+The following figures illustrate the evolution of the average computation time
+per process for each of the five test fat vector column counts as the number of
+processes increases.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k1_computation_time.png}
+    \caption{Computation Time Evolution (k=1)}\label{fig:cop20k-a-k1-computation-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k9_computation_time.png}
-    \caption{Cop20k\_A matrix computation time}\label{fig:cop20k-a-k9-computation-time}
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k3_computation_time.png}
+    \caption{Computation Time Evolution (k=3)}\label{fig:cop20k-a-k3-computation-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k12_computation_time.png}
-    \caption{Cop20k\_A matrix computation time}\label{fig:cop20k-a-k12-computation-time}
-\end{figure}
-
-\subsubsection{Performance}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k1_performance.png}
-    \caption{Cop20k\_A matrix performance}\label{fig:cop20k-a-k1-performance}
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k6_computation_time.png}
+    \caption{Computation Time Evolution (k=6)}\label{fig:cop20k-a-k6-computation-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k3_performance.png}
-    \caption{Cop20k\_A matrix performance}\label{fig:cop20k-a-k3-performance}
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k9_computation_time.png}
+    \caption{Computation Time Evolution (k=9)}\label{fig:cop20k-a-k9-computation-time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k6_performance.png}
-    \caption{Cop20k\_A matrix performance}\label{fig:cop20k-a-k6-performance}
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k12_computation_time.png}
+    \caption{Computation Time Evolution (k=12)}\label{fig:cop20k-a-k12-computation-time}
+\end{figure}
+
+\subsubsection{Performance Evolution}
+
+The following figures illustrate the evolution of the performance for each of
+the five test fat vector column counts as the number of processes increases.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k1_performance.png}
+    \caption{Performance Evolution (k=1)}\label{fig:cop20k-a-k1-performance}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k9_performance.png}
-    \caption{Cop20k\_A matrix performance}\label{fig:cop20k-a-k9-performance}
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k3_performance.png}
+    \caption{Performance Evolution (k=3)}\label{fig:cop20k-a-k3-performance}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../results/fat_vector_dim/cop20k_A_k12_performance.png}
-    \caption{Cop20k\_A matrix performance}\label{fig:cop20k-a-k12-performance}
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k6_performance.png}
+    \caption{Performance Evolution (k=6)}\label{fig:cop20k-a-k6-performance}
 \end{figure}
 
-\section{HPC Environmental Impact}
-The LUMI supercomputer, based at the CSC-IT Center for Science in Finland,
-represents a milestone in the field of high-performance computing (HPC), not
-only because of its computing power, but also because of its approach to
-environmental sustainability. LUMI, one of EuroHPC's world-class
-supercomputers, began operating in 2021 and is expected to reach full capacity
-in 2023. It features an environmentally-friendly design and is considered to be
-one of the most energy-efficient data centres in the world.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k9_performance.png}
+    \caption{Performance Evolution (k=9)}\label{fig:cop20k-a-k9-performance}
+\end{figure}
 
-Irina Kupiainen, who works as Programme Director for the Open Scholarship
-Innovation Program at the CSC, plays an important role in the development of
-policies relating to high-performance computing and open science. With a strong
-background in international policy and experience in various government and
-research organisations, Irina Kupiainen leads EU public affairs at the CSC,
-focusing on policy and international collaboration, particularly in the area of
-open science.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../results/fat_vector_dim/cop20k_A_k12_performance.png}
+    \caption{Performance Evolution (k=12)}\label{fig:cop20k-a-k12-performance}
+\end{figure}
 
-The impact of supercomputing on the environment is a major concern, not least
-because of the high energy demands of these systems. However, LUMI is an
-example of how HPC can make a positive contribution to environmental
-sustainability. It runs on 100\% renewable energy and makes efficient use of
-waste heat, which can heat up to 20\% of the homes in the surrounding city.
-This approach not only reduces the carbon footprint, but also demonstrates
-HPC's potential to meet climate neutrality targets.
+\subsubsection{Performance Summary}
 
-Furthermore, sustainability measures in HPC are not limited to energy
-consumption and waste heat management. The entire life cycle of the machine
-needs to be taken into account, including construction, modularity,
-scalability, recycling and reuse of materials. This holistic view can
-contribute to the development of a circular economy, supporting sustainability
-to its full potential.
+Here is a summary of the performance of the algorithms:
 
-In conclusion, the LUMI supercomputer, led by experts such as Irina Kupiainen
-and others at the CSC-IT Center for Science, illustrates how supercomputing can
-be both a powerful tool for scientific progress and a leader in environmental
-sustainability. By harnessing renewable energy sources, making efficient use of
-waste heat and taking into account the full lifecycle of HPC systems, LUMI is
-setting a precedent for how high-performance computing can contribute to a
-greener, more sustainable future.
+\begin{enumerate}
+    \item \textbf{Serial Algorithm:}
+          As shown in figures \ref{fig:cop20k-a-k1-performance} and \ref{fig:cop20k-a-k12-performance}, the serial algorithm outperforms the parallel algorithms for small dimensions but is outperformed by the parallel algorithms for larger dimensions.
+    \item \textbf{Line-Based Algorithm:}
+          As shown in the figures \ref{fig:cop20k-a-k1-performance} and \ref{fig:cop20k-a-k12-performance}, the performance of the line-based algorithm increases with the number of processes and the number of columns in the fat vector. However, there is a drop in performance when the number of processes is too large. This is due to the increased communication overhead as shown in the figures \ref{fig:cop20k-a-k1-communication-time} and \ref{fig:cop20k-a-k12-communication-time}.
+
+    \item \textbf{Column-Based Algorithm:}
+          As shown in the figures \ref{fig:cop20k-a-k1-performance} and \ref{fig:cop20k-a-k12-performance}, the performance of the column-based algorithm increases with the number of processes and the number of columns in the fat vector. However, there is a large drop in performance when the number of processes is greater than the number of columns in the fat vector. This is due to the increased communication overhead as shown in the figures \ref{fig:cop20k-a-k1-execution-time} and \ref{fig:cop20k-a-k12-execution-time}.
+
+    \item \textbf{Non-Zero Element Algorithm:}
+          As shown in the figures \ref{fig:cop20k-a-k3-communication-time} and \ref{fig:cop20k-a-k12-communication-time}, the communication time per process increase proportionally with the number of processes and the number of columns in the fat vector. As the complexity of the computation increases with the number of columns in the fat vector, the performance becomes the same as the row-wise algorithm. This is evident in the figures \ref{fig:cop20k-a-k3-performance} and \ref{fig:cop20k-a-k12-performance}.
+
+    \item \textbf{PETSc Algorithm:}
+          As expected, the execution time decreases with the number of processes but stay constant with the number of columns in the fat vector as shown in the figures \ref{fig:cop20k-a-k1-execution-time} and \ref{fig:cop20k-a-k12-execution-time}. This is due to the highly optimized parallel sparse matrix-vector multiplication implementation in the PETSc library. However, the performance is not good compared to the custom implementations as it not optimised to reconstruct the final result from the gathered vector.
+\end{enumerate}
+
+\newpage
+\section{HPC's Environmental Impact}
+Although HPC systems are essential for complex calculations and simulations in
+a variety of fields, their impact on the environment is not negligible. Energy
+consumption and heat generation require the use of large cooling systems, which
+further increases their ecological footprint. However, advances in
+energy-efficient cooling technologies and methods are paving the way for more
+sustainable HPC operations.
+
+Irina Kupiainen's article highlights the environmental considerations involved
+in HPC operations, highlighting the exemplary case of LUMI in integrating
+sustainability. LUMI is one of the most powerful supercomputers in the world,
+while having a neutral, or even positive, impact on the environment. Located in
+Finland, it benefits from the country's cool climate and access to renewable
+energy sources, making it possible to reconcile high performance with
+environmental sustainability~\cite{Kupiainen2021HPCGreenDigital}.
+
+New innovations are emerging in the field of green HPC. For example, it is
+possible to use new cooling systems that significantly lower junction
+temperatures and require less pumping power~\cite{9190269}. In addition, Green
+Cloud Computing initiatives aim to optimise the use of resources, by exploiting
+renewable energy sources and adopting energy-saving technologies such as
+virtualisation~\cite{9917654,7912681}. These advances demonstrate a commitment
+to sustainability, underlining the move towards reducing energy consumption and
+emissions in high-performance computing operations, while maintaining energy
+efficiency.
+
+Finally, the adoption of metrics and standards plays a pivotal role in guiding
+HPC towards sustainability. The Green Index (TGI) exemplifies this by providing
+a comprehensive metric for evaluating the energy efficiency of HPC
+systems~\cite{6270748}. It aggregates various benchmarks into a singular
+measure, facilitating comparisons of system-wide efficiency. Additionally, the
+Green500 list ranks supercomputers based on their energy efficiency, promoting
+an industry standard that encourages the development of environmentally
+friendly HPC technologies. These metrics and rankings not only spotlight the
+most energy-efficient systems but also drive competition and innovation towards
+greener HPC solutions.
 
 \chapter{Conclusion}
+
+In conclusion, this report has meticulously analysed various parallelization
+strategies for fat matrix vector multiplication, based on the MPI and PETSc
+frameworks, and through extensive experimentation and comparison, highlights
+the importance of choosing an appropriate parallelization approach based on
+matrix characteristics and computational resources. The results highlight the
+trade-offs between computational and communication overheads, emphasising the
+need for a balanced distribution of workloads to maximise efficiency. As
+expected the PETSc library outperforms the custom implementations in terms of
+execution time but not in terms of performance, as the matrices stay
+distributed even after the multiplication. The custom implementations are more efficient to reconstruct the final result
+from the gathered vector. In addition, the discussion of the environmental
+impact of HPC practices, with a nod to sustainable computing, reflects a
+broader perspective on the implications of computational research. Future
+directions could explore adaptive parallelization techniques, further
+optimizing specific models and matrix sizes, possibly integrating AI for
+dynamic algorithm selection based on real-time performance metrics. This study
+not only contributes to the field of HPC by providing insight into efficient
+algorithmic implementations, but also paves the way for more energy-efficient
+HPC systems, in line with global sustainable development goals.
 
 \bibliographystyle{CranfieldNumbered}
 \bibliography{CUCitations}
 
+%TC:ignore 
 \appendix
 \chapter{Documentation}
 
@@ -1146,7 +1281,6 @@ greener, more sustainable future.
     \lstinputlisting[style=cstyle]{../Source Code/MatrixDefinitions.h}
 
     \newpage
-
     \section{Sequential Algorithm}\label{appendix:sequential}
     Sequential algorithm for multiplying a sparse matrix by a fat vector.
     \subsection{Declaration File}
@@ -1206,6 +1340,7 @@ greener, more sustainable future.
         Code/scripts/get_csv_all.sh}
 
 \end{subappendices}
+%TC:endignore 
 
 \end{document}
 
