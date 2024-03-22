@@ -45,7 +45,7 @@ Replace `<number_of_processes>` with the desired number of MPI processes, `<matr
 ## Project Structure
 
 ```graphql
-Source Code /
+Source Code/
    ├── scripts/                  # Shell scripts for automating tests and analyses
    │   ├── batch_test.sh         # Script for running batch tests
    │   ├── get_csv_all.sh        # Script to aggregate results into CSV format
